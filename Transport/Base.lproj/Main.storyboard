@@ -25,7 +25,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="573"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oCI-jA-iyh">
+                                        <view tag="102" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oCI-jA-iyh">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
