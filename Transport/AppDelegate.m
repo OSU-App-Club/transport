@@ -32,8 +32,15 @@
         [self.locManager startMonitoringSignificantLocationChanges];
     }
     
+    [self setupColors];
     
     return YES;
+}
+
+- (void) setupColors{
+    //[UIColor colorWithRed:<#(CGFloat)#> green:<#(CGFloat)#> blue:<#(CGFloat)#> alpha:<#(CGFloat)#>
+    [[UINavigationBar appearance] setBarTintColor:[UIColor redColor]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]]; // text color
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
