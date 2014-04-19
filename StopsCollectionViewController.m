@@ -1,18 +1,18 @@
 //
-//  RoutesViewController.m
-//  Transport
+//  StopsCollectionViewController.m
+//  
 //
 //  Created by Bret Lorimore on 4/19/14.
-//  Copyright (c) 2014 OSU App Club. All rights reserved.
+//
 //
 
-#import "RoutesViewController.h"
+#import "StopsCollectionViewController.h"
 
-@interface RoutesViewController ()
+@interface StopsCollectionViewController ()
 
 @end
 
-@implementation RoutesViewController
+@implementation StopsCollectionViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
