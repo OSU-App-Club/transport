@@ -17,6 +17,7 @@
 @interface StopsViewController ()
 
 @property (nonatomic, strong) NSArray *arrivals;
+@property (nonatomic, strong) NSDictionary *routeColorDict;
 @property NSUInteger selectedIndex;
 
 @end
@@ -36,12 +37,24 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    NSMutableArray *temp = [NSMutableArray arrayWithCapacity:10];
+    self.routeColorDict = @{
+        @"1":[UIColor colorWithRed:0.0 green:173.0 blue:238.0 alpha:1.0],
+        @"2":[UIColor colorWithRed:136.0 green:39.0 blue:144.0 alpha:1.0],
+        @"3":[UIColor colorWithRed:136.0 green:101.0 blue:144.0 alpha:1.0],
+        @"4":[UIColor colorWithRed:140.0 green:197.0 blue:144.0 alpha:1.0],
+        @"5":[UIColor colorWithRed:189.0 green:85.0 blue:144.0 alpha:1.0],
+        @"6":[UIColor colorWithRed:3.0 green:77.0 blue:144.0 alpha:1.0],
+        @"7":[UIColor colorWithRed:215.0 green:24.0 blue:144.0 alpha:1.0],
+        @"8":[UIColor colorWithRed:0.0 green:133.0 blue:64.0 alpha:1.0],
+        @"BBN":[UIColor colorWithRed:76.0 green:229.0 blue:0.0 alpha:1.0],
+        @"BBSE":[UIColor colorWithRed:255.0 green:170.0 blue:0.0 alpha:1.0],
+        @"BBSW":[UIColor colorWithRed:0.0 green:91.0 blue:229.0 alpha:1.0],
+        @"C1":[UIColor colorWithRed:97.0 green:70.0 blue:48.0 alpha:1.0],
+        @"C2":[UIColor colorWithRed:0.0 green:118.0 blue:163.0 alpha:1.0],
+        @"C3":[UIColor colorWithRed:236.0 green:12.0 blue:108.0 alpha:1.0],
+        @"CVA":[UIColor colorWithRed:63.0 green:40.0 blue:133.0 alpha:1.0],
+        };
     
-    for (int cell_idx = 0; cell_idx < 10; cell_idx++) {
-        [temp addObject:@{@"Name":@"Test Name"}];
-    }
-    self.arrivals = temp;
     self.selectedIndex = NSUIntegerMax;
     
     [self.collectionView reloadData];
@@ -150,8 +163,13 @@
                         }];
                         
                         
+                        // Filter times that are too far away -- 99 mins
+                        [arrivals filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(Arrival* evaluatedObject, NSDictionary *bindings) {
+                            return [evaluatedObject.nextTime timeIntervalSinceNow] < 60.0*99.0;
+                        }]];
+                        
                         // Sort by distance,route name
-                        [arrivals sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"stop.distance" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"routeName" ascending:YES]]];
+                        [arrivals sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"stop.distance" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"nextTime" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"routeName" ascending:YES]]];
                         
                         self.arrivals = arrivals;
                     }] resume];
@@ -176,7 +194,21 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:kCellReuseID forIndexPath:indexPath];
-    cell.contentView.backgroundColor = indexPath.item % 2 ? [UIColor grayColor] : [UIColor orangeColor];
+    
+    UILabel *stopName = (UILabel*) [cell viewWithTag:200];
+    UILabel *nextArrival = (UILabel*) [cell viewWithTag:201];
+    UILabel *routeName = (UILabel*) [cell viewWithTag:202];
+    UIView *tileView = (UIView*) [cell viewWithTag:203];
+    
+    Arrival *currentArrival = (Arrival*) self.arrivals[indexPath.item];
+    stopName.text = currentArrival.stop.name;
+    routeName.text = currentArrival.routeName;
+    
+    tileView.backgroundColor = self.routeColorDict[currentArrival.routeName];
+    
+    NSString *timeString = [NSString stringWithFormat:@"%.0f",[[currentArrival.times.firstObject expected] timeIntervalSinceNow]*(1.0/60.0)];
+    nextArrival.text = timeString;
+    
     return cell;
 }
 

@@ -17,6 +17,8 @@
 @property (nonatomic, strong) UIColor *routeColor;
 
 
+@property (nonatomic, weak,readonly) NSDate *nextTime; // Used for sorting
+
 // Array of TimePair for current day -- future only
 @property (nonatomic, strong) NSArray *times;
 

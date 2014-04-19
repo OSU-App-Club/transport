@@ -10,4 +10,8 @@
 
 @implementation Arrival
 
+- (NSDate *) nextTime{
+    return [self.times.firstObject expected];
+}
+
 @end
