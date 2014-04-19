@@ -76,7 +76,7 @@
             </objects>
             <point key="canvasLocation" x="680" y="282"/>
         </scene>
-        <!--Stops View Controller - Stops-->
+        <!--Stops View Controller-->
         <scene sceneID="vT0-Zi-VoW">
             <objects>
                 <collectionViewController autoresizesArchivedViewToFullSize="NO" id="0SK-Gi-yXD" customClass="StopsViewController" sceneMemberID="viewController">
@@ -97,12 +97,12 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="506"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CIH-Rp-jh2">
+                                        <view tag="203" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CIH-Rp-jh2">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="NW 25th" lineBreakMode="tailTruncation" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="FRK-I8-j7j">
-                                                    <rect key="frame" x="20" y="20" width="170" height="21"/>
+                                                    <rect key="frame" x="20" y="22" width="170" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                     <color key="textColor" red="0.98450355430000003" green="1" blue="0.96347509870000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -116,17 +116,17 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="mins" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6T-Zz-cnq">
-                                                    <rect key="frame" x="261" y="49" width="37" height="21"/>
+                                                    <rect key="frame" x="263" y="49" width="37" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="202" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Last bus of the day!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hir-Tk-VxB">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="202" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Route 5" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hir-Tk-VxB">
                                                     <rect key="frame" x="20" y="49" width="153" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -177,7 +177,10 @@
                             <outlet property="delegate" destination="0SK-Gi-yXD" id="Ucd-oG-dfr"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="Stops" id="0Ei-3c-a69"/>
+                    <navigationItem key="navigationItem" id="0Ei-3c-a69">
+                        <nil key="title"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="ahh-zJ-kIa"/>
+                    </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FRV-gE-ADq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
