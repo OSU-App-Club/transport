@@ -22,6 +22,7 @@
 		8385966C1902E93000E68FE4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8385966A1902E93000E68FE4 /* InfoPlist.strings */; };
 		8385966E1902E93000E68FE4 /* TransportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8385966D1902E93000E68FE4 /* TransportTests.m */; };
 		838596791902F19300E68FE4 /* StopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 838596781902F19300E68FE4 /* StopsViewController.m */; };
+		997A8BD21903009100794D38 /* RoutesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 997A8BD11903009100794D38 /* RoutesViewController.m */; };
 		E687C40701814690984E77C4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C99D6902032940AE9B16083E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +59,8 @@
 		8385966D1902E93000E68FE4 /* TransportTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TransportTests.m; sourceTree = "<group>"; };
 		838596771902F19300E68FE4 /* StopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsViewController.h; sourceTree = "<group>"; };
 		838596781902F19300E68FE4 /* StopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopsViewController.m; sourceTree = "<group>"; };
+		997A8BD01903009100794D38 /* RoutesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutesViewController.h; sourceTree = "<group>"; };
+		997A8BD11903009100794D38 /* RoutesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoutesViewController.m; sourceTree = "<group>"; };
 		C99D6902032940AE9B16083E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -124,6 +127,8 @@
 				838596511902E93000E68FE4 /* AppDelegate.h */,
 				838596521902E93000E68FE4 /* AppDelegate.m */,
 				838596541902E93000E68FE4 /* Main.storyboard */,
+				997A8BD01903009100794D38 /* RoutesViewController.h */,
+				997A8BD11903009100794D38 /* RoutesViewController.m */,
 				838596771902F19300E68FE4 /* StopsViewController.h */,
 				838596781902F19300E68FE4 /* StopsViewController.m */,
 				838596571902E93000E68FE4 /* ViewController.h */,
@@ -299,6 +304,7 @@
 				838596591902E93000E68FE4 /* ViewController.m in Sources */,
 				838596531902E93000E68FE4 /* AppDelegate.m in Sources */,
 				8385964F1902E93000E68FE4 /* main.m in Sources */,
+				997A8BD21903009100794D38 /* RoutesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +433,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Transport/Transport-Prefix.pch";
 				INFOPLIST_FILE = "Transport/Transport-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -441,6 +448,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Transport/Transport-Prefix.pch";
 				INFOPLIST_FILE = "Transport/Transport-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
