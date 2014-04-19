@@ -8,8 +8,9 @@
 
 #import "StopsViewController.h"
 
-#define kCellReuseID        @"Cell"
+#define kCellReuseID        @"stopCell"
 #define kCollapsedHeight  80
+#define kExpanedHeight self.view.bounds.size.height
 
 @interface StopsViewController ()
 
@@ -19,15 +20,6 @@
 @end
 
 @implementation StopsViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -39,8 +31,10 @@
     for (int cell_idx = 0; cell_idx < 10; cell_idx++) {
         [temp addObject:@{@"Name":@"Test Name"}];
     }
-    
     self.arrivals = temp;
+    self.selectedIndex = NSUIntegerMax;
+    
+    [self.collectionView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,16 +51,16 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:kCellReuseID forIndexPath:indexPath];
-    cell.contentView.backgroundColor = indexPath.item % 2 ? [UIColor blueColor] : [UIColor redColor];
+    cell.contentView.backgroundColor = indexPath.item % 2 ? [UIColor grayColor] : [UIColor orangeColor];
     return cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(collectionView.bounds.size.width, [self.arrivals[indexPath.item] floatValue]);
+    return CGSizeMake(collectionView.bounds.size.width, (indexPath.item==self.selectedIndex)?kExpanedHeight:kCollapsedHeight);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger currentHeight = [self.arrivals[indexPath.item] integerValue];
+    NSInteger currentHeight = [collectionView cellForItemAtIndexPath:indexPath].bounds.size.height;
     BOOL expand = currentHeight == kCollapsedHeight;
     collectionView.scrollEnabled = !expand;
     [collectionView performBatchUpdates:^{
@@ -75,7 +69,6 @@
         [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionTop];
     }];
 }
-
 
 /*
 #pragma mark - Navigation
