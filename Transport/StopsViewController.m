@@ -9,6 +9,7 @@
 #import "StopsViewController.h"
 #import "AppDelegate.h"
 #import "Arrival.h"
+#import "StopCell.h"
 
 #define kCellReuseID        @"stopCell"
 #define kCollapsedHeight  80
@@ -69,7 +70,7 @@
     //Customize layout for paging
     //MUST DO IT HERE: not setup yet in viewDidLoad
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*) self.collectionView.collectionViewLayout;
-    layout.minimumLineSpacing = 2.0;
+    layout.minimumLineSpacing = .8;
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
@@ -199,7 +200,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:kCellReuseID forIndexPath:indexPath];
+    StopCell *cell = (StopCell*) [cv dequeueReusableCellWithReuseIdentifier:kCellReuseID forIndexPath:indexPath];
     
     UILabel *stopName = (UILabel*) [cell viewWithTag:200];
     UILabel *nextArrival = (UILabel*) [cell viewWithTag:201];
@@ -214,6 +215,8 @@
     
     NSString *timeString = [NSString stringWithFormat:@"%.0f",[[currentArrival.times.firstObject expected] timeIntervalSinceNow]*(1.0/60.0)];
     nextArrival.text = timeString;
+    
+    cell.times = currentArrival.times;
     
     return cell;
 }

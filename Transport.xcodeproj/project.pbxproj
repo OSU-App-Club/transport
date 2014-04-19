@@ -26,6 +26,7 @@
 		8385967E1903002D00E68FE4 /* Arrival.m in Sources */ = {isa = PBXBuildFile; fileRef = 8385967D1903002D00E68FE4 /* Arrival.m */; };
 		838596811903008700E68FE4 /* TimePair.m in Sources */ = {isa = PBXBuildFile; fileRef = 838596801903008700E68FE4 /* TimePair.m */; };
 		838596841903054400E68FE4 /* Stop.m in Sources */ = {isa = PBXBuildFile; fileRef = 838596831903054400E68FE4 /* Stop.m */; };
+		8385968719032DFC00E68FE4 /* StopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8385968619032DFC00E68FE4 /* StopCell.m */; };
 		E687C40701814690984E77C4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C99D6902032940AE9B16083E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,8 @@
 		838596801903008700E68FE4 /* TimePair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimePair.m; sourceTree = "<group>"; };
 		838596821903054400E68FE4 /* Stop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stop.h; sourceTree = "<group>"; };
 		838596831903054400E68FE4 /* Stop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stop.m; sourceTree = "<group>"; };
+		8385968519032DFC00E68FE4 /* StopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopCell.h; sourceTree = "<group>"; };
+		8385968619032DFC00E68FE4 /* StopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopCell.m; sourceTree = "<group>"; };
 		C99D6902032940AE9B16083E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -139,6 +142,8 @@
 				838596541902E93000E68FE4 /* Main.storyboard */,
 				838596771902F19300E68FE4 /* StopsViewController.h */,
 				838596781902F19300E68FE4 /* StopsViewController.m */,
+				8385968519032DFC00E68FE4 /* StopCell.h */,
+				8385968619032DFC00E68FE4 /* StopCell.m */,
 				8385967C1903002D00E68FE4 /* Arrival.h */,
 				8385967D1903002D00E68FE4 /* Arrival.m */,
 				838596821903054400E68FE4 /* Stop.h */,
@@ -317,6 +322,7 @@
 				838596791902F19300E68FE4 /* StopsViewController.m in Sources */,
 				838596591902E93000E68FE4 /* ViewController.m in Sources */,
 				8385967E1903002D00E68FE4 /* Arrival.m in Sources */,
+				8385968719032DFC00E68FE4 /* StopCell.m in Sources */,
 				838596531902E93000E68FE4 /* AppDelegate.m in Sources */,
 				838596811903008700E68FE4 /* TimePair.m in Sources */,
 				8385964F1902E93000E68FE4 /* main.m in Sources */,
