@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  StopsViewController.h
 //  Transport
 //
 //  Created by Chris Vanderschuere on 4/19/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface StopsViewController : UICollectionViewController
 
 @end
