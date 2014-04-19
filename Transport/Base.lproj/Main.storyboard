@@ -179,7 +179,7 @@
                     </collectionView>
                     <navigationItem key="navigationItem" id="0Ei-3c-a69">
                         <nil key="title"/>
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="ahh-zJ-kIa"/>
+                        <barButtonItem key="rightBarButtonItem" title="Routes" id="ahh-zJ-kIa"/>
                     </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FRV-gE-ADq" userLabel="First Responder" sceneMemberID="firstResponder"/>
