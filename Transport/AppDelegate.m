@@ -7,8 +7,6 @@
 //  Carly carly carly
 
 #import "AppDelegate.h"
-#import <GoogleMaps/GoogleMaps.h>
-
 @implementation AppDelegate
 
 - (CLLocation *)currentLocation{
@@ -21,8 +19,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [GMSServices provideAPIKey:@"AIzaSyCC8uhRO960wAErUp8WyLE9n7NnFmq3Aek"];
     // Override point for customization after application launch.
+    
+    //Authorize Google Maps
+    [GMSServices provideAPIKey:@"AIzaSyCC8uhRO960wAErUp8WyLE9n7NnFmq3Aek"];
     
     // Setup location monitoring
     if ([CLLocationManager significantLocationChangeMonitoringAvailable]) {
@@ -41,8 +41,13 @@
     //[UIColor colorWithRed:(.996) green:(.88) blue:(.1) alpha:(1)];
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:(0) green:(.764) blue:(.972) alpha:(.6)]];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]]; // text color
+    [[UINavigationBar appearance] setTitleTextAttributes:@{
+                                                           NSFontAttributeName : [UIFont fontWithName:@"Avenir-Black" size:22.0],
+                                                           NSForegroundColorAttributeName:[UIColor whiteColor]
+                                                           }
+     ];
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
