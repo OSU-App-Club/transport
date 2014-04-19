@@ -38,8 +38,8 @@
 }
 
 - (void) setupColors{
-    //[UIColor colorWithRed:<#(CGFloat)#> green:<#(CGFloat)#> blue:<#(CGFloat)#> alpha:<#(CGFloat)#>
-    [[UINavigationBar appearance] setBarTintColor:[UIColor redColor]];
+    //[UIColor colorWithRed:(.996) green:(.88) blue:(.1) alpha:(1)];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:(0) green:(.764) blue:(.972) alpha:(.6)]];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]]; // text color
 }
 							
