@@ -155,6 +155,7 @@
                             NSDictionary *stopDict = [stops objectForKey:@([stopNumString doubleValue])];
                             Stop *newStop = [[Stop alloc] init];
                             newStop.name = stopDict[@"Name"];
+                            newStop.road = stopDict[@"Road"];
                             newStop.distance = stopDict[@"Distance"];
                             
                             // Create new Arrival for each route/stop
@@ -206,10 +207,12 @@
     UILabel *nextArrival = (UILabel*) [cell viewWithTag:201];
     UILabel *routeName = (UILabel*) [cell viewWithTag:202];
     UIView *tileView = (UIView*) [cell viewWithTag:203];
+    UILabel *streetName = (UILabel*) [cell viewWithTag:204];
     
     Arrival *currentArrival = (Arrival*) self.arrivals[indexPath.item];
     stopName.text = currentArrival.stop.name;
     routeName.text = currentArrival.routeName;
+    streetName.text = currentArrival.stop.road;
     
     tileView.backgroundColor = self.routeColorDict[currentArrival.routeName];
     
