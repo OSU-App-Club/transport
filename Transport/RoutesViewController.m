@@ -60,11 +60,9 @@
     
     self.selectedIndex = NSUIntegerMax;
     
-    NSMutableArray *route = [NSMutableArray array];
-    for (int i = 0; i<15; i++) {
-        [route addObject:@{}];
-    }
-    self.routes = route;
+    self.title = @"Routes";
+    
+    [self updateRoutes];
 }
 
 - (void) viewWillAppear:(BOOL)animated{
@@ -109,6 +107,7 @@
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude: CORVALLIS_LAT
                                                             longitude: CORVALLIS_LONG
                                                                  zoom:12];
+    [cell.mapView clear];
     [cell.mapView setCamera:camera];
     
     NSDictionary *route = self.routes[indexPath.row];
