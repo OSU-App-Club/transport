@@ -22,6 +22,10 @@
 		8385966C1902E93000E68FE4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8385966A1902E93000E68FE4 /* InfoPlist.strings */; };
 		8385966E1902E93000E68FE4 /* TransportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8385966D1902E93000E68FE4 /* TransportTests.m */; };
 		838596791902F19300E68FE4 /* StopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 838596781902F19300E68FE4 /* StopsViewController.m */; };
+		8385967B1902F8C500E68FE4 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8385967A1902F8C500E68FE4 /* CoreLocation.framework */; };
+		8385967E1903002D00E68FE4 /* Arrival.m in Sources */ = {isa = PBXBuildFile; fileRef = 8385967D1903002D00E68FE4 /* Arrival.m */; };
+		838596811903008700E68FE4 /* TimePair.m in Sources */ = {isa = PBXBuildFile; fileRef = 838596801903008700E68FE4 /* TimePair.m */; };
+		838596841903054400E68FE4 /* Stop.m in Sources */ = {isa = PBXBuildFile; fileRef = 838596831903054400E68FE4 /* Stop.m */; };
 		E687C40701814690984E77C4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C99D6902032940AE9B16083E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +62,13 @@
 		8385966D1902E93000E68FE4 /* TransportTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TransportTests.m; sourceTree = "<group>"; };
 		838596771902F19300E68FE4 /* StopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsViewController.h; sourceTree = "<group>"; };
 		838596781902F19300E68FE4 /* StopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopsViewController.m; sourceTree = "<group>"; };
+		8385967A1902F8C500E68FE4 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		8385967C1903002D00E68FE4 /* Arrival.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Arrival.h; sourceTree = "<group>"; };
+		8385967D1903002D00E68FE4 /* Arrival.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Arrival.m; sourceTree = "<group>"; };
+		8385967F1903008700E68FE4 /* TimePair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimePair.h; sourceTree = "<group>"; };
+		838596801903008700E68FE4 /* TimePair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimePair.m; sourceTree = "<group>"; };
+		838596821903054400E68FE4 /* Stop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stop.h; sourceTree = "<group>"; };
+		838596831903054400E68FE4 /* Stop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stop.m; sourceTree = "<group>"; };
 		C99D6902032940AE9B16083E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -66,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8385967B1902F8C500E68FE4 /* CoreLocation.framework in Frameworks */,
 				838596451902E92F00E68FE4 /* CoreGraphics.framework in Frameworks */,
 				838596471902E92F00E68FE4 /* UIKit.framework in Frameworks */,
 				838596431902E92F00E68FE4 /* Foundation.framework in Frameworks */,
@@ -109,6 +121,7 @@
 		838596411902E92F00E68FE4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8385967A1902F8C500E68FE4 /* CoreLocation.framework */,
 				838596421902E92F00E68FE4 /* Foundation.framework */,
 				838596441902E92F00E68FE4 /* CoreGraphics.framework */,
 				838596461902E92F00E68FE4 /* UIKit.framework */,
@@ -126,6 +139,12 @@
 				838596541902E93000E68FE4 /* Main.storyboard */,
 				838596771902F19300E68FE4 /* StopsViewController.h */,
 				838596781902F19300E68FE4 /* StopsViewController.m */,
+				8385967C1903002D00E68FE4 /* Arrival.h */,
+				8385967D1903002D00E68FE4 /* Arrival.m */,
+				838596821903054400E68FE4 /* Stop.h */,
+				838596831903054400E68FE4 /* Stop.m */,
+				8385967F1903008700E68FE4 /* TimePair.h */,
+				838596801903008700E68FE4 /* TimePair.m */,
 				838596571902E93000E68FE4 /* ViewController.h */,
 				838596581902E93000E68FE4 /* ViewController.m */,
 				8385965A1902E93000E68FE4 /* Images.xcassets */,
@@ -297,8 +316,11 @@
 			files = (
 				838596791902F19300E68FE4 /* StopsViewController.m in Sources */,
 				838596591902E93000E68FE4 /* ViewController.m in Sources */,
+				8385967E1903002D00E68FE4 /* Arrival.m in Sources */,
 				838596531902E93000E68FE4 /* AppDelegate.m in Sources */,
+				838596811903008700E68FE4 /* TimePair.m in Sources */,
 				8385964F1902E93000E68FE4 /* main.m in Sources */,
+				838596841903054400E68FE4 /* Stop.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

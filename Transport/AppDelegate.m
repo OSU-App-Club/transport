@@ -10,9 +10,27 @@
 
 @implementation AppDelegate
 
+- (CLLocation *)currentLocation{
+    //if (_currentLocation == nil) {
+        return [[CLLocation alloc] initWithLatitude:44.571319 longitude:-123.275147];
+    //}
+    
+    //return _currentLocation;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    // Setup location monitoring
+    if ([CLLocationManager significantLocationChangeMonitoringAvailable]) {
+        self.locManager = [[CLLocationManager alloc] init];
+        self.locManager.delegate = self;
+        
+        [self.locManager startMonitoringSignificantLocationChanges];
+    }
+    
+    
     return YES;
 }
 							
@@ -41,6 +59,16 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - CLLocationManager
+- (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    // Save the most recent location
+    self.currentLocation = locations.firstObject;
+}
+
+- (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
+    NSLog(@"Location Error: %@",error);
 }
 
 @end
