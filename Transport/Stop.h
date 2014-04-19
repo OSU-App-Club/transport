@@ -11,6 +11,7 @@
 @interface Stop : NSObject
 
 @property (nonatomic,strong) NSString* name;
+@property (nonatomic, strong) NSString* road;
 @property (nonatomic, strong) NSNumber* distance;
 
 @end
