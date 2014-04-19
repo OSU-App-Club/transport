@@ -9,14 +9,6 @@
 #import "AppDelegate.h"
 @implementation AppDelegate
 
-- (CLLocation *)currentLocation{
-    //if (_currentLocation == nil) {
-        return [[CLLocation alloc] initWithLatitude:44.571319 longitude:-123.275147];
-    //}
-    
-    //return _currentLocation;
-}
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
