@@ -59,9 +59,7 @@
                             };
     
     self.selectedIndex = NSUIntegerMax;
-    
-    self.title = @"Routes";
-    
+        
     [self updateRoutes];
 }
 

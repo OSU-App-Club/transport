@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSArray *arrivals;
 @property (nonatomic, strong) NSDictionary *routeColorDict;
 @property NSUInteger selectedIndex;
+@property (nonatomic, strong) UIRefreshControl* refreshControl;
 
 @end
 
@@ -62,11 +63,23 @@
     AppDelegate *del = (AppDelegate*) [UIApplication sharedApplication].delegate;
     [del addObserver:self forKeyPath:@"currentLocation" options:NSKeyValueObservingOptionNew context:nil];
     
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(startRefresh:) forControlEvents:UIControlEventValueChanged];
+    [self.collectionView addSubview:self.refreshControl];
+    self.collectionView.alwaysBounceVertical = YES;
+    
+}
+
+- (void) startRefresh:(UIRefreshControl*)refreshControl{
+    [self.refreshControl beginRefreshing];
+    
+    AppDelegate *del = (AppDelegate*) [UIApplication sharedApplication].delegate;
+    [self updateWithLocation:del.currentLocation];
 }
 
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
+        
     //Customize layout for paging
     //MUST DO IT HERE: not setup yet in viewDidLoad
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*) self.collectionView.collectionViewLayout;
@@ -180,6 +193,8 @@
                         [arrivals sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"stop.distance" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"nextTime" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"routeName" ascending:YES]]];
                         
                         self.arrivals = arrivals;
+                        
+                        [self.refreshControl endRefreshing];
                     }] resume];
 
                 }
