@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="LAs-cq-g8B">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="LAs-cq-g8B">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -196,6 +196,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="r1J-4i-f8z" kind="modal" identifier="InfoSegue" id="jAH-LB-jnH"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FRV-gE-ADq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -219,9 +222,95 @@
             </objects>
             <point key="canvasLocation" x="-230" y="1126"/>
         </scene>
+        <!--Info View Controller - About-->
+        <scene sceneID="5Ph-GB-DAm">
+            <objects>
+                <viewController id="Try-f6-yfR" customClass="InfoViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9dJ-3V-rul"/>
+                        <viewControllerLayoutGuide type="bottom" id="AS1-aO-xXt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9t9-q0-r9C">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IconImage" translatesAutoresizingMaskIntoConstraints="NO" id="jsH-xu-38T">
+                                <rect key="frame" x="105" y="97" width="110" height="110"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="110" id="bhb-O3-aZE"/>
+                                    <constraint firstAttribute="height" constant="110" id="zhW-ke-Bci"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transport" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ITZ-8e-Kg6">
+                                <rect key="frame" x="42" y="215" width="237" height="51"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="237" id="0Qm-Gc-ik6"/>
+                                    <constraint firstAttribute="height" constant="51" id="2Rs-cv-4ok"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="28"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y4D-35-DHS">
+                                <rect key="frame" x="31" y="274" width="259" height="274"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.91764705879999997" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <string key="text">Transport is a transportation app for the city of Corvallis, Oregon. It was created at a hackathon in combination with the Oregon State University App Club and the OSU Public Analysis Laboratory (OPAL). Hopefully this app will encourage you to take better advantage of the free bus system in Corvalls. </string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.91764705879999997" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="y4D-35-DHS" firstAttribute="top" secondItem="ITZ-8e-Kg6" secondAttribute="bottom" constant="8" id="4gJ-8t-I3i"/>
+                            <constraint firstItem="AS1-aO-xXt" firstAttribute="top" secondItem="y4D-35-DHS" secondAttribute="bottom" constant="20" id="Cm0-xG-anD"/>
+                            <constraint firstItem="y4D-35-DHS" firstAttribute="leading" secondItem="9t9-q0-r9C" secondAttribute="leading" constant="31" id="D1U-d6-I5s"/>
+                            <constraint firstItem="ITZ-8e-Kg6" firstAttribute="leading" secondItem="9t9-q0-r9C" secondAttribute="leading" constant="42" id="Yh2-2p-gHV"/>
+                            <constraint firstItem="ITZ-8e-Kg6" firstAttribute="top" secondItem="jsH-xu-38T" secondAttribute="bottom" constant="8" id="can-UP-aHA"/>
+                            <constraint firstAttribute="trailing" secondItem="ITZ-8e-Kg6" secondAttribute="trailing" constant="41" id="dCv-Ry-pTz"/>
+                            <constraint firstItem="y4D-35-DHS" firstAttribute="top" secondItem="ITZ-8e-Kg6" secondAttribute="bottom" constant="8" id="jg4-jc-z5J"/>
+                            <constraint firstAttribute="trailing" secondItem="jsH-xu-38T" secondAttribute="trailing" constant="105" id="kJM-V4-9Cs"/>
+                            <constraint firstItem="jsH-xu-38T" firstAttribute="top" secondItem="9dJ-3V-rul" secondAttribute="bottom" constant="33" id="kv5-dP-A1T"/>
+                            <constraint firstAttribute="trailing" secondItem="y4D-35-DHS" secondAttribute="trailing" constant="30" id="nGZ-9S-ckv"/>
+                            <constraint firstItem="ITZ-8e-Kg6" firstAttribute="top" secondItem="jsH-xu-38T" secondAttribute="bottom" constant="8" id="rKq-nM-24Q"/>
+                            <constraint firstItem="jsH-xu-38T" firstAttribute="leading" secondItem="9t9-q0-r9C" secondAttribute="leading" constant="105" id="sDX-tq-YzV"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="About" id="dTy-FW-a4V">
+                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="done" id="EWW-Vi-See">
+                            <connections>
+                                <action selector="closeInfoScreen:" destination="Try-f6-yfR" id="yzJ-vO-pgO"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vgZ-3U-667" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="875" y="1908"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ZNM-sN-sUC">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="r1J-4i-f8z" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DbP-dO-tUQ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Try-f6-yfR" kind="relationship" relationship="rootViewController" id="VcK-jB-2DM"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jZ5-QI-ETe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="349" y="1908"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="Image" width="22" height="22"/>
+        <image name="IconImage" width="60" height="60"/>
+        <image name="Image" width="33" height="33"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
