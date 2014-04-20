@@ -24,6 +24,8 @@
 
 @property (nonatomic, strong) NSTimer *updateTimer;
 
+@property (nonatomic, strong) UIImageView *emptyImageView;
+
 @end
 
 @implementation StopsViewController
@@ -33,6 +35,16 @@
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self.collectionView reloadData];
+        
+        if (_arrivals.count == 0 && self.emptyImageView == nil) {
+            // Add empty state
+            self.emptyImageView = [[UIImageView alloc] initWithFrame:self.collectionView.bounds];
+            self.emptyImageView.image = [UIImage imageNamed:@"IconImage"];
+            [self.collectionView addSubview:self.emptyImageView];
+        }else if(_arrivals.count != 0){
+            [self.emptyImageView removeFromSuperview];
+            self.emptyImageView = nil;
+        }
     }];
 }
 
