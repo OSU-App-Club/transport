@@ -101,6 +101,8 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     RouteCell *cell = (RouteCell*) [cv dequeueReusableCellWithReuseIdentifier:kCellReuseID forIndexPath:indexPath];
     
+    [cell.mapView stopRendering];
+    
     // Initialize the map
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude: CORVALLIS_LAT
                                                             longitude: CORVALLIS_LONG
@@ -140,6 +142,9 @@
     [collectionView performBatchUpdates:^{
         self.selectedIndex = expand ? indexPath.item : NSUIntegerMax;
     } completion:^(BOOL finished) {
+        RouteCell *cell = (RouteCell*) [collectionView cellForItemAtIndexPath:indexPath];
+        [cell.mapView startRendering];
+        
         [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionTop];
     }];
 }
