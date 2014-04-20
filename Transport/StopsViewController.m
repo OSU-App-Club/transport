@@ -87,6 +87,9 @@
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*) self.collectionView.collectionViewLayout;
     layout.minimumLineSpacing = .8;
     
+    self.navigationController.navigationBar.topItem.title = @"Transport";
+
+    
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
