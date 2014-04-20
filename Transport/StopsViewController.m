@@ -50,6 +50,22 @@
     }];
 }
 
+-(void)addImageUnsupportedArea:(NSArray *)arrivals {
+    _arrivals = arrivals;
+    
+    //insert image if outside suported area
+    if (_arrivals.count == 0 && self.emptyImageView == nil) {
+        CGRect imageFrame = CGRectMake(70.0, 70.0, 180.0, 180.0);
+        self.emptyImageView = [[UIImageView alloc] initWithFrame:imageFrame];
+        self.emptyImageView.image = [UIImage imageNamed:@"UnsupportedArea"];
+        [self.collectionView addSubview:self.emptyImageView];
+    }else if(_arrivals.count != 0){
+        [self.emptyImageView removeFromSuperview];
+        self.emptyImageView = nil;
+    }
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -154,6 +170,11 @@
                                                                     error:nil] objectForKey:@"stops"];
                     
                     NSMutableDictionary* stops = [NSMutableDictionary dictionary];
+                    
+                    // Add empty state
+                    
+                    [self addImageUnsupportedArea:nearbyStops];
+
                     
                     // Create mapping
                     for (NSDictionary *stopDict in nearbyStops) {
