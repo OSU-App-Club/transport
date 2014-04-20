@@ -68,6 +68,8 @@
     [self.collectionView addSubview:self.refreshControl];
     self.collectionView.alwaysBounceVertical = YES;
     
+    self.title = @"Transport";
+    
 }
 
 - (void) startRefresh:(UIRefreshControl*)refreshControl{
@@ -84,6 +86,7 @@
     //MUST DO IT HERE: not setup yet in viewDidLoad
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*) self.collectionView.collectionViewLayout;
     layout.minimumLineSpacing = .8;
+    
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{

@@ -61,6 +61,8 @@
     self.selectedIndex = NSUIntegerMax;
         
     [self updateRoutes];
+    
+    self.navigationController.navigationBar.topItem.title = @"";
 }
 
 - (void) viewWillAppear:(BOOL)animated{
