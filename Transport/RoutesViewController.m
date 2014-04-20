@@ -82,17 +82,17 @@
 
 - (void) updateRoutes{
     NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithURL:[NSURL URLWithString:@"http://www.corvallis-bus.appspot.com/routes"]
+    [[session dataTaskWithURL:[NSURL URLWithString:@"http://www.corvallis-bus.appspot.com/routes?stops=true"]
             completionHandler:^(NSData *data,
                                 NSURLResponse *response,
                                 NSError *error) {
                 
-                // Parse JSON result and store in dictionary (self.routes)
-                NSError *jsonError;
-                self.routes = [[NSJSONSerialization JSONObjectWithData:data
-                                                               options:NSJSONReadingAllowFragments
-                                                                 error:nil] objectForKey:@"routes"];
-            }] resume];
+        // Parse JSON result and store in dictionary (self.routes)
+        NSError *jsonError;
+        self.routes = [[NSJSONSerialization JSONObjectWithData:data
+                                                       options:NSJSONReadingAllowFragments
+                                                         error:nil] objectForKey:@"routes"];
+    }] resume];
 }
 
 #pragma mark - Collection View
@@ -129,34 +129,37 @@
     
     // Add/remove map view
     if (expand) {
-        // Make new map view
-        GMSMapView *mapView = [[GMSMapView alloc] initWithFrame:CGRectZero];
-        [cell addSubview:mapView];
-        cell.mapView = mapView;
-        mapView.translatesAutoresizingMaskIntoConstraints = NO;
         
-        NSArray *horzConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[mapView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapView)];
-        [cell addConstraints:horzConstraint];
-        
-        UIView *topView = (UILabel*) [cell viewWithTag:102];
-        NSArray *vertConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[topView(==80)][mapView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapView,topView)];
-                [cell addConstraints:vertConstraint];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            // Make new map view
+            GMSMapView *mapView = [[GMSMapView alloc] initWithFrame:CGRectZero];
+            [cell addSubview:mapView];
+            cell.mapView = mapView;
+            mapView.translatesAutoresizingMaskIntoConstraints = NO;
+            
+            NSArray *horzConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[mapView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapView)];
+            [cell addConstraints:horzConstraint];
+            
+            UIView *topView = (UILabel*) [cell viewWithTag:102];
+            NSArray *vertConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[topView(==80)][mapView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapView,topView)];
+                    [cell addConstraints:vertConstraint];
 
-        NSDictionary *route = self.routes[indexPath.row];
-        
-         // Initialize the map
-         GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude: CORVALLIS_LAT
-         longitude: CORVALLIS_LONG
-         zoom:12];
-         [cell.mapView clear];
-         [cell.mapView setCamera:camera];
-        
-         // Add polyline to map
-         GMSPolyline *polyline = [GMSPolyline polylineWithPath:[GMSPath pathFromEncodedPath:route[@"Polyline"]]];
-         
-         polyline.strokeWidth = 5.f;
-         polyline.strokeColor = self.routeColorDict[route[@"Name"]];
-         polyline.map = cell.mapView;
+            NSDictionary *route = self.routes[indexPath.row];
+            
+             // Initialize the map
+             GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude: CORVALLIS_LAT
+             longitude: CORVALLIS_LONG
+             zoom:12];
+             [cell.mapView clear];
+             [cell.mapView setCamera:camera];
+            
+             // Add polyline to map
+             GMSPolyline *polyline = [GMSPolyline polylineWithPath:[GMSPath pathFromEncodedPath:route[@"Polyline"]]];
+             
+             polyline.strokeWidth = 5.f;
+             polyline.strokeColor = self.routeColorDict[route[@"Name"]];
+             polyline.map = cell.mapView;
+        }];
     }else{
         [cell.mapView clear];
         [cell.mapView removeFromSuperview];
