@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RoutesViewController : UICollectionViewController
+@interface RoutesViewController : UICollectionViewController <GMSMapViewDelegate>
 
 @end

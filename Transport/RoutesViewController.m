@@ -13,8 +13,8 @@
 #define kCollapsedHeight  80
 #define kExpanedHeight self.view.bounds.size.height
 
-#define CORVALLIS_LAT 44.571319
-#define CORVALLIS_LONG -123.275147
+#define CORVALLIS_LAT 44.567
+#define CORVALLIS_LONG -123.278
 
 
 @interface RoutesViewController ()
@@ -22,6 +22,8 @@
 @property (nonatomic, strong) NSArray *routes;
 @property (nonatomic, strong) NSDictionary *routeColorDict;
 @property NSUInteger selectedIndex;
+
+@property (nonatomic, strong) GMSMarker *currentMarker;
 
 @end
 
@@ -148,9 +150,11 @@
              // Initialize the map
              GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude: CORVALLIS_LAT
              longitude: CORVALLIS_LONG
-             zoom:12];
+             zoom:14];
              [cell.mapView clear];
              [cell.mapView setCamera:camera];
+            cell.mapView.myLocationEnabled = YES;
+            cell.mapView.delegate = self;
             
              // Add polyline to map
              GMSPolyline *polyline = [GMSPolyline polylineWithPath:[GMSPath pathFromEncodedPath:route[@"Polyline"]]];
@@ -161,8 +165,13 @@
             
             for (NSDictionary *stop in route[@"Path"]) {
                 CLLocationCoordinate2D circleCenter = CLLocationCoordinate2DMake([stop[@"Lat"] doubleValue], [stop[@"Long"] doubleValue]);
+                
                 GMSCircle *circ = [GMSCircle circleWithPosition:circleCenter
                                                          radius:10];
+                circ.title = stop[@"Name"];
+                circ.fillColor = [UIColor colorWithWhite:0.0 alpha:.25];
+                circ.strokeWidth = 2.0f;
+                circ.tappable = YES;
                 circ.map = mapView;
             }
             
@@ -180,15 +189,17 @@
     }];
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - MapView delegate
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void) mapView: (GMSMapView *) mapView didTapOverlay:(GMSOverlay *) overlay{
+    self.currentMarker.map = nil;
+    self.currentMarker = [[GMSMarker alloc] init];
+
+    GMSPolygon *circle = (GMSPolygon *)overlay;
+    self.currentMarker.position = [circle.path coordinateAtIndex:0];
+    self.currentMarker.snippet = circle.title;
+    self.currentMarker.appearAnimation = kGMSMarkerAnimationPop;
+    self.currentMarker.map = mapView;
 }
-*/
 
 @end

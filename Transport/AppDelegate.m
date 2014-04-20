@@ -24,11 +24,11 @@
         [self.locManager startMonitoringSignificantLocationChanges];
     }
     
-    [self setupColors];
+    [self setupColors:application];
     return YES;
 }
 
-- (void) setupColors{
+- (void) setupColors:(UIApplication*) application{
     //[UIColor colorWithRed:(.996) green:(.88) blue:(.1) alpha:(1)];
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:(0) green:(.764) blue:(.972) alpha:(.6)]];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]]; // text color
@@ -37,6 +37,8 @@
                                                            NSForegroundColorAttributeName:[UIColor whiteColor]
                                                            }
      ];
+    
+    [application setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

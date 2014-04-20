@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="LAs-cq-g8B">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="LAs-cq-g8B">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -95,7 +95,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="506"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view tag="203" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CIH-Rp-jh2">
+                                        <view tag="203" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CIH-Rp-jh2">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
@@ -140,7 +140,7 @@
                                                 <constraint firstAttribute="height" constant="80" id="2Of-4M-FVv"/>
                                             </constraints>
                                         </view>
-                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="JGf-Vn-zs3">
+                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="JGf-Vn-zs3">
                                             <rect key="frame" x="0.0" y="80" width="320" height="426"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1" colorSpace="calibratedRGB"/>
@@ -175,8 +175,11 @@
                                 <constraints>
                                     <constraint firstItem="JGf-Vn-zs3" firstAttribute="top" secondItem="CIH-Rp-jh2" secondAttribute="bottom" id="0xp-bO-vxJ"/>
                                     <constraint firstItem="JGf-Vn-zs3" firstAttribute="leading" secondItem="RVB-WN-a9p" secondAttribute="leading" id="DR9-Kd-PAx"/>
+                                    <constraint firstItem="CIH-Rp-jh2" firstAttribute="top" secondItem="RVB-WN-a9p" secondAttribute="top" id="dZg-H1-2qF"/>
                                     <constraint firstAttribute="trailing" secondItem="JGf-Vn-zs3" secondAttribute="trailing" id="iq9-nt-1VL"/>
+                                    <constraint firstAttribute="trailing" secondItem="CIH-Rp-jh2" secondAttribute="trailing" id="tCV-ZD-dBH"/>
                                     <constraint firstAttribute="bottom" secondItem="JGf-Vn-zs3" secondAttribute="bottom" id="tcn-3O-Gwl"/>
+                                    <constraint firstItem="CIH-Rp-jh2" firstAttribute="leading" secondItem="RVB-WN-a9p" secondAttribute="leading" id="vtj-p6-BCl"/>
                                 </constraints>
                                 <size key="customSize" width="320" height="506"/>
                                 <connections>
@@ -190,7 +193,7 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" title="Transport" id="0Ei-3c-a69">
-                        <barButtonItem key="rightBarButtonItem" image="Image" id="ahh-zJ-kIa">
+                        <barButtonItem key="rightBarButtonItem" image="RouteIcon" id="ahh-zJ-kIa">
                             <connections>
                                 <segue destination="rAr-US-VpZ" kind="push" id="QdM-1b-oR0"/>
                             </connections>
@@ -253,19 +256,32 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y4D-35-DHS">
-                                <rect key="frame" x="31" y="274" width="259" height="274"/>
+                                <rect key="frame" x="31" y="274" width="259" height="214"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.91764705879999997" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <string key="text">Transport is a transportation app for the city of Corvallis, Oregon. It was created at a hackathon in combination with the Oregon State University App Club and the OSU Public Analysis Laboratory (OPAL). Hopefully this app will encourage you to take better advantage of the free bus system in Corvalls. </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zPr-vt-ZKZ">
+                                <rect key="frame" x="31" y="518" width="259" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Project Website">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="openProjectWebsite:" destination="Try-f6-yfR" eventType="touchUpInside" id="laQ-sj-xYN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.91764705879999997" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="zPr-vt-ZKZ" secondAttribute="trailing" constant="30" id="2Jf-tU-n3I"/>
                             <constraint firstItem="y4D-35-DHS" firstAttribute="top" secondItem="ITZ-8e-Kg6" secondAttribute="bottom" constant="8" id="4gJ-8t-I3i"/>
-                            <constraint firstItem="AS1-aO-xXt" firstAttribute="top" secondItem="y4D-35-DHS" secondAttribute="bottom" constant="20" id="Cm0-xG-anD"/>
+                            <constraint firstItem="AS1-aO-xXt" firstAttribute="top" secondItem="y4D-35-DHS" secondAttribute="bottom" constant="80" id="Cm0-xG-anD"/>
                             <constraint firstItem="y4D-35-DHS" firstAttribute="leading" secondItem="9t9-q0-r9C" secondAttribute="leading" constant="31" id="D1U-d6-I5s"/>
+                            <constraint firstItem="zPr-vt-ZKZ" firstAttribute="top" secondItem="y4D-35-DHS" secondAttribute="bottom" constant="30" id="Tj9-M3-2tb"/>
+                            <constraint firstItem="AS1-aO-xXt" firstAttribute="top" secondItem="zPr-vt-ZKZ" secondAttribute="bottom" constant="20" id="VJl-RQ-JaJ"/>
                             <constraint firstItem="ITZ-8e-Kg6" firstAttribute="leading" secondItem="9t9-q0-r9C" secondAttribute="leading" constant="42" id="Yh2-2p-gHV"/>
                             <constraint firstItem="ITZ-8e-Kg6" firstAttribute="top" secondItem="jsH-xu-38T" secondAttribute="bottom" constant="8" id="can-UP-aHA"/>
                             <constraint firstAttribute="trailing" secondItem="ITZ-8e-Kg6" secondAttribute="trailing" constant="41" id="dCv-Ry-pTz"/>
@@ -275,6 +291,7 @@
                             <constraint firstAttribute="trailing" secondItem="y4D-35-DHS" secondAttribute="trailing" constant="30" id="nGZ-9S-ckv"/>
                             <constraint firstItem="ITZ-8e-Kg6" firstAttribute="top" secondItem="jsH-xu-38T" secondAttribute="bottom" constant="8" id="rKq-nM-24Q"/>
                             <constraint firstItem="jsH-xu-38T" firstAttribute="leading" secondItem="9t9-q0-r9C" secondAttribute="leading" constant="105" id="sDX-tq-YzV"/>
+                            <constraint firstItem="zPr-vt-ZKZ" firstAttribute="leading" secondItem="9t9-q0-r9C" secondAttribute="leading" constant="31" id="uea-V5-qO6"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="About" id="dTy-FW-a4V">
@@ -310,7 +327,7 @@
     </scenes>
     <resources>
         <image name="IconImage" width="60" height="60"/>
-        <image name="Image" width="33" height="33"/>
+        <image name="RouteIcon" width="33" height="33"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

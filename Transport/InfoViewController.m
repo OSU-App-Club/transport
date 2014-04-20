@@ -39,6 +39,10 @@
     [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)openProjectWebsite:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/OSU-App-Club/transport"]];
+}
+
 /*
 #pragma mark - Navigation
 
