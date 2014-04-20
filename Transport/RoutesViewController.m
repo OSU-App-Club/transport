@@ -103,13 +103,6 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     RouteCell *cell = (RouteCell*) [cv dequeueReusableCellWithReuseIdentifier:kCellReuseID forIndexPath:indexPath];
     
-    // Initialize the map
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude: CORVALLIS_LAT
-                                                            longitude: CORVALLIS_LONG
-                                                                 zoom:12];
-    [cell.mapView clear];
-    [cell.mapView setCamera:camera];
-    
     NSDictionary *route = self.routes[indexPath.row];
     
     UILabel *routeNumber = (UILabel*) [cell viewWithTag:100];
@@ -120,14 +113,6 @@
     routeName.text = route[@"AdditionalName"];
     background.backgroundColor = self.routeColorDict[route[@"Name"]];
     
-    // Add polyline to map
-    GMSPolyline *polyline = [GMSPolyline polylineWithPath:[GMSPath pathFromEncodedPath:route[@"Polyline"]]];
-    
-    polyline.strokeWidth = 5.f;
-    polyline.strokeColor = self.routeColorDict[route[@"Name"]];
-    polyline.map = cell.mapView;
-    
-    
     return cell;
 }
 
@@ -136,9 +121,48 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger currentHeight = [collectionView cellForItemAtIndexPath:indexPath].bounds.size.height;
+    
+    RouteCell *cell = (RouteCell*)[collectionView cellForItemAtIndexPath:indexPath];
+    NSInteger currentHeight = cell.bounds.size.height;
     BOOL expand = currentHeight == kCollapsedHeight;
     collectionView.scrollEnabled = !expand;
+    
+    // Add/remove map view
+    if (expand) {
+        // Make new map view
+        GMSMapView *mapView = [[GMSMapView alloc] initWithFrame:CGRectZero];
+        [cell addSubview:mapView];
+        cell.mapView = mapView;
+        mapView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        NSArray *horzConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[mapView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapView)];
+        [cell addConstraints:horzConstraint];
+        
+        UIView *topView = (UILabel*) [cell viewWithTag:102];
+        NSArray *vertConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[topView(==80)][mapView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapView,topView)];
+                [cell addConstraints:vertConstraint];
+
+        NSDictionary *route = self.routes[indexPath.row];
+        
+         // Initialize the map
+         GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude: CORVALLIS_LAT
+         longitude: CORVALLIS_LONG
+         zoom:12];
+         [cell.mapView clear];
+         [cell.mapView setCamera:camera];
+        
+         // Add polyline to map
+         GMSPolyline *polyline = [GMSPolyline polylineWithPath:[GMSPath pathFromEncodedPath:route[@"Polyline"]]];
+         
+         polyline.strokeWidth = 5.f;
+         polyline.strokeColor = self.routeColorDict[route[@"Name"]];
+         polyline.map = cell.mapView;
+    }else{
+        [cell.mapView clear];
+        [cell.mapView removeFromSuperview];
+        cell.mapView = nil;
+    }
+    
     [collectionView performBatchUpdates:^{
         self.selectedIndex = expand ? indexPath.item : NSUIntegerMax;
     } completion:^(BOOL finished) {
