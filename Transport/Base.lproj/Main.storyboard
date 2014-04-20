@@ -50,11 +50,6 @@
                                                 <constraint firstAttribute="height" constant="80" id="iXn-Wp-Cmb"/>
                                             </constraints>
                                         </view>
-                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dbc-1P-2po" customClass="GMSMapView">
-                                            <rect key="frame" x="0.0" y="80" width="320" height="493"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
@@ -64,9 +59,6 @@
                                     <constraint firstItem="oCI-jA-iyh" firstAttribute="top" secondItem="jd0-Hj-PZy" secondAttribute="top" id="iiL-TE-2zX"/>
                                 </constraints>
                                 <size key="customSize" width="320" height="573"/>
-                                <connections>
-                                    <outlet property="mapView" destination="Dbc-1P-2po" id="pCA-sK-YMY"/>
-                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>
