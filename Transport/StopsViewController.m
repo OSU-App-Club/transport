@@ -70,6 +70,15 @@
     
     self.title = @"Transport";
     
+    // Add special info button
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    [button addTarget:self action:@selector(infoButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *infoButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+    [self.navigationItem setLeftBarButtonItem:infoButton];
+}
+
+- (void) infoButtonTapped{
+    [self performSegueWithIdentifier:@"InfoSegue" sender:nil];
 }
 
 - (void) startRefresh:(UIRefreshControl*)refreshControl{
