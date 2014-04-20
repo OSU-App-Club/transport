@@ -129,7 +129,6 @@
     
     // Add/remove map view
     if (expand) {
-        
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             // Make new map view
             GMSMapView *mapView = [[GMSMapView alloc] initWithFrame:CGRectZero];
@@ -159,6 +158,14 @@
              polyline.strokeWidth = 5.f;
              polyline.strokeColor = self.routeColorDict[route[@"Name"]];
              polyline.map = cell.mapView;
+            
+            for (NSDictionary *stop in route[@"Path"]) {
+                CLLocationCoordinate2D circleCenter = CLLocationCoordinate2DMake([stop[@"Lat"] doubleValue], [stop[@"Long"] doubleValue]);
+                GMSCircle *circ = [GMSCircle circleWithPosition:circleCenter
+                                                         radius:10];
+                circ.map = mapView;
+            }
+            
         }];
     }else{
         [cell.mapView clear];
