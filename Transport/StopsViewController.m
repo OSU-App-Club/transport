@@ -37,9 +37,11 @@
         [self.collectionView reloadData];
         
         if (_arrivals.count == 0 && self.emptyImageView == nil) {
+            
             // Add empty state
-            self.emptyImageView = [[UIImageView alloc] initWithFrame:self.collectionView.bounds];
-            self.emptyImageView.image = [UIImage imageNamed:@"IconImage"];
+            CGRect imageFrame = CGRectMake(70.0, 70.0, 180.0, 180.0);
+            self.emptyImageView = [[UIImageView alloc] initWithFrame:imageFrame];
+            self.emptyImageView.image = [UIImage imageNamed:@"NoArrivals"];
             [self.collectionView addSubview:self.emptyImageView];
         }else if(_arrivals.count != 0){
             [self.emptyImageView removeFromSuperview];
