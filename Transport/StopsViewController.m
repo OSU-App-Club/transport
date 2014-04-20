@@ -22,6 +22,8 @@
 @property NSUInteger selectedIndex;
 @property (nonatomic, strong) UIRefreshControl* refreshControl;
 
+@property (nonatomic, strong) NSTimer *updateTimer;
+
 @end
 
 @implementation StopsViewController
@@ -97,8 +99,15 @@
     layout.minimumLineSpacing = .8;
     
     self.navigationController.navigationBar.topItem.title = @"Transport";
-
     
+    
+    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self.collectionView selector:@selector(reloadData) userInfo:nil repeats:YES];
+}
+
+- (void) viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [self.updateTimer invalidate];
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
@@ -246,7 +255,7 @@
     
     tileView.backgroundColor = self.routeColorDict[currentArrival.routeName];
     
-    NSString *timeString = [NSString stringWithFormat:@"%.0f",[[currentArrival.times.firstObject expected] timeIntervalSinceNow]*(1.0/60.0)];
+    NSString *timeString = [NSString stringWithFormat:@"%.0f",[currentArrival.nextTime timeIntervalSinceNow]*(1.0/60.0)];
     nextArrival.text = timeString;
     
     cell.times = currentArrival.times;
@@ -262,10 +271,12 @@
     NSInteger currentHeight = [collectionView cellForItemAtIndexPath:indexPath].bounds.size.height;
     BOOL expand = currentHeight == kCollapsedHeight;
     collectionView.scrollEnabled = !expand;
+    
+    [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionTop];
+
     [collectionView performBatchUpdates:^{
         self.selectedIndex = expand ? indexPath.item : NSUIntegerMax;
     } completion:^(BOOL finished) {
-        [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionTop];
     }];
 }
 
