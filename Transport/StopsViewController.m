@@ -100,13 +100,15 @@
     [self.collectionView addSubview:self.refreshControl];
     self.collectionView.alwaysBounceVertical = YES;
     
-    self.title = @"Transport";
-    
     // Add special info button
     UIButton *button = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [button addTarget:self action:@selector(infoButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *infoButton = [[UIBarButtonItem alloc] initWithCustomView:button];
     [self.navigationItem setLeftBarButtonItem:infoButton];
+    
+    // Removes title from back button in routes
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
+    [[self navigationItem] setBackBarButtonItem:backButton];
 }
 
 - (void) infoButtonTapped{
@@ -122,14 +124,13 @@
 
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-        
+    
+    self.title = @"Transport";
+    
     //Customize layout for paging
     //MUST DO IT HERE: not setup yet in viewDidLoad
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*) self.collectionView.collectionViewLayout;
     layout.minimumLineSpacing = .8;
-    
-    self.navigationController.navigationBar.topItem.title = @"Transport";
-    
     
     self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self.collectionView selector:@selector(reloadData) userInfo:nil repeats:YES];
 }

@@ -62,9 +62,7 @@
     
     self.selectedIndex = NSUIntegerMax;
         
-    [self updateRoutes];
-    
-    self.navigationController.navigationBar.topItem.title = @"";
+    [self updateRoutes];    
 }
 
 - (void) viewWillAppear:(BOOL)animated{
@@ -90,7 +88,6 @@
                                 NSError *error) {
                 
         // Parse JSON result and store in dictionary (self.routes)
-        NSError *jsonError;
         self.routes = [[NSJSONSerialization JSONObjectWithData:data
                                                        options:NSJSONReadingAllowFragments
                                                          error:nil] objectForKey:@"routes"];
