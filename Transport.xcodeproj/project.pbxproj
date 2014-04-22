@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		837F486A190473930070897A /* default.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 837F4869190473930070897A /* default.gpx */; };
 		838596431902E92F00E68FE4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838596421902E92F00E68FE4 /* Foundation.framework */; };
 		838596451902E92F00E68FE4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838596441902E92F00E68FE4 /* CoreGraphics.framework */; };
 		838596471902E92F00E68FE4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838596461902E92F00E68FE4 /* UIKit.framework */; };
@@ -45,6 +46,7 @@
 
 /* Begin PBXFileReference section */
 		5611B08DC4594E4EBBABAAFD /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		837F4869190473930070897A /* default.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = default.gpx; sourceTree = "<group>"; };
 		8385963F1902E92F00E68FE4 /* Transport.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Transport.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		838596421902E92F00E68FE4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		838596441902E92F00E68FE4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -176,6 +178,7 @@
 		838596491902E93000E68FE4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				837F4869190473930070897A /* default.gpx */,
 				8385964A1902E93000E68FE4 /* Transport-Info.plist */,
 				8385964B1902E93000E68FE4 /* InfoPlist.strings */,
 				8385964E1902E93000E68FE4 /* main.m */,
@@ -281,6 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8385965B1902E93000E68FE4 /* Images.xcassets in Resources */,
+				837F486A190473930070897A /* default.gpx in Resources */,
 				8385964D1902E93000E68FE4 /* InfoPlist.strings in Resources */,
 				838596561902E93000E68FE4 /* Main.storyboard in Resources */,
 			);

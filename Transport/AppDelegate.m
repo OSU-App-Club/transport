@@ -65,6 +65,11 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     [self.locManager startMonitoringSignificantLocationChanges];
+    
+    // Simulate location for app.io
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"isAppio"] boolValue]) {
+        self.currentLocation = [[CLLocation alloc] initWithLatitude:44.567 longitude:-123.278];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

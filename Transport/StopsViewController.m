@@ -17,18 +17,21 @@
 
 @interface StopsViewController ()
 
-@property (nonatomic, strong) NSArray *arrivals;
+@property (atomic, strong) NSArray *arrivals;
 @property (nonatomic, strong) NSDictionary *routeColorDict;
 @property NSUInteger selectedIndex;
 @property (nonatomic, strong) UIRefreshControl* refreshControl;
 
 @property (nonatomic, strong) NSTimer *updateTimer;
 
+@property (nonatomic, strong) UIImageView *emptyImageView;
+
 @end
 
 @implementation StopsViewController
 
 - (void) setArrivals:(NSArray *)arrivals{
+    
     _arrivals = arrivals;
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -70,13 +73,15 @@
     [self.collectionView addSubview:self.refreshControl];
     self.collectionView.alwaysBounceVertical = YES;
     
-    self.title = @"Transport";
-    
     // Add special info button
     UIButton *button = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [button addTarget:self action:@selector(infoButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *infoButton = [[UIBarButtonItem alloc] initWithCustomView:button];
     [self.navigationItem setLeftBarButtonItem:infoButton];
+    
+    // Removes title from back button in routes
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
+    [[self navigationItem] setBackBarButtonItem:backButton];
 }
 
 - (void) infoButtonTapped{
@@ -92,14 +97,13 @@
 
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-        
+    
+    self.title = @"Transport";
+    
     //Customize layout for paging
     //MUST DO IT HERE: not setup yet in viewDidLoad
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*) self.collectionView.collectionViewLayout;
     layout.minimumLineSpacing = .8;
-    
-    self.navigationController.navigationBar.topItem.title = @"Transport";
-    
     
     self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self.collectionView selector:@selector(reloadData) userInfo:nil repeats:YES];
 }
@@ -140,6 +144,11 @@
                                                                     error:nil] objectForKey:@"stops"];
                     
                     NSMutableDictionary* stops = [NSMutableDictionary dictionary];
+                    
+                    // Add empty state
+                    if (nearbyStops.count == 0) {
+                        [self addEmptyImage:NO];
+                    }
                     
                     // Create mapping
                     for (NSDictionary *stopDict in nearbyStops) {
@@ -207,7 +216,6 @@
                             
                         }];
                         
-                        
                         // Filter times that are too far away -- 99 mins
                         [arrivals filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(Arrival* evaluatedObject, NSDictionary *bindings) {
                             return [evaluatedObject.nextTime timeIntervalSinceNow] < 60.0*99.0;
@@ -218,6 +226,10 @@
                         
                         self.arrivals = arrivals;
                         
+                        if (self.arrivals.count == 0) {
+                            [self addEmptyImage:YES];
+                        }
+                        
                         [self.refreshControl endRefreshing];
                     }] resume];
 
@@ -225,6 +237,25 @@
           ] resume];
         
     }
+}
+
+- (void) addEmptyImage:(bool)nearbyStopsExist{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        if (_arrivals.count == 0) {
+            // Check if image view already exists
+            if (!self.emptyImageView) {
+                CGRect imageFrame = CGRectMake(70.0, 150.0, 180.0, 180.0);
+                self.emptyImageView = [[UIImageView alloc] initWithFrame:imageFrame];
+                [self.view addSubview:self.emptyImageView];
+            }
+            
+            // Add empty state
+            self.emptyImageView.image = [UIImage imageNamed:nearbyStopsExist?@"NoArrivals":@"UnsupportedArea"];
+        }else if(_arrivals.count != 0){
+            [self.emptyImageView removeFromSuperview];
+            self.emptyImageView = nil;
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -264,7 +295,12 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(collectionView.bounds.size.width, (indexPath.item==self.selectedIndex)?kExpanedHeight:kCollapsedHeight);
+    CGFloat height = (indexPath.item==self.selectedIndex)?kExpanedHeight:kCollapsedHeight;
+    if (indexPath.item == 1 && indexPath.item == self.selectedIndex) {
+        height -= kCollapsedHeight; // Account for second row issue
+    }
+    
+    return CGSizeMake(collectionView.bounds.size.width, height);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
