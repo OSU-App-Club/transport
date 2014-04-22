@@ -17,7 +17,7 @@
 
 @interface StopsViewController ()
 
-@property (nonatomic, strong) NSArray *arrivals;
+@property (atomic, strong) NSArray *arrivals;
 @property (nonatomic, strong) NSDictionary *routeColorDict;
 @property NSUInteger selectedIndex;
 @property (nonatomic, strong) UIRefreshControl* refreshControl;
@@ -31,39 +31,12 @@
 @implementation StopsViewController
 
 - (void) setArrivals:(NSArray *)arrivals{
+    
     _arrivals = arrivals;
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self.collectionView reloadData];
-        
-        if (_arrivals.count == 0 && self.emptyImageView == nil) {
-            
-            // Add empty state
-            CGRect imageFrame = CGRectMake(70.0, 70.0, 180.0, 180.0);
-            self.emptyImageView = [[UIImageView alloc] initWithFrame:imageFrame];
-            self.emptyImageView.image = [UIImage imageNamed:@"NoArrivals"];
-            [self.collectionView addSubview:self.emptyImageView];
-        }else if(_arrivals.count != 0){
-            [self.emptyImageView removeFromSuperview];
-            self.emptyImageView = nil;
-        }
     }];
-}
-
--(void)addImageUnsupportedArea:(NSArray *)arrivals {
-    _arrivals = arrivals;
-    
-    //insert image if outside suported area
-    if (_arrivals.count == 0 && self.emptyImageView == nil) {
-        CGRect imageFrame = CGRectMake(70.0, 70.0, 180.0, 180.0);
-        self.emptyImageView = [[UIImageView alloc] initWithFrame:imageFrame];
-        self.emptyImageView.image = [UIImage imageNamed:@"UnsupportedArea"];
-        [self.collectionView addSubview:self.emptyImageView];
-    }else if(_arrivals.count != 0){
-        [self.emptyImageView removeFromSuperview];
-        self.emptyImageView = nil;
-    }
-    
 }
 
 - (void)viewDidLoad
@@ -173,9 +146,9 @@
                     NSMutableDictionary* stops = [NSMutableDictionary dictionary];
                     
                     // Add empty state
-                    
-                    [self addImageUnsupportedArea:nearbyStops];
-
+                    if (nearbyStops.count == 0) {
+                        [self addEmptyImage:NO];
+                    }
                     
                     // Create mapping
                     for (NSDictionary *stopDict in nearbyStops) {
@@ -243,7 +216,6 @@
                             
                         }];
                         
-                        
                         // Filter times that are too far away -- 99 mins
                         [arrivals filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(Arrival* evaluatedObject, NSDictionary *bindings) {
                             return [evaluatedObject.nextTime timeIntervalSinceNow] < 60.0*99.0;
@@ -254,6 +226,10 @@
                         
                         self.arrivals = arrivals;
                         
+                        if (self.arrivals.count == 0) {
+                            [self addEmptyImage:YES];
+                        }
+                        
                         [self.refreshControl endRefreshing];
                     }] resume];
 
@@ -261,6 +237,25 @@
           ] resume];
         
     }
+}
+
+- (void) addEmptyImage:(bool)nearbyStopsExist{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        if (_arrivals.count == 0) {
+            // Check if image view already exists
+            if (!self.emptyImageView) {
+                CGRect imageFrame = CGRectMake(70.0, 150.0, 180.0, 180.0);
+                self.emptyImageView = [[UIImageView alloc] initWithFrame:imageFrame];
+                [self.view addSubview:self.emptyImageView];
+            }
+            
+            // Add empty state
+            self.emptyImageView.image = [UIImage imageNamed:nearbyStopsExist?@"NoArrivals":@"UnsupportedArea"];
+        }else if(_arrivals.count != 0){
+            [self.emptyImageView removeFromSuperview];
+            self.emptyImageView = nil;
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -300,7 +295,12 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(collectionView.bounds.size.width, (indexPath.item==self.selectedIndex)?kExpanedHeight:kCollapsedHeight);
+    CGFloat height = (indexPath.item==self.selectedIndex)?kExpanedHeight:kCollapsedHeight;
+    if (indexPath.item == 1 && indexPath.item == self.selectedIndex) {
+        height -= kCollapsedHeight; // Account for second row issue
+    }
+    
+    return CGSizeMake(collectionView.bounds.size.width, height);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {

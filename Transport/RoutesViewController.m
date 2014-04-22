@@ -116,7 +116,12 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(collectionView.bounds.size.width, (indexPath.item==self.selectedIndex)?kExpanedHeight:kCollapsedHeight);
+    CGFloat height = (indexPath.item==self.selectedIndex)?kExpanedHeight:kCollapsedHeight;
+    if (indexPath.item == 1 && indexPath.item == self.selectedIndex) {
+        height -= kCollapsedHeight; // Account for second row issue
+    }
+    
+    return CGSizeMake(collectionView.bounds.size.width, height);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -144,18 +149,22 @@
 
             NSDictionary *route = self.routes[indexPath.row];
             
+            GMSPath *path = [GMSPath pathFromEncodedPath:route[@"Polyline"]];
+            GMSPolyline *polyline = [GMSPolyline polylineWithPath:path];
+            
+            // Center point
+            CLLocationCoordinate2D coord = [path coordinateAtIndex:path.count/2];
+            
              // Initialize the map
-             GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude: CORVALLIS_LAT
-             longitude: CORVALLIS_LONG
-             zoom:14];
+             GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude: coord.latitude
+                                                                     longitude: coord.longitude
+                                                                          zoom:14];
              [cell.mapView clear];
              [cell.mapView setCamera:camera];
             cell.mapView.myLocationEnabled = YES;
             cell.mapView.delegate = self;
             
              // Add polyline to map
-             GMSPolyline *polyline = [GMSPolyline polylineWithPath:[GMSPath pathFromEncodedPath:route[@"Polyline"]]];
-             
              polyline.strokeWidth = 5.f;
              polyline.strokeColor = self.routeColorDict[route[@"Name"]];
              polyline.map = cell.mapView;
