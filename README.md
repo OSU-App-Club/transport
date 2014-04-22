@@ -7,4 +7,4 @@ During a hackathon put on by the OPAL team and the OSU app club, Team Transport 
 
 Throughout the app we chose to use the colors assigned to each route by CTS in order to allow the user to quickly and easily find the information they need.
 
-The contributors to this project are Chris Vanderschuere, Bret Lorimore, and Carly Farr. 
+The contributors to this project are @bretlorimore, @CarlyFarr, and @cvanderschuere . 
