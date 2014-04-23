@@ -120,7 +120,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="201" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n8S-yY-6R9">
-                                                    <rect key="frame" x="236" y="15" width="80" height="42"/>
+                                                    <rect key="frame" x="240" y="15" width="80" height="42"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="80" id="XpY-1g-guR"/>
@@ -129,8 +129,8 @@
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="mins" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6T-Zz-cnq">
-                                                    <rect key="frame" x="255" y="54" width="42" height="21"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mins" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6T-Zz-cnq">
+                                                    <rect key="frame" x="262" y="54" width="37" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -154,7 +154,7 @@
                                             <color key="backgroundColor" red="0.0" green="0.89143993870000005" blue="0.91121253189999996" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="80" id="2Of-4M-FVv"/>
-                                                <constraint firstAttribute="trailing" secondItem="n8S-yY-6R9" secondAttribute="trailing" constant="4" id="2wx-fF-2FC"/>
+                                                <constraint firstAttribute="trailing" secondItem="n8S-yY-6R9" secondAttribute="trailing" id="2wx-fF-2FC"/>
                                                 <constraint firstItem="n8S-yY-6R9" firstAttribute="top" secondItem="CIH-Rp-jh2" secondAttribute="top" constant="15" id="3iQ-Cq-lRf"/>
                                                 <constraint firstItem="v6T-Zz-cnq" firstAttribute="centerX" secondItem="n8S-yY-6R9" secondAttribute="centerX" id="CAK-vH-eWL"/>
                                                 <constraint firstAttribute="bottom" secondItem="v6T-Zz-cnq" secondAttribute="bottom" constant="5" id="gay-Va-yYj"/>
@@ -198,7 +198,7 @@
                                     <constraint firstItem="CIH-Rp-jh2" firstAttribute="top" secondItem="RVB-WN-a9p" secondAttribute="top" id="dZg-H1-2qF"/>
                                     <constraint firstAttribute="trailing" secondItem="JGf-Vn-zs3" secondAttribute="trailing" id="iq9-nt-1VL"/>
                                     <constraint firstAttribute="trailing" secondItem="CIH-Rp-jh2" secondAttribute="trailing" id="tCV-ZD-dBH"/>
-                                    <constraint firstAttribute="bottom" secondItem="JGf-Vn-zs3" secondAttribute="bottom" id="tcn-3O-Gwl"/>
+                                    <constraint firstAttribute="bottom" secondItem="JGf-Vn-zs3" secondAttribute="bottom" priority="250" id="tcn-3O-Gwl"/>
                                     <constraint firstItem="CIH-Rp-jh2" firstAttribute="leading" secondItem="RVB-WN-a9p" secondAttribute="leading" id="vtj-p6-BCl"/>
                                 </constraints>
                                 <size key="customSize" width="320" height="506"/>

@@ -13,11 +13,11 @@
 
 #define kCellReuseID        @"stopCell"
 #define kCollapsedHeight  80
-#define kExpanedHeight self.view.bounds.size.height
+#define kExpanedHeight self.view.bounds.size.height - (self.navigationController.navigationBar.bounds.size.height + [UIApplication sharedApplication].statusBarFrame.size.height)
 
 @interface StopsViewController ()
 
-@property (atomic, strong) NSArray *arrivals;
+@property (nonatomic, strong) NSArray *arrivals;
 @property (nonatomic, strong) NSDictionary *routeColorDict;
 @property NSUInteger selectedIndex;
 @property (nonatomic, strong) UIRefreshControl* refreshControl;
@@ -25,18 +25,20 @@
 @property (nonatomic, strong) NSTimer *updateTimer;
 
 @property (nonatomic, strong) UIImageView *emptyImageView;
+@property (nonatomic, strong) NSArray *nearbyStops;
 
 @end
 
 @implementation StopsViewController
 
 - (void) setArrivals:(NSArray *)arrivals{
-    
-    _arrivals = arrivals;
-    
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        [self.collectionView reloadData];
-    }];
+    @synchronized(self){
+        _arrivals = arrivals;
+        
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self.collectionView reloadData];
+        }];
+    }
 }
 
 - (void)viewDidLoad
@@ -105,7 +107,7 @@
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*) self.collectionView.collectionViewLayout;
     layout.minimumLineSpacing = .8;
     
-    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self.collectionView selector:@selector(reloadData) userInfo:nil repeats:YES];
+    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(periodicRefresh) userInfo:nil repeats:YES];
 }
 
 - (void) viewWillDisappear:(BOOL)animated{
@@ -122,6 +124,14 @@
     }
 }
 
+- (void) periodicRefresh{
+    if (self.nearbyStops.count>0 && self.selectedIndex == NSUIntegerMax) {
+        [self.refreshControl beginRefreshing];
+        
+        [self updateArrivalsForStops:self.nearbyStops];
+    }
+}
+
 - (void) updateWithLocation: (CLLocation *)location{
     // Check for nil location
     if (location == nil) {
@@ -132,116 +142,121 @@
         
         // Load nearby stops...and then arrivals for those stops
         NSURLSession *session = [NSURLSession sharedSession];
-        NSString* stopURLString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/stops?lat=%f&lng=%f&radius=500&limit=10", location.coordinate.latitude,location.coordinate.longitude] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
+        NSString* stopURLString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/stops?lat=%f&lng=%f&radius=800&limit=10", location.coordinate.latitude,location.coordinate.longitude] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
         
         [[session dataTaskWithURL:[NSURL URLWithString:stopURLString]
                 completionHandler:^(NSData *data,
                                     NSURLResponse *response,
                                     NSError *error) {
                     
-                    NSArray *nearbyStops = [[NSJSONSerialization JSONObjectWithData:data
+                    self.nearbyStops = [[NSJSONSerialization JSONObjectWithData:data
                                                                   options:NSJSONReadingAllowFragments
                                                                     error:nil] objectForKey:@"stops"];
                     
-                    NSMutableDictionary* stops = [NSMutableDictionary dictionary];
                     
                     // Add empty state
-                    if (nearbyStops.count == 0) {
-                        [self addEmptyImage:NO];
-                    }
+                    [self addEmptyImage:YES shouldClear:self.nearbyStops.count != 0];
                     
-                    // Create mapping
-                    for (NSDictionary *stopDict in nearbyStops) {
-                        [stops setObject:stopDict forKey:stopDict[@"ID"]];
-                    }
-                    
-                    NSString *idString = [stops.allKeys componentsJoinedByString:@","];
-                    NSString* urlString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/arrivals?stops=%@", idString] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
-                    
-                    // Make call for arrivals on this route
-                    [[session dataTaskWithURL:[NSURL URLWithString:urlString] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                        // Parse Arrival times
-                        
-                        NSDictionary *arrivalJSON = [NSJSONSerialization JSONObjectWithData:data
-                                                                                options:NSJSONReadingAllowFragments
-                                                                                  error:nil];
-                        
-                        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                        [dateFormatter setDateFormat:@"d MMM yy HH:mm ZZZ"];
-                        
-                        NSMutableArray *arrivals = [NSMutableArray array];
-
-                        // Loop over all arrivals for all stops
-                        [arrivalJSON enumerateKeysAndObjectsUsingBlock:^(NSString* stopNumString, id obj, BOOL *stop) {
-                            NSArray *timeInfos = (NSArray *)obj;
-                            
-                            // Create time pairs -- key is routeName, value: array of TimePairs
-                            NSMutableDictionary *timePairDict = [NSMutableDictionary dictionary];
-
-                            // Build time pairs by route
-                            for (NSDictionary *timeInfo in timeInfos) {
-                                //Create timepair
-                                TimePair *newPair = [[TimePair alloc] init];
-                                newPair.scheduled = [dateFormatter dateFromString:timeInfo[@"Scheduled"]];
-                                newPair.expected = [dateFormatter dateFromString:timeInfo[@"Expected"]];
-            
-                                
-                                NSArray *times = [timePairDict objectForKey:timeInfo[@"Route"]];
-                                if (times) {
-                                    // Extend with new time
-                                    NSArray *newTimes = [times arrayByAddingObject:newPair];
-                                    [timePairDict setObject:newTimes forKey:timeInfo[@"Route"]];
-                                    
-                                }else{
-                                    [timePairDict setObject:[NSArray arrayWithObject:newPair] forKey:timeInfo[@"Route"]];
-                                }
-                            }
-                            
-                            // Create stop
-                            NSDictionary *stopDict = [stops objectForKey:@([stopNumString doubleValue])];
-                            Stop *newStop = [[Stop alloc] init];
-                            newStop.name = stopDict[@"Name"];
-                            newStop.road = stopDict[@"Road"];
-                            newStop.distance = stopDict[@"Distance"];
-                            
-                            // Create new Arrival for each route/stop
-                           [timePairDict enumerateKeysAndObjectsUsingBlock:^(NSString* routeName, NSArray* times, BOOL *stop) {
-                               Arrival *newArrival = [[Arrival alloc] init];
-                               newArrival.routeName = routeName;
-                               newArrival.stop = newStop;
-                               newArrival.times = times;
-                               
-                               [arrivals addObject:newArrival];
-                           }];
-                            
-                        }];
-                        
-                        // Filter times that are too far away -- 99 mins
-                        [arrivals filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(Arrival* evaluatedObject, NSDictionary *bindings) {
-                            return [evaluatedObject.nextTime timeIntervalSinceNow] < 60.0*99.0;
-                        }]];
-                        
-                        // Sort by distance,route name
-                        [arrivals sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"stop.distance" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"nextTime" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"routeName" ascending:YES]]];
-                        
-                        self.arrivals = arrivals;
-                        
-                        if (self.arrivals.count == 0) {
-                            [self addEmptyImage:YES];
-                        }
-                        
-                        [self.refreshControl endRefreshing];
-                    }] resume];
-
+                    // Populate arrivals
+                    [self updateArrivalsForStops:self.nearbyStops];
                 }
           ] resume];
         
     }
 }
 
-- (void) addEmptyImage:(bool)nearbyStopsExist{
+- (void) updateArrivalsForStops:(NSArray*) stopsArray{
+    NSLog(@"Updating Arrivals");
+    
+    NSMutableDictionary* stops = [NSMutableDictionary dictionary];
+    
+    // Create mapping
+    for (NSDictionary *stopDict in stopsArray) {
+        [stops setObject:stopDict forKey:stopDict[@"ID"]];
+    }
+    
+    NSString *idString = [stops.allKeys componentsJoinedByString:@","];
+    NSString* urlString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/arrivals?stops=%@", idString] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
+    
+    // Make call for arrivals on this route
+    NSURLSession *session = [NSURLSession sharedSession];
+    [[session dataTaskWithURL:[NSURL URLWithString:urlString] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        // Parse Arrival times
+        
+        NSDictionary *arrivalJSON = [NSJSONSerialization JSONObjectWithData:data
+                                                                    options:NSJSONReadingAllowFragments
+                                                                      error:nil];
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"d MMM yy HH:mm ZZZ"];
+        
+        NSMutableArray *arrivals = [NSMutableArray array];
+        
+        // Loop over all arrivals for all stops
+        [arrivalJSON enumerateKeysAndObjectsUsingBlock:^(NSString* stopNumString, id obj, BOOL *stop) {
+            NSArray *timeInfos = (NSArray *)obj;
+            
+            // Create time pairs -- key is routeName, value: array of TimePairs
+            NSMutableDictionary *timePairDict = [NSMutableDictionary dictionary];
+            
+            // Build time pairs by route
+            for (NSDictionary *timeInfo in timeInfos) {
+                //Create timepair
+                TimePair *newPair = [[TimePair alloc] init];
+                newPair.scheduled = [dateFormatter dateFromString:timeInfo[@"Scheduled"]];
+                newPair.expected = [dateFormatter dateFromString:timeInfo[@"Expected"]];
+                
+                
+                NSArray *times = [timePairDict objectForKey:timeInfo[@"Route"]];
+                if (times) {
+                    // Extend with new time
+                    NSArray *newTimes = [times arrayByAddingObject:newPair];
+                    [timePairDict setObject:newTimes forKey:timeInfo[@"Route"]];
+                    
+                }else{
+                    [timePairDict setObject:[NSArray arrayWithObject:newPair] forKey:timeInfo[@"Route"]];
+                }
+            }
+            
+            // Create stop
+            NSDictionary *stopDict = [stops objectForKey:@([stopNumString doubleValue])];
+            Stop *newStop = [[Stop alloc] init];
+            newStop.name = stopDict[@"Name"];
+            newStop.road = stopDict[@"Road"];
+            newStop.distance = stopDict[@"Distance"];
+            
+            // Create new Arrival for each route/stop
+            [timePairDict enumerateKeysAndObjectsUsingBlock:^(NSString* routeName, NSArray* times, BOOL *stop) {
+                Arrival *newArrival = [[Arrival alloc] init];
+                newArrival.routeName = routeName;
+                newArrival.stop = newStop;
+                newArrival.times = times;
+                
+                [arrivals addObject:newArrival];
+            }];
+            
+        }];
+        
+        // Filter times that are too far away -- 99 mins
+        [arrivals filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(Arrival* evaluatedObject, NSDictionary *bindings) {
+            return [evaluatedObject.nextTime timeIntervalSinceNow] < 60.0*60.0; // one hour ahead of time
+        }]];
+        
+        // Sort by distance,route name
+        [arrivals sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"stop.distance" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"nextTime" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"routeName" ascending:YES]]];
+        
+        self.arrivals = arrivals;
+        
+        [self addEmptyImage:YES shouldClear:self.arrivals.count != 0];
+        
+        [self.refreshControl endRefreshing];
+    }] resume];
+
+}
+
+- (void) addEmptyImage:(bool)nearbyStopsExist shouldClear:(BOOL) shouldClear{
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        if (_arrivals.count == 0) {
+        if (!shouldClear) {
             // Check if image view already exists
             if (!self.emptyImageView) {
                 CGRect imageFrame = CGRectMake(70.0, 150.0, 180.0, 180.0);
@@ -251,7 +266,7 @@
             
             // Add empty state
             self.emptyImageView.image = [UIImage imageNamed:nearbyStopsExist?@"NoArrivals":@"UnsupportedArea"];
-        }else if(_arrivals.count != 0){
+        }else{
             [self.emptyImageView removeFromSuperview];
             self.emptyImageView = nil;
         }
@@ -307,12 +322,13 @@
     NSInteger currentHeight = [collectionView cellForItemAtIndexPath:indexPath].bounds.size.height;
     BOOL expand = currentHeight == kCollapsedHeight;
     collectionView.scrollEnabled = !expand;
-    
-    [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionTop];
 
     [collectionView performBatchUpdates:^{
         self.selectedIndex = expand ? indexPath.item : NSUIntegerMax;
     } completion:^(BOOL finished) {
+        if (expand) {
+            [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionTop];
+        }
     }];
 }
 

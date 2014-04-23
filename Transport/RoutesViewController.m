@@ -81,6 +81,9 @@
 }
 
 - (void) updateRoutes{
+    
+    self.routes = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedRoutes"];
+    
     NSURLSession *session = [NSURLSession sharedSession];
     [[session dataTaskWithURL:[NSURL URLWithString:@"http://www.corvallis-bus.appspot.com/routes?stops=true"]
             completionHandler:^(NSData *data,
@@ -91,6 +94,11 @@
         self.routes = [[NSJSONSerialization JSONObjectWithData:data
                                                        options:NSJSONReadingAllowFragments
                                                          error:nil] objectForKey:@"routes"];
+                
+        // Save for later use
+        [[NSUserDefaults standardUserDefaults] setObject:self.routes forKey:@"savedRoutes"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+                
     }] resume];
 }
 
@@ -191,7 +199,9 @@
     [collectionView performBatchUpdates:^{
         self.selectedIndex = expand ? indexPath.item : NSUIntegerMax;
     } completion:^(BOOL finished) {
-        [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionTop];
+        if (expand) {
+            [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionTop];
+        }
     }];
 }
 
