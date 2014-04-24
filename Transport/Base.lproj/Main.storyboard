@@ -347,16 +347,21 @@
                                 <action selector="closeInfoScreen:" destination="Try-f6-yfR" id="yzJ-vO-pgO"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Feedback" id="MpQ-Bt-7Nq">
+                            <connections>
+                                <action selector="openFeedback:" destination="Try-f6-yfR" id="AVx-nG-VLD"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vgZ-3U-667" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1306" y="1764"/>
         </scene>
-        <!--View Controller-->
+        <!--Stop Detail View Controller-->
         <scene sceneID="aFJ-9O-BHg">
             <objects>
-                <viewController id="YRJ-Vb-xPN" sceneMemberID="viewController">
+                <viewController id="YRJ-Vb-xPN" customClass="StopDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sez-eL-6O0"/>
                         <viewControllerLayoutGuide type="bottom" id="7tR-QU-aoE"/>
@@ -368,7 +373,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H5b-ka-ZEI" customClass="GMSMapView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="udd-q0-1R3">
                                 <rect key="frame" x="20" y="40" width="50" height="30"/>
@@ -378,9 +383,12 @@
                                     <constraint firstAttribute="height" constant="30" id="Wei-Qt-KhB"/>
                                 </constraints>
                                 <state key="normal" title="Done">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="doneButtonPressed:" destination="YRJ-Vb-xPN" eventType="touchUpInside" id="JL1-ya-3QO"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -393,10 +401,13 @@
                             <constraint firstItem="H5b-ka-ZEI" firstAttribute="leading" secondItem="wPB-kn-huq" secondAttribute="leading" id="qmJ-VA-GQA"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mapView" destination="H5b-ka-ZEI" id="wzQ-of-fG6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="347-ca-qdP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="397" y="1864"/>
+            <point key="canvasLocation" x="395" y="1822"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ZNM-sN-sUC">

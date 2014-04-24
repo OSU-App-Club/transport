@@ -218,9 +218,4 @@
     self.currentMarker.map = mapView;
 }
 
-#pragma mark - Preferences
-- (UIStatusBarStyle) preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
-}
-
 @end

@@ -10,4 +10,17 @@
 
 @implementation Stop
 
++(instancetype) stopWithDictionary:(NSDictionary *)stopDict{
+    Stop* newStop = [[Stop alloc] init];
+    
+    newStop.name = stopDict[@"Name"];
+    newStop.road = stopDict[@"Road"];
+    newStop.location = [[CLLocation alloc] initWithLatitude:[stopDict[@"Lat"] doubleValue] longitude:[stopDict[@"Long"] doubleValue]];
+    newStop.stopID = stopDict[@"ID"];
+    newStop.distance = stopDict[@"Distance"];
+    newStop.bearing = stopDict[@"Bearing"];
+    
+    return newStop;
+}
+
 @end

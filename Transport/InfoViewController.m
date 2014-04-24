@@ -22,11 +22,18 @@
     }
     return self;
 }
+- (IBAction)openFeedback:(id)sender {
+    TFFeedbackController *feedbackController = [[TFFeedbackController alloc] initWithNibName:[TFFeedbackController nibFileName] bundle:nil];
+    [self presentViewController:feedbackController animated:YES completion:nil];
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+
 }
 
 - (void)didReceiveMemoryWarning

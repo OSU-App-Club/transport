@@ -12,6 +12,12 @@
 
 @property (nonatomic,strong) NSString* name;
 @property (nonatomic, strong) NSString* road;
+@property (nonatomic, strong) NSNumber* stopID;
+@property (nonatomic, strong) CLLocation* location;
+@property (nonatomic, strong) NSNumber* bearing;
+
 @property (nonatomic, strong) NSNumber* distance;
+
++(instancetype) stopWithDictionary:(NSDictionary*)stopDict;
 
 @end

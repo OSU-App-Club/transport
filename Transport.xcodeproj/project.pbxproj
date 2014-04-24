@@ -32,6 +32,7 @@
 		838596931903380200E68FE4 /* RouteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 838596921903380200E68FE4 /* RouteCell.m */; };
 		83859696190354B400E68FE4 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83859695190354B400E68FE4 /* InfoViewController.m */; };
 		83B7EF171909C8EB006A61AE /* TransportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF161909C8EB006A61AE /* TransportViewController.m */; };
+		83B7EF1A1909CB41006A61AE /* StopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF191909CB41006A61AE /* StopDetailViewController.m */; };
 		E687C40701814690984E77C4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C99D6902032940AE9B16083E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -86,6 +87,8 @@
 		83859695190354B400E68FE4 /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
 		83B7EF151909C8EB006A61AE /* TransportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransportViewController.h; sourceTree = "<group>"; };
 		83B7EF161909C8EB006A61AE /* TransportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransportViewController.m; sourceTree = "<group>"; };
+		83B7EF181909CB41006A61AE /* StopDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopDetailViewController.h; sourceTree = "<group>"; };
+		83B7EF191909CB41006A61AE /* StopDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopDetailViewController.m; sourceTree = "<group>"; };
 		C99D6902032940AE9B16083E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -160,6 +163,8 @@
 				838596781902F19300E68FE4 /* StopsViewController.m */,
 				8385968E190333F000E68FE4 /* RoutesViewController.h */,
 				8385968F190333F000E68FE4 /* RoutesViewController.m */,
+				83B7EF181909CB41006A61AE /* StopDetailViewController.h */,
+				83B7EF191909CB41006A61AE /* StopDetailViewController.m */,
 				83859694190354B400E68FE4 /* InfoViewController.h */,
 				83859695190354B400E68FE4 /* InfoViewController.m */,
 				838596911903380200E68FE4 /* RouteCell.h */,
@@ -349,6 +354,7 @@
 				838596791902F19300E68FE4 /* StopsViewController.m in Sources */,
 				838596591902E93000E68FE4 /* ViewController.m in Sources */,
 				83859696190354B400E68FE4 /* InfoViewController.m in Sources */,
+				83B7EF1A1909CB41006A61AE /* StopDetailViewController.m in Sources */,
 				8385967E1903002D00E68FE4 /* Arrival.m in Sources */,
 				8385968719032DFC00E68FE4 /* StopCell.m in Sources */,
 				838596531902E93000E68FE4 /* AppDelegate.m in Sources */,

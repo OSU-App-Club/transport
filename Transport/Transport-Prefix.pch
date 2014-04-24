@@ -16,4 +16,7 @@
     #import <CoreLocation/CoreLocation.h>
 #endif
 
+// Cocoapods
 #import <GoogleMaps/GoogleMaps.h>
+#import <TestFlight.h>
+#import <TestFlight+OpenFeedback.h>

@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "Arrival.h"
 #import "StopCell.h"
+#import "StopDetailViewController.h"
 
 #define kCellReuseID        @"stopCell"
 
@@ -182,11 +183,7 @@
             }
             
             // Create stop
-            NSDictionary *stopDict = [stops objectForKey:@([stopNumString doubleValue])];
-            Stop *newStop = [[Stop alloc] init];
-            newStop.name = stopDict[@"Name"];
-            newStop.road = stopDict[@"Road"];
-            newStop.distance = stopDict[@"Distance"];
+            Stop *newStop = [Stop stopWithDictionary:[stops objectForKey:@([stopNumString doubleValue])]];
             
             // Create new Arrival for each route/stop
             [timePairDict enumerateKeysAndObjectsUsingBlock:^(NSString* routeName, NSArray* times, BOOL *stop) {
@@ -272,7 +269,6 @@
     return cell;
 }
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -280,7 +276,19 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"mapStopSegue"]) {
+        UICollectionViewCell *cell = (UICollectionViewCell*) [[sender superview] superview];
+        NSIndexPath *path = [self.collectionView indexPathForCell:cell];
+        
+        // Get Stop
+        Arrival* selectedArrival = self.arrivals[path.row];
+        
+        StopDetailViewController* stopDetail = (StopDetailViewController*) segue.destinationViewController;
+        stopDetail.currentStop = selectedArrival.stop;
+        
+    }
+    
 }
-*/
+
 
 @end

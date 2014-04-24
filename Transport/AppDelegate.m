@@ -28,6 +28,11 @@
     }
     
     [self setupColors:application];
+    
+    
+    [TestFlight setOptions:@{ TFOptionDisableInAppUpdates : @YES }];
+    [TestFlight takeOff:@"222c4719-6b3a-40c4-a7f8-6c40fedcd75e"];
+
     return YES;
 }
 
