@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TransportViewController.h"
 
-@interface StopsViewController : UICollectionViewController
+@interface StopsViewController : TransportViewController
 
 @end

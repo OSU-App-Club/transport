@@ -40,8 +40,6 @@
                                                            NSForegroundColorAttributeName:[UIColor whiteColor]
                                                            }
      ];
-    
-    [application setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
