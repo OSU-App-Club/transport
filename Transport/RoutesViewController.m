@@ -228,6 +228,18 @@
 */
 
 #pragma mark - Navigation
+- (bool) shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
+    if ([identifier isEqualToString:@"showArrivals"]) {
+        UITableView* tv = (UITableView*) [[sender superview] superview];
+        NSIndexPath *path = [tv indexPathForCell:sender];
+        if (path.row == [tv numberOfRowsInSection:0]-1) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"showArrivals"]) {
         // Get the stop tag from the cell
@@ -235,6 +247,11 @@
         
         StopTimesTableViewController *arrVC = (StopTimesTableViewController*) segue.destinationViewController;
         arrVC.stopID = cell.stopID.text; // Used for next call of arrivals
+        
+        // Get route information
+        RouteCell *topCell = (RouteCell* )[[[[cell superview] superview] superview] superview];
+        NSIndexPath *path = [self.collectionView indexPathForCell:topCell];
+        //arrVC.routeFilter = [self.routes[path.item] objectForKey:@"Name"];
     }
     
     

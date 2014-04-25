@@ -102,7 +102,7 @@
                                                         <outlet property="stopID" destination="qFU-XE-K4f" id="iTF-my-aBq"/>
                                                         <outlet property="stopName" destination="GaN-Fa-doK" id="VXd-MD-Xef"/>
                                                         <outlet property="stopOrder" destination="JPj-HJ-10T" id="YC9-U1-UQN"/>
-                                                        <segue destination="6Uc-cG-kdz" kind="push" identifier="showArrivals" id="bSU-Cd-aut"/>
+                                                        <segue destination="6Uc-cG-kdz" kind="push" identifier="showArrivals" id="AgP-lD-xEg"/>
                                                     </connections>
                                                 </tableViewCell>
                                             </prototypes>
@@ -319,7 +319,7 @@
                                         <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ubZ-Lu-B02">
                                             <rect key="frame" x="0.0" y="466" width="320" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="map it!">
+                                            <state key="normal" title="Show Map">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>

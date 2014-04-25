@@ -87,8 +87,12 @@
 - (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
     NSLog(@"New Location: %@",locations.firstObject);
     
+    CLLocation *newLoc = locations.firstObject;
+    
     // Save the most recent location
-    self.currentLocation = locations.firstObject;
+    if (newLoc.coordinate.latitude != self.currentLocation.coordinate.latitude && newLoc.coordinate.longitude != self.currentLocation.coordinate.longitude) {
+        self.currentLocation = locations.firstObject;
+    }
 }
 
 - (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{

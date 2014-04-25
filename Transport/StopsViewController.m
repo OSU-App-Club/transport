@@ -21,6 +21,7 @@
 
 @property (nonatomic, strong) UIImageView *emptyImageView;
 @property (nonatomic, strong) NSArray *nearbyStops;
+@property (nonatomic, strong) NSOperationQueue *background;
 
 @property (atomic) BOOL isLoading;
 
@@ -36,6 +37,16 @@
             [self.collectionView reloadData];
         }];
     }
+}
+
+- (instancetype) initWithCoder:(NSCoder *)aDecoder{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        self.background = [[NSOperationQueue alloc] init];
+        self.background.maxConcurrentOperationCount = 1; // Throttles to one at a time
+    }
+    
+    return self;
 }
 
 - (void)viewDidLoad
@@ -91,9 +102,11 @@
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if ([keyPath isEqualToString:@"currentLocation"]) {
-        // Extract location from object
-        AppDelegate *del = (AppDelegate*) object;
-        [self updateWithLocation:del.currentLocation];
+        [self.background addOperationWithBlock:^{
+            // Extract location from object
+            AppDelegate *del = (AppDelegate*) object;
+            [self updateWithLocation:del.currentLocation];
+        }];
     }
 }
 
@@ -117,7 +130,7 @@
         
         // Load nearby stops...and then arrivals for those stops
         NSURLSession *session = [NSURLSession sharedSession];
-        NSString* stopURLString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/stops?lat=%f&lng=%f&radius=800&limit=10", location.coordinate.latitude,location.coordinate.longitude] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
+        NSString* stopURLString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/stops?lat=%f&lng=%f&radius=800&limit=30", location.coordinate.latitude,location.coordinate.longitude] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
         
         [[session dataTaskWithURL:[NSURL URLWithString:stopURLString]
                 completionHandler:^(NSData *data,

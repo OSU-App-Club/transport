@@ -29,6 +29,12 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     StopInRouteTableViewCell *cell = (StopInRouteTableViewCell*) [tableView dequeueReusableCellWithIdentifier:@"stopInRouteCell" forIndexPath:indexPath];
     
+    if (indexPath.row != self.stops.count-1) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }else{
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    
     NSDictionary* stop = self.stops[indexPath.row];
     
     cell.stopOrder.text = [@(indexPath.row+1) stringValue];
@@ -36,10 +42,6 @@
     cell.stopID.text = [stop[@"ID"] stringValue];
     
     return cell;
-}
-
-- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 @end

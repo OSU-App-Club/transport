@@ -11,5 +11,6 @@
 @interface StopTimesTableViewController : UITableViewController
 
 @property (nonatomic, strong) NSString *stopID;
+@property (nonatomic, strong) NSString *routeFilter;
 
 @end

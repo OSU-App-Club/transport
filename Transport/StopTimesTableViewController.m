@@ -26,28 +26,6 @@
     }];
 }
 
-
-- (void) setStopID:(NSString *)stopID{
-    _stopID = stopID;
-    
-    NSString* urlString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/arrivals?stops=%@", stopID] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
-    
-    // Make call for arrivals on this route
-    NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithURL:[NSURL URLWithString:urlString] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        // Parse Arrival times
-        
-        NSDictionary *arrivalJSON = [NSJSONSerialization JSONObjectWithData:data
-                                                                    options:NSJSONReadingAllowFragments
-                                                                      error:nil];
-        
-        if (arrivalJSON.count>0) {
-            self.stopTimes = [arrivalJSON objectForKey:arrivalJSON.allKeys[0]];
-        }
-        
-    }] resume];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -70,6 +48,42 @@
                             @"CVA":[UIColor colorWithRed:63.0/255.0 green:40.0/255.0 blue:133.0/255.0 alpha:1.0],
                             };
 
+    
+    // Convert to generic midnight time
+    NSDate *date = [NSDate date];
+    NSCalendar *calendar = [NSCalendar autoupdatingCurrentCalendar];
+    NSUInteger preservedComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit);
+    NSDateComponents *comps = [calendar components:preservedComponents fromDate:date];
+    date = [calendar dateFromComponents:comps];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"d MMM yy HH:mm ZZZ"];
+    
+    NSString* urlString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/arrivals?date=%@&stops=%@",[dateFormatter stringFromDate:date], self.stopID] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
+    
+    // Make call for arrivals on this route
+    NSURLSession *session = [NSURLSession sharedSession];
+    [[session dataTaskWithURL:[NSURL URLWithString:urlString] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        // Parse Arrival times
+        
+        NSDictionary *arrivalJSON = [NSJSONSerialization JSONObjectWithData:data
+                                                                    options:NSJSONReadingAllowFragments
+                                                                      error:nil];
+        
+        if (arrivalJSON.count>0) {
+            NSArray * allArrivals =[arrivalJSON objectForKey:arrivalJSON.allKeys[0]];
+        
+            if (self.routeFilter) {
+                self.stopTimes = [allArrivals filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSDictionary* evaluatedObject, NSDictionary *bindings) {
+                    return [evaluatedObject[@"Route"] isEqualToString:self.routeFilter];
+                }]];
+            }else{
+                self.stopTimes = allArrivals;
+            }
+            
+        }
+        
+    }] resume];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -102,6 +116,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"timeCell" forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     // Configure the cell...
     NSDictionary *arrivalDict = self.stopTimes[indexPath.row];
