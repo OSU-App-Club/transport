@@ -54,7 +54,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"timeCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    cell.textLabel.text = [NSDateFormatter localizedStringFromDate:<#(NSDate *)#> dateStyle:<#(NSDateFormatterStyle)#> timeStyle:<#(NSDateFormatterStyle)#>]
+    //cell.textLabel.text = [NSDateFormatter localizedStringFromDate:<#(NSDate *)#> dateStyle:<#(NSDateFormatterStyle)#> timeStyle:<#(NSDateFormatterStyle)#>]
     
     return cell;
 }
