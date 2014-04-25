@@ -8,6 +8,8 @@
 
 #import "RoutesViewController.h"
 #import "RouteCell.h"
+#import "StopTimesTableViewController.h"
+#import "StopInRouteTableViewCell.h"
 
 #define kCellReuseID        @"routeCell"
 #define kCollapsedHeight  80
@@ -224,5 +226,18 @@
     self.currentMarker.map = mapView;
 }
 */
+
+#pragma mark - Navigation
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"showArrivals"]) {
+        // Get the stop tag from the cell
+        StopInRouteTableViewCell *cell = (StopInRouteTableViewCell*)sender;
+        
+        StopTimesTableViewController *arrVC = (StopTimesTableViewController*) segue.destinationViewController;
+        arrVC.stopID = cell.stopID.text; // Used for next call of arrivals
+    }
+    
+    
+}
 
 @end
