@@ -7,19 +7,69 @@
 //
 
 #import "StopTimesTableViewController.h"
+#import "TimePair.h"
 
 @interface StopTimesTableViewController ()
 
 @property (nonatomic, strong) NSArray* stopTimes;
+@property (nonatomic, strong) NSDictionary *routeColorDict;
 
 @end
 
 @implementation StopTimesTableViewController
 
+- (void) setStopTimes:(NSArray *)stopTimes{
+    _stopTimes = stopTimes;
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self.tableView reloadData]; 
+    }];
+}
+
+
+- (void) setStopID:(NSString *)stopID{
+    _stopID = stopID;
+    
+    NSString* urlString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/arrivals?stops=%@", stopID] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
+    
+    // Make call for arrivals on this route
+    NSURLSession *session = [NSURLSession sharedSession];
+    [[session dataTaskWithURL:[NSURL URLWithString:urlString] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        // Parse Arrival times
+        
+        NSDictionary *arrivalJSON = [NSJSONSerialization JSONObjectWithData:data
+                                                                    options:NSJSONReadingAllowFragments
+                                                                      error:nil];
+        
+        if (arrivalJSON.count>0) {
+            self.stopTimes = [arrivalJSON objectForKey:arrivalJSON.allKeys[0]];
+        }
+        
+    }] resume];
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.routeColorDict = @{
+                            @"1":[UIColor colorWithRed:0.0/255.0 green:173.0/255.0 blue:238.0/255.0 alpha:1.0],
+                            @"2":[UIColor colorWithRed:136.0/255.0 green:39.0/255.0 blue:144.0/255.0 alpha:1.0],
+                            @"3":[UIColor colorWithRed:136.0/255.0 green:101.0/255.0 blue:144.0/255.0 alpha:1.0],
+                            @"4":[UIColor colorWithRed:140.0/255.0 green:197.0/255.0 blue:144.0/255.0 alpha:1.0],
+                            @"5":[UIColor colorWithRed:189.0/255.0 green:85.0/255.0 blue:144.0/255.0 alpha:1.0],
+                            @"6":[UIColor colorWithRed:3.0/255.0 green:77.0/255.0 blue:144.0/255.0 alpha:1.0],
+                            @"7":[UIColor colorWithRed:215.0/255.0 green:24.0/255.0 blue:144.0/255.0 alpha:1.0],
+                            @"8":[UIColor colorWithRed:0.0/255.0 green:133.0/255.0 blue:64.0/255.0 alpha:1.0],
+                            @"BBN":[UIColor colorWithRed:76.0/255.0 green:229.0/255.0 blue:0.0/255.0 alpha:1.0],
+                            @"BBSE":[UIColor colorWithRed:255.0/255.0 green:170.0/255.0 blue:0.0/255.0 alpha:1.0],
+                            @"BBSW":[UIColor colorWithRed:0.0/255.0 green:91.0/255.0 blue:229.0/255.0 alpha:1.0],
+                            @"C1":[UIColor colorWithRed:97.0/255.0 green:70.0/255.0 blue:48.0/255.0 alpha:1.0],
+                            @"C2":[UIColor colorWithRed:0.0/255.0 green:118.0/255.0 blue:163.0/255.0 alpha:1.0],
+                            @"C3":[UIColor colorWithRed:236.0/255.0 green:12.0/255.0 blue:108.0/255.0 alpha:1.0],
+                            @"CVA":[UIColor colorWithRed:63.0/255.0 green:40.0/255.0 blue:133.0/255.0 alpha:1.0],
+                            };
+
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -54,7 +104,14 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"timeCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    //cell.textLabel.text = [NSDateFormatter localizedStringFromDate:<#(NSDate *)#> dateStyle:<#(NSDateFormatterStyle)#> timeStyle:<#(NSDateFormatterStyle)#>]
+    NSDictionary *arrivalDict = self.stopTimes[indexPath.row];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"d MMM yy HH:mm ZZZ"];
+    
+    cell.textLabel.text = [NSDateFormatter localizedStringFromDate:[dateFormatter dateFromString:arrivalDict[@"Scheduled"]] dateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterShortStyle];
+    cell.detailTextLabel.text = arrivalDict[@"Route"];
+    cell.detailTextLabel.textColor = self.routeColorDict[arrivalDict[@"Route"]];
     
     return cell;
 }
