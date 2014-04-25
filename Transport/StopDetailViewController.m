@@ -42,6 +42,7 @@
     self.mapDoneButton.layer.cornerRadius = 5;
     self.mapDoneButton.layer.borderWidth = 1.5;
     self.mapDoneButton.layer.borderColor = [[UIColor colorWithRed:(0) green:(.764) blue:(.972) alpha:(.6)] CGColor];
+    self.mapDoneButton.layer.backgroundColor = [[UIColor colorWithRed:(1) green:(1.0) blue:(1.0) alpha:(1.0)] CGColor];
     
 }
 
