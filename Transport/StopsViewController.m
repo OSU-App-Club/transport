@@ -254,6 +254,10 @@
     UIView *tileView = (UIView*) [cell viewWithTag:203];
     UILabel *streetName = (UILabel*) [cell viewWithTag:204];
     
+    cell.mapItButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Black" size:22.0];
+    cell.mapItButton.tintColor = [UIColor colorWithRed:(0) green:(.764) blue:(.972) alpha:(.6)];
+    
+    
     Arrival *currentArrival = (Arrival*) self.arrivals[indexPath.item];
     stopName.text = currentArrival.stop.name;
     routeName.text = currentArrival.routeName;

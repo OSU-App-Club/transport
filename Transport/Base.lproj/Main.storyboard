@@ -204,7 +204,7 @@
                                         <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ubZ-Lu-B02">
                                             <rect key="frame" x="0.0" y="466" width="320" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Map It">
+                                            <state key="normal" title="map it!">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
@@ -229,6 +229,7 @@
                                 </constraints>
                                 <size key="customSize" width="320" height="506"/>
                                 <connections>
+                                    <outlet property="mapItButton" destination="ubZ-Lu-B02" id="clx-aW-77D"/>
                                     <outlet property="timesTableView" destination="JGf-Vn-zs3" id="avE-vP-pVe"/>
                                 </connections>
                             </collectionViewCell>
@@ -382,8 +383,9 @@
                                     <constraint firstAttribute="width" constant="50" id="0pz-Wo-6DP"/>
                                     <constraint firstAttribute="height" constant="30" id="Wei-Qt-KhB"/>
                                 </constraints>
-                                <state key="normal" title="Done">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <state key="normal" title="done">
+                                    <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -402,6 +404,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="mapDoneButton" destination="udd-q0-1R3" id="ynJ-7v-qJc"/>
                         <outlet property="mapView" destination="H5b-ka-ZEI" id="wzQ-of-fG6"/>
                     </connections>
                 </viewController>

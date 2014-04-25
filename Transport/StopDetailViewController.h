@@ -11,6 +11,7 @@
 
 @interface StopDetailViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIButton *mapDoneButton;
 @property (nonatomic, strong) Stop *currentStop;
 @property (weak, nonatomic) IBOutlet GMSMapView *mapView;
 
