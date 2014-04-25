@@ -139,8 +139,10 @@
 
 #pragma mark - UIActionSheet
 - (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    [self updateArrivalsWithCurrentDay:NO other:buttonIndex+1];
-    [self updateStatusBarWithDayOfWeek:buttonIndex+1];
+    if (buttonIndex>6) {
+        [self updateArrivalsWithCurrentDay:NO other:buttonIndex+1];
+        [self updateStatusBarWithDayOfWeek:buttonIndex+1];
+    }
 }
 
 #pragma mark - Table view data source

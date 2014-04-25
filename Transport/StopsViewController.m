@@ -102,11 +102,9 @@
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if ([keyPath isEqualToString:@"currentLocation"]) {
-        [self.background addOperationWithBlock:^{
-            // Extract location from object
-            AppDelegate *del = (AppDelegate*) object;
-            [self updateWithLocation:del.currentLocation];
-        }];
+        // Extract location from object
+        AppDelegate *del = (AppDelegate*) object;
+        [self updateWithLocation:del.currentLocation];
     }
 }
 
@@ -129,8 +127,8 @@
         NSLog(@"Loading for: %f,%f",location.coordinate.latitude,location.coordinate.longitude);
         
         // Load nearby stops...and then arrivals for those stops
-        NSURLSession *session = [NSURLSession sharedSession];
-        NSString* stopURLString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/stops?lat=%f&lng=%f&radius=800&limit=30", location.coordinate.latitude,location.coordinate.longitude] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:self.background];
+        NSString* stopURLString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/stops?lat=%f&lng=%f&radius=800&limit=10", location.coordinate.latitude,location.coordinate.longitude] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
         
         [[session dataTaskWithURL:[NSURL URLWithString:stopURLString]
                 completionHandler:^(NSData *data,
@@ -167,7 +165,7 @@
     NSString* urlString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/arrivals?stops=%@", idString] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
     
     // Make call for arrivals on this route
-    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:self.background];
     [[session dataTaskWithURL:[NSURL URLWithString:urlString] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         // Parse Arrival times
         
