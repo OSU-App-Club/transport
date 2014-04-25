@@ -32,10 +32,7 @@
 - (void) setArrivals:(NSArray *)arrivals{
     @synchronized(self){
         _arrivals = arrivals;
-        
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self.collectionView reloadData];
-        }];
+        [self.collectionView reloadData];
     }
 }
 
@@ -228,9 +225,11 @@
         // Sort by distance,route name
         [arrivals sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"stop.distance" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"nextTime" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"routeName" ascending:YES]]];
         
-        self.arrivals = arrivals;
         
-        [self addEmptyImage:YES shouldClear:self.arrivals.count != 0];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            self.arrivals = arrivals;
+            [self addEmptyImage:YES shouldClear:self.arrivals.count != 0];
+         }];
         
         self.isLoading = NO;
         
