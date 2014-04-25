@@ -12,7 +12,7 @@
 @interface StopDetailViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIButton *mapDoneButton;
-@property (nonatomic, strong) Stop *currentStop;
+@property (nonatomic, strong) Arrival *currentArrival;
 @property (weak, nonatomic) IBOutlet GMSMapView *mapView;
 
 - (IBAction)doneButtonPressed:(id)sender;
