@@ -10,6 +10,7 @@
 
 @interface StopCell : UICollectionViewCell <UITableViewDataSource,UITableViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UIButton *mapItButton;
 @property (nonatomic, strong) NSArray *times;
 @property (nonatomic, weak) IBOutlet UITableView *timesTableView;
 

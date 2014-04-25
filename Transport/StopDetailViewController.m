@@ -10,6 +10,8 @@
 
 @interface StopDetailViewController ()
 
+@property CGColorRef *doneButtonBGColor;
+
 @end
 
 @implementation StopDetailViewController
@@ -34,6 +36,13 @@
     marker.appearAnimation = kGMSMarkerAnimationPop;
     marker.icon = [GMSMarker markerImageWithColor:self.currentArrival.routeColor];
     marker.map = self.mapView;
+    
+    self.mapDoneButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Black" size:18.0];
+    self.mapDoneButton.titleLabel.textColor = [UIColor colorWithRed:(0) green:(.764) blue:(.972) alpha:(.6)];
+    self.mapDoneButton.layer.cornerRadius = 5;
+    self.mapDoneButton.layer.borderWidth = 1.5;
+    self.mapDoneButton.layer.borderColor = [[UIColor colorWithRed:(0) green:(.764) blue:(.972) alpha:(.6)] CGColor];
+    
 }
 
 - (void)didReceiveMemoryWarning
