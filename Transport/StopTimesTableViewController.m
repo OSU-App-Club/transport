@@ -47,13 +47,47 @@
                             @"C3":[UIColor colorWithRed:236.0/255.0 green:12.0/255.0 blue:108.0/255.0 alpha:1.0],
                             @"CVA":[UIColor colorWithRed:63.0/255.0 green:40.0/255.0 blue:133.0/255.0 alpha:1.0],
                             };
-
     
+    // Make button for today
+    NSDate *date = [NSDate date];
+    NSCalendar *calendar = [NSCalendar autoupdatingCurrentCalendar];
+    NSUInteger preservedComponents = (NSWeekdayCalendarUnit);
+    NSDateComponents *comps = [calendar components:preservedComponents fromDate:date];
+    
+    [self updateArrivalsWithCurrentDay:YES other:comps.weekday];
+
+    [self updateStatusBarWithDayOfWeek:comps.weekday];
+    
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void) updateStatusBarWithDayOfWeek:(NSInteger)dayOfWeek{
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:formatter.weekdaySymbols[dayOfWeek-1] style:UIBarButtonItemStyleBordered target:self action:@selector(showDaysPicker)];
+}
+
+- (void) updateArrivalsWithCurrentDay:(BOOL) useToday other:(NSInteger)dayOfWeek{
     // Convert to generic midnight time
     NSDate *date = [NSDate date];
     NSCalendar *calendar = [NSCalendar autoupdatingCurrentCalendar];
-    NSUInteger preservedComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit);
+    NSUInteger preservedComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit);
     NSDateComponents *comps = [calendar components:preservedComponents fromDate:date];
+    
+    if (!useToday) {
+        [comps setDay:(comps.day-comps.weekday)+dayOfWeek];
+    }
+    
     date = [calendar dateFromComponents:comps];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -72,7 +106,7 @@
         
         if (arrivalJSON.count>0) {
             NSArray * allArrivals =[arrivalJSON objectForKey:arrivalJSON.allKeys[0]];
-        
+            
             if (self.routeFilter) {
                 self.stopTimes = [allArrivals filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSDictionary* evaluatedObject, NSDictionary *bindings) {
                     return [evaluatedObject[@"Route"] isEqualToString:self.routeFilter];
@@ -84,18 +118,29 @@
         }
         
     }] resume];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void) showDaysPicker{
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Choose Day" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setLocale:[NSLocale currentLocale]];
+    
+    for (NSString *title in formatter.weekdaySymbols) {
+        [sheet addButtonWithTitle:title];
+    }
+    
+    [sheet addButtonWithTitle:@"Cancel"];
+    sheet.cancelButtonIndex = [formatter.weekdaySymbols count];
+    
+    [sheet showInView:self.view];
+}
+
+#pragma mark - UIActionSheet
+- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    [self updateArrivalsWithCurrentDay:NO other:buttonIndex+1];
+    [self updateStatusBarWithDayOfWeek:buttonIndex+1];
 }
 
 #pragma mark - Table view data source

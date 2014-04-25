@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface StopTimesTableViewController : UITableViewController
+@interface StopTimesTableViewController : UITableViewController <UIActionSheetDelegate>
 
 @property (nonatomic, strong) NSString *stopID;
 @property (nonatomic, strong) NSString *routeFilter;
