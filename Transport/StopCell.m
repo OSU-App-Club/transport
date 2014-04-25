@@ -37,7 +37,10 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"timeCell" forIndexPath:indexPath];
-    cell.textLabel.text = [NSDateFormatter localizedStringFromDate:[self.times[indexPath.row] expected] dateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterShortStyle];
+    
+    if (self.times.count > indexPath.row) {
+        cell.textLabel.text = [NSDateFormatter localizedStringFromDate:[self.times[indexPath.row] expected] dateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterShortStyle];
+    }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }

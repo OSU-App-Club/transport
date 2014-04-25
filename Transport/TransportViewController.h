@@ -12,6 +12,5 @@
 
 @property (nonatomic, strong) NSDictionary *routeColorDict;
 @property NSUInteger selectedIndex;
-@property (nonatomic, strong) UIRefreshControl* refreshControl;
 
 @end

@@ -11,4 +11,6 @@
 
 @interface StopsViewController : TransportViewController
 
+@property (nonatomic, strong) UIRefreshControl* refreshControl;
+
 @end
