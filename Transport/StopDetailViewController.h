@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Stop.h"
+#import "Arrival.h"
 
 @interface StopDetailViewController : UIViewController
 
-@property (nonatomic, strong) Stop *currentStop;
+
+@property (nonatomic, strong) Arrival *currentArrival;
 @property (weak, nonatomic) IBOutlet GMSMapView *mapView;
 
 - (IBAction)doneButtonPressed:(id)sender;

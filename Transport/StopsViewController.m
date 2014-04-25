@@ -202,6 +202,7 @@
                 newArrival.routeName = routeName;
                 newArrival.stop = newStop;
                 newArrival.times = times;
+                newArrival.routeColor = self.routeColorDict[routeName];
                 
                 [arrivals addObject:newArrival];
             }];
@@ -273,7 +274,7 @@
     routeName.text = currentArrival.routeName;
     streetName.text = currentArrival.stop.road;
     
-    tileView.backgroundColor = self.routeColorDict[currentArrival.routeName];
+    tileView.backgroundColor = currentArrival.routeColor;
     
     NSString *timeString = [NSString stringWithFormat:@"%.0f",floor([currentArrival.nextTime timeIntervalSinceNow]*(1.0/60.0))];
     nextArrival.text = timeString;
@@ -298,7 +299,7 @@
         Arrival* selectedArrival = self.arrivals[path.row];
         
         StopDetailViewController* stopDetail = (StopDetailViewController*) segue.destinationViewController;
-        stopDetail.currentStop = selectedArrival.stop;
+        stopDetail.currentArrival = selectedArrival;
         
     }
     

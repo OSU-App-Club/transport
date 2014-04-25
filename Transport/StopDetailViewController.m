@@ -19,19 +19,20 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.mapView.mapType = kGMSTypeHybrid;
+    self.mapView.mapType = kGMSTypeNormal;
     self.mapView.myLocationEnabled = YES;
     
     // Zoom map
-    GMSCameraPosition *pos = [GMSCameraPosition cameraWithLatitude:self.currentStop.location.coordinate.latitude longitude:self.currentStop.location.coordinate.longitude zoom:17 bearing:self.currentStop.bearing.doubleValue viewingAngle:0];
+    GMSCameraPosition *pos = [GMSCameraPosition cameraWithLatitude:self.currentArrival.stop.location.coordinate.latitude longitude:self.currentArrival.stop.location.coordinate.longitude zoom:17 bearing:self.currentArrival.stop.bearing.doubleValue viewingAngle:0];
     
     [self.mapView setCamera:pos];
     
     // Add marker
     GMSMarker *marker = [[GMSMarker alloc] init];
-    marker.position = self.currentStop.location.coordinate;
-    marker.snippet = self.currentStop.name;
+    marker.position = self.currentArrival.stop.location.coordinate;
+    marker.snippet = self.currentArrival.stop.name;
     marker.appearAnimation = kGMSMarkerAnimationPop;
+    marker.icon = [GMSMarker markerImageWithColor:self.currentArrival.routeColor];
     marker.map = self.mapView;
 }
 
@@ -58,6 +59,6 @@
 
 #pragma mark - Preferences
 - (UIStatusBarStyle) preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleDefault;
 }
 @end
