@@ -19,15 +19,6 @@
     }];
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
-}
-
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }

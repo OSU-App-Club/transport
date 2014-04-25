@@ -11,7 +11,6 @@
 
 @interface StopDetailViewController : UIViewController
 
-
 @property (nonatomic, strong) Arrival *currentArrival;
 @property (weak, nonatomic) IBOutlet GMSMapView *mapView;
 
