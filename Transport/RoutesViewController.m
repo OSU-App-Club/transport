@@ -11,7 +11,7 @@
 
 #define kCellReuseID        @"routeCell"
 #define kCollapsedHeight  80
-#define kExpanedHeight self.view.bounds.size.height
+#define kExpanedHeight self.view.bounds.size.height - (self.navigationController.navigationBar.bounds.size.height + [UIApplication sharedApplication].statusBarFrame.size.height)
 
 #define CORVALLIS_LAT 44.567
 #define CORVALLIS_LONG -123.278
@@ -120,6 +120,8 @@
     routeName.text = route[@"AdditionalName"];
     background.backgroundColor = self.routeColorDict[route[@"Name"]];
     
+    cell.stops = route[@"Path"];
+    
     return cell;
 }
 
@@ -141,6 +143,7 @@
     
     // Add/remove map view
     if (expand) {
+        /*
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             // Make new map view
             GMSMapView *mapView = [[GMSMapView alloc] initWithFrame:CGRectZero];
@@ -190,10 +193,11 @@
             }
             
         }];
+         */
     }else{
-        [cell.mapView clear];
-        [cell.mapView removeFromSuperview];
-        cell.mapView = nil;
+        //[cell.mapView clear];
+        //[cell.mapView removeFromSuperview];
+        //cell.mapView = nil;
     }
     
     [collectionView performBatchUpdates:^{
@@ -203,8 +207,10 @@
             [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionTop];
         }
     }];
+        
 }
 
+/*
 #pragma mark - MapView delegate
 
 - (void) mapView: (GMSMapView *) mapView didTapOverlay:(GMSOverlay *) overlay{
@@ -217,5 +223,6 @@
     self.currentMarker.appearAnimation = kGMSMarkerAnimationPop;
     self.currentMarker.map = mapView;
 }
+*/
 
 @end

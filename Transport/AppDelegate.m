@@ -22,7 +22,7 @@
         self.locManager = [[CLLocationManager alloc] init];
         self.locManager.delegate = self;
         
-        self.locManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+        self.locManager.desiredAccuracy = kCLLocationAccuracyBest;
         self.locManager.distanceFilter = 100;
         [self.locManager startUpdatingLocation];
     }
@@ -85,6 +85,8 @@
 
 #pragma mark - CLLocationManager
 - (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    NSLog(@"New Location: %@",locations.firstObject);
+    
     // Save the most recent location
     self.currentLocation = locations.firstObject;
 }

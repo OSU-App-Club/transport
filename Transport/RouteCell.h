@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RouteCell : UICollectionViewCell
+@interface RouteCell : UICollectionViewCell <UITableViewDataSource,UITableViewDelegate>
 
-@property (nonatomic, weak) IBOutlet GMSMapView *mapView;
+@property (nonatomic,strong) NSArray *stops;
+@property (weak, nonatomic) IBOutlet UITableView *stopsTableView;
 
 @end

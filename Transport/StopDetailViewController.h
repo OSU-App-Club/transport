@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Stop.h"
+#import "Arrival.h"
 
 @interface StopDetailViewController : UIViewController
 

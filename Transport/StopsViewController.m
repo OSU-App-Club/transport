@@ -22,6 +22,8 @@
 @property (nonatomic, strong) UIImageView *emptyImageView;
 @property (nonatomic, strong) NSArray *nearbyStops;
 
+@property (atomic) BOOL isLoading;
+
 @end
 
 @implementation StopsViewController
@@ -53,6 +55,10 @@
     // Removes title from back button in routes
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(startRefresh:) forControlEvents:UIControlEventValueChanged];
+    [self.collectionView addSubview:self.refreshControl];
 }
 
 - (void) infoButtonTapped{
@@ -60,10 +66,13 @@
 }
 
 - (void) startRefresh:(UIRefreshControl*)refreshControl{
-    [self.refreshControl beginRefreshing];
-    
-    AppDelegate *del = (AppDelegate*) [UIApplication sharedApplication].delegate;
-    [self updateWithLocation:del.currentLocation];
+    if (!self.isLoading) {
+        self.isLoading = YES;
+        [self.refreshControl beginRefreshing];
+        
+        AppDelegate *del = (AppDelegate*) [UIApplication sharedApplication].delegate;
+        [self updateWithLocation:del.currentLocation];
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated{
@@ -71,13 +80,13 @@
     
     self.title = @"Transport";
     
-    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(periodicRefresh) userInfo:nil repeats:YES];
+    //self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(periodicRefresh) userInfo:nil repeats:YES];
 }
 
 - (void) viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     
-    [self.updateTimer invalidate];
+    //[self.updateTimer invalidate];
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
@@ -89,7 +98,9 @@
 }
 
 - (void) periodicRefresh{
-    if (self.nearbyStops.count>0 && self.selectedIndex == NSUIntegerMax) {
+    if (self.nearbyStops.count>0 && self.selectedIndex != NSUIntegerMax && !self.isLoading) {
+        self.isLoading = YES;
+        
         [self.refreshControl beginRefreshing];
         
         [self updateArrivalsForStops:self.nearbyStops];
@@ -191,6 +202,7 @@
                 newArrival.routeName = routeName;
                 newArrival.stop = newStop;
                 newArrival.times = times;
+                newArrival.routeColor = self.routeColorDict[routeName];
                 
                 [arrivals addObject:newArrival];
             }];
@@ -209,6 +221,9 @@
         
         [self addEmptyImage:YES shouldClear:self.arrivals.count != 0];
         
+        self.isLoading = NO;
+        
+        NSLog(@"Finish updating arrivals");
         [self.refreshControl endRefreshing];
     }] resume];
 
@@ -263,9 +278,9 @@
     routeName.text = currentArrival.routeName;
     streetName.text = currentArrival.stop.road;
     
-    tileView.backgroundColor = self.routeColorDict[currentArrival.routeName];
+    tileView.backgroundColor = currentArrival.routeColor;
     
-    NSString *timeString = [NSString stringWithFormat:@"%.0f",[currentArrival.nextTime timeIntervalSinceNow]*(1.0/60.0)];
+    NSString *timeString = [NSString stringWithFormat:@"%.0f",floor([currentArrival.nextTime timeIntervalSinceNow]*(1.0/60.0))];
     nextArrival.text = timeString;
     
     cell.times = currentArrival.times;
@@ -288,7 +303,7 @@
         Arrival* selectedArrival = self.arrivals[path.row];
         
         StopDetailViewController* stopDetail = (StopDetailViewController*) segue.destinationViewController;
-        stopDetail.currentStop = selectedArrival.stop;
+        stopDetail.currentArrival = selectedArrival;
         
     }
     
