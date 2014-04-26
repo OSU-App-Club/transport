@@ -12,5 +12,6 @@
 
 @property (nonatomic,strong) NSArray *stops;
 @property (weak, nonatomic) IBOutlet UITableView *stopsTableView;
+@property (weak, nonatomic) IBOutlet UIButton *mapButton;
 
 @end

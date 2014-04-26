@@ -20,7 +20,7 @@
 @property (nonatomic, strong) NSTimer *updateTimer;
 
 @property (nonatomic, strong) UIImageView *emptyImageView;
-@property (nonatomic, strong) NSArray *nearbyStops;
+@property (atomic, strong) NSArray *nearbyStops;
 @property (nonatomic, strong) NSOperationQueue *background;
 
 @property (atomic) BOOL isLoading;
@@ -69,17 +69,19 @@
     [self.collectionView addSubview:self.refreshControl];
 }
 
+- (void) dealloc{
+    AppDelegate *del = (AppDelegate*) [UIApplication sharedApplication].delegate;
+    [del removeObserver:self forKeyPath:@"currentLocation"];
+}
+
 - (void) infoButtonTapped{
     [self performSegueWithIdentifier:@"InfoSegue" sender:nil];
 }
 
 - (void) startRefresh:(UIRefreshControl*)refreshControl{
     if (!self.isLoading) {
-        self.isLoading = YES;
         [self.refreshControl beginRefreshing];
-        
-        AppDelegate *del = (AppDelegate*) [UIApplication sharedApplication].delegate;
-        [self updateWithLocation:del.currentLocation];
+        [self updateArrivalsForStops:self.nearbyStops];
     }
 }
 
@@ -88,13 +90,13 @@
     
     self.title = @"Transport";
     
-    //self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(periodicRefresh) userInfo:nil repeats:YES];
+    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:15 target:self selector:@selector(periodicRefresh) userInfo:nil repeats:YES];
 }
 
 - (void) viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     
-    //[self.updateTimer invalidate];
+    [self.updateTimer invalidate];
 }
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
@@ -106,12 +108,8 @@
 }
 
 - (void) periodicRefresh{
-    if (self.nearbyStops.count>0 && self.selectedIndex != NSUIntegerMax && !self.isLoading) {
-        self.isLoading = YES;
-        
-        [self.refreshControl beginRefreshing];
-        
-        [self updateArrivalsForStops:self.nearbyStops];
+    if (self.nearbyStops.count>0 && self.selectedIndex == NSUIntegerMax && !self.isLoading) {
+        [self.collectionView reloadData];
     }
 }
 
@@ -124,7 +122,7 @@
         NSLog(@"Loading for: %f,%f",location.coordinate.latitude,location.coordinate.longitude);
         
         // Load nearby stops...and then arrivals for those stops
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:self.background];
+        NSURLSession *session = [NSURLSession sharedSession];
         NSString* stopURLString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/stops?lat=%f&lng=%f&radius=800&limit=10", location.coordinate.latitude,location.coordinate.longitude] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
         
         [[session dataTaskWithURL:[NSURL URLWithString:stopURLString]
@@ -133,15 +131,17 @@
                                     NSError *error) {
                     
                     self.nearbyStops = [[NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingAllowFragments
+                                                                  options:0
                                                                     error:nil] objectForKey:@"stops"];
-                    
-                    
                     // Add empty state
                     [self addEmptyImage:YES shouldClear:self.nearbyStops.count != 0];
                     
-                    // Populate arrivals
-                    [self updateArrivalsForStops:self.nearbyStops];
+                    // Populate arrivals -- if none exist
+                    if (self.nearbyStops.count >0 && self.arrivals == nil && !self.isLoading) {
+                        [self updateArrivalsForStops:self.nearbyStops];
+                    }else if(self.nearbyStops.count ==0){
+                        self.arrivals = nil;
+                    }
                 }
           ] resume];
         
@@ -150,6 +150,7 @@
 
 - (void) updateArrivalsForStops:(NSArray*) stopsArray{
     NSLog(@"Updating Arrivals");
+    self.isLoading = YES;
     
     NSMutableDictionary* stops = [NSMutableDictionary dictionary];
     
@@ -162,7 +163,7 @@
     NSString* urlString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/arrivals?stops=%@", idString] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
     
     // Make call for arrivals on this route
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:self.background];
+    NSURLSession *session = [NSURLSession sharedSession];
     [[session dataTaskWithURL:[NSURL URLWithString:urlString] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         // Parse Arrival times
         
@@ -229,9 +230,8 @@
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             self.arrivals = arrivals;
             [self addEmptyImage:YES shouldClear:self.arrivals.count != 0];
+            self.isLoading = NO;
          }];
-        
-        self.isLoading = NO;
         
         NSLog(@"Finish updating arrivals");
         [self.refreshControl endRefreshing];
@@ -266,6 +266,13 @@
 
 #pragma mark - Collection View
 
+- (void) updateCell: (UICollectionViewCell *) cell ToState:(BOOL) isExpanded{
+    StopCell *stopCell = (StopCell*) cell;
+    stopCell.timesTableView.hidden = stopCell.mapItButton.hidden = !isExpanded;
+    
+
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.arrivals.count;
 }
@@ -282,11 +289,10 @@
     cell.mapItButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Black" size:22.0];
     cell.mapItButton.tintColor = [UIColor colorWithRed:(0) green:(.764) blue:(.972) alpha:(.6)];
     
-    
     Arrival *currentArrival = (Arrival*) self.arrivals[indexPath.item];
     stopName.text = currentArrival.stop.name;
     routeName.text = currentArrival.routeName;
-    streetName.text = currentArrival.stop.road;
+    streetName.text = currentArrival.stop.stopID.stringValue;
     
     tileView.backgroundColor = currentArrival.routeColor;
     

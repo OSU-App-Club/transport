@@ -115,6 +115,14 @@
                 self.stopTimes = allArrivals;
             }
             
+            if (self.stopTimes.count==0) {
+                
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    UIAlertView *newAlert = [[UIAlertView alloc] initWithTitle:@"No Arrivals" message:@"This stop does not have any known arrivals. Try a nearby stop" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+                    [newAlert show];
+                }];
+            }
+            
         }
         
     }] resume];

@@ -35,6 +35,7 @@
 		83B7EF1A1909CB41006A61AE /* StopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF191909CB41006A61AE /* StopDetailViewController.m */; };
 		83B7EF1D190A0518006A61AE /* StopInRouteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF1C190A0518006A61AE /* StopInRouteTableViewCell.m */; };
 		83B7EF20190A16C8006A61AE /* StopTimesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF1F190A16C8006A61AE /* StopTimesTableViewController.m */; };
+		83B7EF23190B21A4006A61AE /* RouteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF22190B21A4006A61AE /* RouteDetailViewController.m */; };
 		E687C40701814690984E77C4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C99D6902032940AE9B16083E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -95,6 +96,8 @@
 		83B7EF1C190A0518006A61AE /* StopInRouteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopInRouteTableViewCell.m; sourceTree = "<group>"; };
 		83B7EF1E190A16C8006A61AE /* StopTimesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopTimesTableViewController.h; sourceTree = "<group>"; };
 		83B7EF1F190A16C8006A61AE /* StopTimesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopTimesTableViewController.m; sourceTree = "<group>"; };
+		83B7EF21190B21A4006A61AE /* RouteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteDetailViewController.h; sourceTree = "<group>"; };
+		83B7EF22190B21A4006A61AE /* RouteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteDetailViewController.m; sourceTree = "<group>"; };
 		C99D6902032940AE9B16083E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -173,6 +176,8 @@
 				83B7EF1F190A16C8006A61AE /* StopTimesTableViewController.m */,
 				83B7EF181909CB41006A61AE /* StopDetailViewController.h */,
 				83B7EF191909CB41006A61AE /* StopDetailViewController.m */,
+				83B7EF21190B21A4006A61AE /* RouteDetailViewController.h */,
+				83B7EF22190B21A4006A61AE /* RouteDetailViewController.m */,
 				83859694190354B400E68FE4 /* InfoViewController.h */,
 				83859695190354B400E68FE4 /* InfoViewController.m */,
 				83B7EF1B190A0518006A61AE /* StopInRouteTableViewCell.h */,
@@ -368,6 +373,7 @@
 				8385967E1903002D00E68FE4 /* Arrival.m in Sources */,
 				8385968719032DFC00E68FE4 /* StopCell.m in Sources */,
 				838596531902E93000E68FE4 /* AppDelegate.m in Sources */,
+				83B7EF23190B21A4006A61AE /* RouteDetailViewController.m in Sources */,
 				838596931903380200E68FE4 /* RouteCell.m in Sources */,
 				83B7EF20190A16C8006A61AE /* StopTimesTableViewController.m in Sources */,
 				83859690190333F000E68FE4 /* RoutesViewController.m in Sources */,

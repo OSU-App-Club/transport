@@ -46,7 +46,6 @@
     self.selectedIndex = NSUIntegerMax;
     
     self.collectionView.alwaysBounceVertical = YES;
-
 }
 
 - (void) viewWillAppear:(BOOL)animated{
@@ -58,14 +57,8 @@
     layout.minimumLineSpacing = .8;
 }
 
-- (void) startRefresh:(UIRefreshControl*) control{
-    
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void) updateCell: (UICollectionViewCell *) cell ToState:(BOOL) isExpanded{
+    // Do nothing by default
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -79,8 +72,10 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger currentHeight = [collectionView cellForItemAtIndexPath:indexPath].bounds.size.height;
-    BOOL expand = currentHeight == kCollapsedHeight;
+    BOOL expand = (currentHeight == kCollapsedHeight);
     collectionView.scrollEnabled = !expand;
+    
+    [self updateCell:[collectionView cellForItemAtIndexPath:indexPath]ToState:expand];
     
     [collectionView performBatchUpdates:^{
         self.selectedIndex = expand ? indexPath.item : NSUIntegerMax;
@@ -90,16 +85,5 @@
         }
     }];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

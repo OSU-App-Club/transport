@@ -10,13 +10,11 @@
 #import "RouteCell.h"
 #import "StopTimesTableViewController.h"
 #import "StopInRouteTableViewCell.h"
+#import "RouteDetailViewController.h"
 
 #define kCellReuseID        @"routeCell"
 #define kCollapsedHeight  80
 #define kExpanedHeight self.view.bounds.size.height - (self.navigationController.navigationBar.bounds.size.height + [UIApplication sharedApplication].statusBarFrame.size.height)
-
-#define CORVALLIS_LAT 44.567
-#define CORVALLIS_LONG -123.278
 
 
 @interface RoutesViewController ()
@@ -44,23 +42,24 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.routeColorDict = @{
-                            @"1":[UIColor colorWithRed:0.0/255.0 green:173.0/255.0 blue:238.0/255.0 alpha:1.0],
-                            @"2":[UIColor colorWithRed:136.0/255.0 green:39.0/255.0 blue:144.0/255.0 alpha:1.0],
-                            @"3":[UIColor colorWithRed:136.0/255.0 green:101.0/255.0 blue:144.0/255.0 alpha:1.0],
-                            @"4":[UIColor colorWithRed:140.0/255.0 green:197.0/255.0 blue:144.0/255.0 alpha:1.0],
-                            @"5":[UIColor colorWithRed:189.0/255.0 green:85.0/255.0 blue:144.0/255.0 alpha:1.0],
-                            @"6":[UIColor colorWithRed:3.0/255.0 green:77.0/255.0 blue:144.0/255.0 alpha:1.0],
-                            @"7":[UIColor colorWithRed:215.0/255.0 green:24.0/255.0 blue:144.0/255.0 alpha:1.0],
-                            @"8":[UIColor colorWithRed:0.0/255.0 green:133.0/255.0 blue:64.0/255.0 alpha:1.0],
-                            @"BBN":[UIColor colorWithRed:76.0/255.0 green:229.0/255.0 blue:0.0/255.0 alpha:1.0],
-                            @"BBSE":[UIColor colorWithRed:255.0/255.0 green:170.0/255.0 blue:0.0/255.0 alpha:1.0],
-                            @"BBSW":[UIColor colorWithRed:0.0/255.0 green:91.0/255.0 blue:229.0/255.0 alpha:1.0],
-                            @"C1":[UIColor colorWithRed:97.0/255.0 green:70.0/255.0 blue:48.0/255.0 alpha:1.0],
-                            @"C2":[UIColor colorWithRed:0.0/255.0 green:118.0/255.0 blue:163.0/255.0 alpha:1.0],
-                            @"C3":[UIColor colorWithRed:236.0/255.0 green:12.0/255.0 blue:108.0/255.0 alpha:1.0],
-                            @"CVA":[UIColor colorWithRed:63.0/255.0 green:40.0/255.0 blue:133.0/255.0 alpha:1.0],
-                            };
+    self.routeColorDict =  @{
+                              @"1":[UIColor colorWithRed:0.0/255.0 green:173.0/255.0 blue:238.0/255.0 alpha:1.0],
+                              @"2":[UIColor colorWithRed:136.0/255.0 green:39.0/255.0 blue:144.0/255.0 alpha:1.0],
+                              @"3":[UIColor colorWithRed:136.0/255.0 green:101.0/255.0 blue:144.0/255.0 alpha:1.0],
+                              @"4":[UIColor colorWithRed:140.0/255.0 green:197.0/255.0 blue:144.0/255.0 alpha:1.0],
+                              @"5":[UIColor colorWithRed:189.0/255.0 green:85.0/255.0 blue:144.0/255.0 alpha:1.0],
+                              @"6":[UIColor colorWithRed:3.0/255.0 green:77.0/255.0 blue:144.0/255.0 alpha:1.0],
+                              @"7":[UIColor colorWithRed:215.0/255.0 green:24.0/255.0 blue:144.0/255.0 alpha:1.0],
+                              @"8":[UIColor colorWithRed:0.0/255.0 green:133.0/255.0 blue:64.0/255.0 alpha:1.0],
+                              @"BBN":[UIColor colorWithRed:76.0/255.0 green:229.0/255.0 blue:0.0/255.0 alpha:1.0],
+                              @"BBSE":[UIColor colorWithRed:255.0/255.0 green:170.0/255.0 blue:0.0/255.0 alpha:1.0],
+                              @"BBSW":[UIColor colorWithRed:0.0/255.0 green:91.0/255.0 blue:229.0/255.0 alpha:1.0],
+                              @"C1":[UIColor colorWithRed:97.0/255.0 green:70.0/255.0 blue:48.0/255.0 alpha:1.0],
+                              @"C2":[UIColor colorWithRed:0.0/255.0 green:118.0/255.0 blue:163.0/255.0 alpha:1.0],
+                              @"C3":[UIColor colorWithRed:236.0/255.0 green:12.0/255.0 blue:108.0/255.0 alpha:1.0],
+                              @"CVA":[UIColor colorWithRed:63.0/255.0 green:40.0/255.0 blue:133.0/255.0 alpha:1.0],
+                              };
+
     
     self.selectedIndex = NSUIntegerMax;
         
@@ -123,6 +122,10 @@
     background.backgroundColor = self.routeColorDict[route[@"Name"]];
     
     cell.stops = route[@"Path"];
+    
+    cell.mapButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Black" size:22.0];
+    cell.mapButton.tintColor = [UIColor colorWithRed:(0) green:(.764) blue:(.972) alpha:(.6)];
+
     
     return cell;
 }
@@ -252,9 +255,16 @@
         RouteCell *topCell = (RouteCell* )[[[[cell superview] superview] superview] superview];
         NSIndexPath *path = [self.collectionView indexPathForCell:topCell];
         //arrVC.routeFilter = [self.routes[path.item] objectForKey:@"Name"];
+    }else if([segue.identifier isEqualToString:@"routeDetail"]){
+        RouteCell *topCell = (RouteCell* )[[sender superview] superview];
+        NSIndexPath *path = [self.collectionView indexPathForCell:topCell];
+        RouteDetailViewController *routeDetail = (RouteDetailViewController*) segue.destinationViewController;
+        routeDetail.routes = @[self.routes[path.row]];
+        routeDetail.showStops = YES;
+    }else if ([segue.identifier isEqualToString:@"allRoutes"]){
+        RouteDetailViewController *routeDetail = (RouteDetailViewController*) segue.destinationViewController;
+        routeDetail.routes = self.routes;
     }
-    
-    
 }
 
 @end
