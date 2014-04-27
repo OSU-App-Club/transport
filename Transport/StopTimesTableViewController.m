@@ -147,7 +147,7 @@
 
 #pragma mark - UIActionSheet
 - (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex>6) {
+    if (buttonIndex<7) {
         [self updateArrivalsWithCurrentDay:NO other:buttonIndex+1];
         [self updateStatusBarWithDayOfWeek:buttonIndex+1];
     }

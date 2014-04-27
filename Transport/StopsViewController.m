@@ -269,8 +269,6 @@
 - (void) updateCell: (UICollectionViewCell *) cell ToState:(BOOL) isExpanded{
     StopCell *stopCell = (StopCell*) cell;
     stopCell.timesTableView.hidden = stopCell.mapItButton.hidden = !isExpanded;
-    
-
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

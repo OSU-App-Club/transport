@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TransportViewController.h"
 
-@interface RoutesViewController : UICollectionViewController <GMSMapViewDelegate>
+@interface RoutesViewController : TransportViewController <GMSMapViewDelegate>
 
 @end

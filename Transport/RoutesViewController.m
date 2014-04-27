@@ -103,6 +103,11 @@
     }] resume];
 }
 
+- (void) updateCell: (UICollectionViewCell *) cell ToState:(BOOL) isExpanded{
+    RouteCell *routeCell = (RouteCell*) cell;
+    routeCell.stopsTableView.hidden = routeCell.mapButton.hidden = !isExpanded;
+}
+
 #pragma mark - Collection View
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.routes.count;
@@ -126,112 +131,12 @@
     cell.mapButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Black" size:22.0];
     cell.mapButton.tintColor = [UIColor colorWithRed:(0) green:(.764) blue:(.972) alpha:(.6)];
 
-    
     return cell;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat height = (indexPath.item==self.selectedIndex)?kExpanedHeight:kCollapsedHeight;
-    if (indexPath.item == 1 && indexPath.item == self.selectedIndex) {
-        height -= kCollapsedHeight; // Account for second row issue
-    }
-    
-    return CGSizeMake(collectionView.bounds.size.width, height);
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    RouteCell *cell = (RouteCell*)[collectionView cellForItemAtIndexPath:indexPath];
-    NSInteger currentHeight = cell.bounds.size.height;
-    BOOL expand = currentHeight == kCollapsedHeight;
-    collectionView.scrollEnabled = !expand;
-    
-    // Add/remove map view
-    if (expand) {
-        /*
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            // Make new map view
-            GMSMapView *mapView = [[GMSMapView alloc] initWithFrame:CGRectZero];
-            [cell addSubview:mapView];
-            cell.mapView = mapView;
-            mapView.translatesAutoresizingMaskIntoConstraints = NO;
-            
-            NSArray *horzConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[mapView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapView)];
-            [cell addConstraints:horzConstraint];
-            
-            UIView *topView = (UILabel*) [cell viewWithTag:102];
-            NSArray *vertConstraint = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[topView(==80)][mapView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapView,topView)];
-                    [cell addConstraints:vertConstraint];
-
-            NSDictionary *route = self.routes[indexPath.row];
-            
-            GMSPath *path = [GMSPath pathFromEncodedPath:route[@"Polyline"]];
-            GMSPolyline *polyline = [GMSPolyline polylineWithPath:path];
-            
-            // Center point
-            CLLocationCoordinate2D coord = [path coordinateAtIndex:path.count/2];
-            
-             // Initialize the map
-             GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude: coord.latitude
-                                                                     longitude: coord.longitude
-                                                                          zoom:14];
-             [cell.mapView clear];
-             [cell.mapView setCamera:camera];
-            cell.mapView.myLocationEnabled = YES;
-            cell.mapView.delegate = self;
-            
-             // Add polyline to map
-             polyline.strokeWidth = 5.f;
-             polyline.strokeColor = self.routeColorDict[route[@"Name"]];
-             polyline.map = cell.mapView;
-            
-            for (NSDictionary *stop in route[@"Path"]) {
-                CLLocationCoordinate2D circleCenter = CLLocationCoordinate2DMake([stop[@"Lat"] doubleValue], [stop[@"Long"] doubleValue]);
-                
-                GMSCircle *circ = [GMSCircle circleWithPosition:circleCenter
-                                                         radius:10];
-                circ.title = stop[@"Name"];
-                circ.fillColor = [UIColor colorWithWhite:0.0 alpha:.25];
-                circ.strokeWidth = 2.0f;
-                circ.tappable = YES;
-                circ.map = mapView;
-            }
-            
-        }];
-         */
-    }else{
-        //[cell.mapView clear];
-        //[cell.mapView removeFromSuperview];
-        //cell.mapView = nil;
-    }
-    
-    [collectionView performBatchUpdates:^{
-        self.selectedIndex = expand ? indexPath.item : NSUIntegerMax;
-    } completion:^(BOOL finished) {
-        if (expand) {
-            [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionTop];
-        }
-    }];
-        
-}
-
-/*
-#pragma mark - MapView delegate
-
-- (void) mapView: (GMSMapView *) mapView didTapOverlay:(GMSOverlay *) overlay{
-    self.currentMarker.map = nil;
-    self.currentMarker = [[GMSMarker alloc] init];
-
-    GMSPolygon *circle = (GMSPolygon *)overlay;
-    self.currentMarker.position = [circle.path coordinateAtIndex:0];
-    self.currentMarker.snippet = circle.title;
-    self.currentMarker.appearAnimation = kGMSMarkerAnimationPop;
-    self.currentMarker.map = mapView;
-}
-*/
 
 #pragma mark - Navigation
-- (bool) shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
+- (BOOL) shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
     if ([identifier isEqualToString:@"showArrivals"]) {
         UITableView* tv = (UITableView*) [[sender superview] superview];
         NSIndexPath *path = [tv indexPathForCell:sender];
@@ -252,8 +157,8 @@
         arrVC.stopID = cell.stopID.text; // Used for next call of arrivals
         
         // Get route information
-        RouteCell *topCell = (RouteCell* )[[[[cell superview] superview] superview] superview];
-        NSIndexPath *path = [self.collectionView indexPathForCell:topCell];
+        //RouteCell *topCell = (RouteCell* )[[[[cell superview] superview] superview] superview];
+        //NSIndexPath *path = [self.collectionView indexPathForCell:topCell];
         //arrVC.routeFilter = [self.routes[path.item] objectForKey:@"Name"];
     }else if([segue.identifier isEqualToString:@"routeDetail"]){
         RouteCell *topCell = (RouteCell* )[[sender superview] superview];

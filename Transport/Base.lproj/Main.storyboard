@@ -479,7 +479,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="About" id="dTy-FW-a4V">
-                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="done" id="EWW-Vi-See">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="EWW-Vi-See">
                             <connections>
                                 <action selector="closeInfoScreen:" destination="Try-f6-yfR" id="yzJ-vO-pgO"/>
                             </connections>
