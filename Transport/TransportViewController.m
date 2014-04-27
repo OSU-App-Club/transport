@@ -44,7 +44,6 @@
                             };
     
     self.selectedIndex = NSUIntegerMax;
-    
     self.collectionView.alwaysBounceVertical = YES;
 }
 
@@ -57,6 +56,7 @@
     layout.minimumLineSpacing = .8;
 }
 
+#pragma mark - UICollectionView Delegate & Datasource
 - (void) updateCell: (UICollectionViewCell *) cell ToState:(BOOL) isExpanded{
     // Do nothing by default
 }
@@ -84,6 +84,12 @@
             [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionTop];
         }
     }];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    return 1;
 }
 
 @end

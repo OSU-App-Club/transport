@@ -149,6 +149,10 @@
 }
 
 - (void) updateArrivalsForStops:(NSArray*) stopsArray{
+    if (stopsArray.count == 0) {
+        return;
+    }
+    
     NSLog(@"Updating Arrivals");
     self.isLoading = YES;
     
