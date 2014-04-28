@@ -21,7 +21,6 @@
 
 @property (nonatomic, strong) UIImageView *emptyImageView;
 @property (atomic, strong) NSArray *nearbyStops;
-@property (nonatomic, strong) NSOperationQueue *background;
 
 @property (atomic) BOOL isLoading;
 
@@ -34,16 +33,6 @@
         _arrivals = arrivals;
         [self.collectionView reloadData];
     }
-}
-
-- (instancetype) initWithCoder:(NSCoder *)aDecoder{
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        self.background = [[NSOperationQueue alloc] init];
-        self.background.maxConcurrentOperationCount = 1; // Throttles to one at a time
-    }
-    
-    return self;
 }
 
 - (void)viewDidLoad
@@ -90,6 +79,11 @@
     
     self.title = @"Transport";
     
+    // Load initial data
+    if (self.nearbyStops) {
+        [self updateArrivalsForStops:self.nearbyStops];
+    }
+    
     self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:15 target:self selector:@selector(periodicRefresh) userInfo:nil repeats:YES];
 }
 
@@ -118,6 +112,7 @@
     if (location == nil) {
         // Clear the screen
         self.arrivals = nil;
+        [self addEmptyImage:NO shouldClear:NO];
     }else{
         NSLog(@"Loading for: %f,%f",location.coordinate.latitude,location.coordinate.longitude);
         
@@ -137,7 +132,7 @@
                     [self addEmptyImage:YES shouldClear:self.nearbyStops.count != 0];
                     
                     // Populate arrivals -- if none exist
-                    if (self.nearbyStops.count >0 && self.arrivals == nil && !self.isLoading) {
+                    if (self.nearbyStops.count>0 && self.arrivals == nil && !self.isLoading) {
                         [self updateArrivalsForStops:self.nearbyStops];
                     }else if(self.nearbyStops.count ==0){
                         self.arrivals = nil;
@@ -150,6 +145,8 @@
 
 - (void) updateArrivalsForStops:(NSArray*) stopsArray{
     if (stopsArray.count == 0) {
+        [self addEmptyImage:NO shouldClear:NO];
+        [self.refreshControl endRefreshing];
         return;
     }
     

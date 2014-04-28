@@ -127,6 +127,7 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <color key="backgroundColor" red="0.91764705879999997" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="OPO-Xb-ryZ" firstAttribute="top" secondItem="Kai-9g-Qda" secondAttribute="bottom" constant="2" id="3aO-Ae-g6W"/>
                                     <constraint firstItem="OPO-Xb-ryZ" firstAttribute="leading" secondItem="jd0-Hj-PZy" secondAttribute="leading" priority="750" constant="20" id="Boi-J4-kWR"/>

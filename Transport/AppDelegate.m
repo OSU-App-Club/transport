@@ -97,6 +97,11 @@
 
 - (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
     NSLog(@"Location Error: %@",error);
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Error" message:@"Your location could not be determined" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+    [alert show];
+    
+    self.currentLocation = nil;
 }
 
 @end
