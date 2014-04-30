@@ -47,7 +47,7 @@
 }
 
 - (IBAction)openProjectWebsite:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://github.com/OSU-App-Club/transport"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://osu-app-club.github.io/transport"]];
 }
 
 /*

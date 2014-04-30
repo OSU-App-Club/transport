@@ -444,7 +444,7 @@
                                 <rect key="frame" x="31" y="274" width="259" height="214"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.91764705879999997" green="0.91764705879999997" blue="0.91764705879999997" alpha="1" colorSpace="calibratedRGB"/>
-                                <string key="text">Transport is a transportation app for the city of Corvallis, Oregon. It was created at a hackathon in combination with the Oregon State University App Club and the OSU Public Analysis Laboratory (OPAL). Hopefully this app will encourage you to take better advantage of the free bus system in Corvalls. </string>
+                                <string key="text">Transport is a transportation app for the city of Corvallis, Oregon. It was created at a hackathon in combination with the Oregon State University App Club and the OSU Public Analysis Laboratory (OPAL). Hopefully this app will encourage you to take better advantage of the Corvallis Transit System. </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>

@@ -20,7 +20,6 @@
 @property (nonatomic, strong) NSTimer *updateTimer;
 
 @property (nonatomic, strong) UIImageView *emptyImageView;
-@property (atomic, strong) NSArray *nearbyStops;
 
 @property (atomic) BOOL isLoading;
 
@@ -78,11 +77,6 @@
     [super viewWillAppear:animated];
     
     self.title = @"Transport";
-    
-    // Load initial data
-    if (self.nearbyStops) {
-        [self updateArrivalsForStops:self.nearbyStops];
-    }
     
     self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:15 target:self selector:@selector(periodicRefresh) userInfo:nil repeats:YES];
 }

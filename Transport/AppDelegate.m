@@ -7,6 +7,7 @@
 //  Carly carly carly
 
 #import "AppDelegate.h"
+#import "StopsViewController.h"
 
 @implementation AppDelegate
 
@@ -68,7 +69,17 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.d
+    
+    UINavigationController *rootNav = (UINavigationController *) self.window.rootViewController;
+    
+    // Reload main screen
+    if ([rootNav.viewControllers.firstObject isKindOfClass:[StopsViewController class]]) {
+        StopsViewController* stopVC = (StopsViewController *) rootNav.viewControllers.firstObject;
+        if (stopVC.nearbyStops) {
+            [stopVC updateArrivalsForStops:stopVC.nearbyStops];
+        }
+    }
     
     [self.locManager startUpdatingLocation];
     
@@ -88,10 +99,12 @@
     NSLog(@"New Location: %@",locations.firstObject);
     
     CLLocation *newLoc = locations.firstObject;
+    NSLog(@"Accuracy: %f",newLoc.horizontalAccuracy);
+
     
     // Save the most recent location
-    if (newLoc.coordinate.latitude != self.currentLocation.coordinate.latitude && newLoc.coordinate.longitude != self.currentLocation.coordinate.longitude) {
-        self.currentLocation = locations.firstObject;
+    if (newLoc.coordinate.latitude != self.currentLocation.coordinate.latitude && newLoc.coordinate.longitude != self.currentLocation.coordinate.longitude && newLoc.horizontalAccuracy < 500) {
+        self.currentLocation = newLoc;
     }
 }
 
