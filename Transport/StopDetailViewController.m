@@ -11,10 +11,28 @@
 @interface StopDetailViewController ()
 
 @property CGColorRef *doneButtonBGColor;
+@property (nonatomic, strong) NSDictionary *route;
+@property (nonatomic, strong) GMSPolyline *routePolyline;
 
 @end
 
 @implementation StopDetailViewController
+
+- (void) setRoute:(NSDictionary *)route{
+    _route = route;
+    
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        self.routePolyline.map = nil;
+        
+        GMSPath *path = [GMSPath pathFromEncodedPath:self.route[@"Polyline"]];
+        self.routePolyline = [GMSPolyline polylineWithPath:path];
+        
+        // Add polyline to map
+        self.routePolyline.strokeWidth = 5.f;
+        self.routePolyline.strokeColor = self.currentArrival.routeColor;
+        self.routePolyline.map = self.mapView;
+    }];
+}
 
 - (void)viewDidLoad
 {
@@ -23,6 +41,7 @@
     
     self.mapView.mapType = kGMSTypeNormal;
     self.mapView.myLocationEnabled = YES;
+    self.mapView.settings.myLocationButton = YES;
     
     // Zoom map
     GMSCameraPosition *pos = [GMSCameraPosition cameraWithLatitude:self.currentArrival.stop.location.coordinate.latitude longitude:self.currentArrival.stop.location.coordinate.longitude zoom:17 bearing:self.currentArrival.stop.bearing.doubleValue viewingAngle:0];
@@ -43,7 +62,32 @@
     self.mapDoneButton.layer.borderWidth = 1.5;
     self.mapDoneButton.layer.borderColor = [[UIColor colorWithRed:(0) green:(.764) blue:(.972) alpha:(.6)] CGColor];
     self.mapDoneButton.layer.backgroundColor = [[UIColor colorWithRed:(1) green:(1.0) blue:(1.0) alpha:(1.0)] CGColor];
+    
+    // Load route path
+    NSDictionary *routes = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedRoutes"];
+    if (routes != nil && [routes.allValues containsObject:self.currentArrival.routeName]) {
+        // Use saved route
+        self.route = [routes objectForKey:self.currentArrival.routeName];
+        
+    }else{
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/routes?names=%@",self.currentArrival.routeName]];
+        [[session dataTaskWithURL: url
+                completionHandler:^(NSData *data,
+                                    NSURLResponse *response,
+                                    NSError *error) {
+                    
+                    // Parse JSON result and store in dictionary (self.routes)
+                    NSArray *routes = [[NSJSONSerialization JSONObjectWithData:data
+                                                              options:NSJSONReadingAllowFragments
+                                                                error:nil] objectForKey:@"routes"];
+                    if (routes.count != 0) {
+                        self.route = routes.firstObject;
+                    }
+                }] resume];
+    }
 }
+
 
 - (void)didReceiveMemoryWarning
 {

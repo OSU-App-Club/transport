@@ -56,7 +56,7 @@
     [self.mapView setCamera:camera];
     self.mapView.myLocationEnabled = YES;
     self.mapView.delegate = self;
-
+    self.mapView.settings.myLocationButton = YES;
 
     for (NSDictionary* route in self.routes) {
         GMSPath *path = [GMSPath pathFromEncodedPath:route[@"Polyline"]];
