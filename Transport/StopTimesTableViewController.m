@@ -91,7 +91,7 @@
     date = [calendar dateFromComponents:comps];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"d MMM yy HH:mm ZZZ"];
+    [dateFormatter setDateFormat:@"dd MMM yy HH:mm ZZZ"];
     
     NSString* urlString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/arrivals?date=%@&stops=%@",[dateFormatter stringFromDate:date], self.stopID] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
     
@@ -169,7 +169,7 @@
     NSDictionary *arrivalDict = self.stopTimes[indexPath.row];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"d MMM yy HH:mm ZZZ"];
+    [dateFormatter setDateFormat:@"dd MMM yy HH:mm ZZZ"];
     
     cell.textLabel.text = [NSDateFormatter localizedStringFromDate:[dateFormatter dateFromString:arrivalDict[@"Scheduled"]] dateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterShortStyle];
     cell.detailTextLabel.text = arrivalDict[@"Route"];

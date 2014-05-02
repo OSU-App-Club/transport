@@ -64,11 +64,15 @@
     self.mapDoneButton.layer.backgroundColor = [[UIColor colorWithRed:(1) green:(1.0) blue:(1.0) alpha:(1.0)] CGColor];
     
     // Load route path
-    NSDictionary *routes = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedRoutes"];
-    if (routes != nil && [routes.allValues containsObject:self.currentArrival.routeName]) {
-        // Use saved route
-        self.route = [routes objectForKey:self.currentArrival.routeName];
+    NSArray *routes = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedRoutes"];
+    if (routes != nil) {
         
+        for (NSDictionary *route in routes) {
+            if ([route[@"Name"] isEqualToString:self.currentArrival.routeName]) {
+                // Use saved route
+                self.route = route;
+            }
+        }
     }else{
         NSURLSession *session = [NSURLSession sharedSession];
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/routes?names=%@",self.currentArrival.routeName]];

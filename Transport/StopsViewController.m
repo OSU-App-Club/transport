@@ -167,7 +167,7 @@
                                                                       error:nil];
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"d MMM yy HH:mm ZZZ"];
+        [dateFormatter setDateFormat:@"dd MMM yy HH:mm ZZZ"];
         
         NSMutableArray *arrivals = [NSMutableArray array];
         
