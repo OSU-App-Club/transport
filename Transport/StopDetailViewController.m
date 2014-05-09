@@ -90,6 +90,13 @@
                     }
                 }] resume];
     }
+    
+    [[Mixpanel sharedInstance] track:@"Stop Detail" properties:@{
+                                                                @"StopID":self.currentArrival.stop.stopID,
+                                                                @"Route":self.currentArrival.routeName,
+                                                                @"Next Arrival":[NSDateFormatter localizedStringFromDate:self.currentArrival.nextTime dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterShortStyle]
+                                                                }
+     ];
 }
 
 

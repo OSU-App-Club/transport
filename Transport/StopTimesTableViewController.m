@@ -122,10 +122,15 @@
                     [newAlert show];
                 }];
             }
-            
         }
         
     }] resume];
+    
+    [[Mixpanel sharedInstance] track:@"Stop Times" properties:@{
+                                                                     @"StopID":self.stopID,
+                                                                     @"Day":dateFormatter.weekdaySymbols[comps.weekday]
+                                                                     }
+     ];
 
 }
 

@@ -57,8 +57,12 @@
     self.mapView.myLocationEnabled = YES;
     self.mapView.delegate = self;
     self.mapView.settings.myLocationButton = YES;
+    
+    NSMutableArray *routeNames = [NSMutableArray array];
 
     for (NSDictionary* route in self.routes) {
+        [routeNames addObject:route[@"Name"]];
+        
         GMSPath *path = [GMSPath pathFromEncodedPath:route[@"Polyline"]];
         GMSPolyline *polyline = [GMSPolyline polylineWithPath:path];
         
@@ -89,6 +93,11 @@
     self.mapDoneButton.layer.borderColor = [[UIColor colorWithRed:(0) green:(.764) blue:(.972) alpha:(.6)] CGColor];
     self.mapDoneButton.layer.backgroundColor = [[UIColor colorWithRed:(1) green:(1.0) blue:(1.0) alpha:(1.0)] CGColor];
     
+    [[Mixpanel sharedInstance] track:@"Route Detail" properties:@{
+                                                                 @"routes":routeNames,
+                                                                 }
+     ];
+
 }
 
 - (IBAction)doneButtonPressed:(id)sender {

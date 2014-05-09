@@ -17,6 +17,7 @@
     
     //Authorize Google Maps
     [GMSServices provideAPIKey:@"AIzaSyCC8uhRO960wAErUp8WyLE9n7NnFmq3Aek"];
+    [Mixpanel sharedInstanceWithToken:@"3733fd953730250288a417e9f7522751"];
     
     // Setup location monitoring
     if ([CLLocationManager locationServicesEnabled]) {
@@ -29,10 +30,6 @@
     }
     
     [self setupColors:application];
-    
-    
-    [TestFlight setOptions:@{ TFOptionDisableInAppUpdates : @YES }];
-    [TestFlight takeOff:@"222c4719-6b3a-40c4-a7f8-6c40fedcd75e"];
 
     return YES;
 }
@@ -83,6 +80,9 @@
     
     [self.locManager startUpdatingLocation];
     
+    // Send app open info
+    [[Mixpanel sharedInstance] track:@"appOpen" properties:@{@"Last Location":self.locManager.location}];
+
     // Simulate location for app.io
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"isAppio"] boolValue]) {
         self.currentLocation = [[CLLocation alloc] initWithLatitude:44.567 longitude:-123.278];
