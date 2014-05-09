@@ -81,7 +81,7 @@
     [self.locManager startUpdatingLocation];
     
     // Send app open info
-    [[Mixpanel sharedInstance] track:@"appOpen" properties:@{@"Last Location":self.locManager.location}];
+    [[Mixpanel sharedInstance] track:@"appOpen" properties:@{@"Last Location":self.locManager.location?self.locManager.location:@"Unknown"}];
 
     // Simulate location for app.io
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"isAppio"] boolValue]) {
