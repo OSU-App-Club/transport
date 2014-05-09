@@ -93,7 +93,7 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd MMM yy HH:mm ZZZ"];
     
-    NSString* urlString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/arrivals?date=%@&stops=%@",[dateFormatter stringFromDate:date], self.stopID] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
+    NSString* urlString = [[NSString stringWithFormat:@"%@/arrivals?date=%@&stops=%@",SERVER_URL,[dateFormatter stringFromDate:date], self.stopID] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
     
     // Make call for arrivals on this route
     NSURLSession *session = [NSURLSession sharedSession];

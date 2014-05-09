@@ -19,7 +19,7 @@
     [GMSServices provideAPIKey:@"AIzaSyCC8uhRO960wAErUp8WyLE9n7NnFmq3Aek"];
     
     // Setup location monitoring
-    if ([CLLocationManager significantLocationChangeMonitoringAvailable]) {
+    if ([CLLocationManager locationServicesEnabled]) {
         self.locManager = [[CLLocationManager alloc] init];
         self.locManager.delegate = self;
         
@@ -76,7 +76,7 @@
     // Reload main screen
     if ([rootNav.viewControllers.firstObject isKindOfClass:[StopsViewController class]]) {
         StopsViewController* stopVC = (StopsViewController *) rootNav.viewControllers.firstObject;
-        if (stopVC.nearbyStops) {
+        if (stopVC.nearbyStops.count > 0) {
             [stopVC updateArrivalsForStops:stopVC.nearbyStops];
         }
     }
@@ -103,8 +103,10 @@
 
     
     // Save the most recent location
-    if (newLoc.coordinate.latitude != self.currentLocation.coordinate.latitude && newLoc.coordinate.longitude != self.currentLocation.coordinate.longitude && newLoc.horizontalAccuracy < 500) {
+    if (newLoc.coordinate.latitude != self.currentLocation.coordinate.latitude && newLoc.coordinate.longitude != self.currentLocation.coordinate.longitude && newLoc.horizontalAccuracy <= 1000) {
         self.currentLocation = newLoc;
+    }else if (newLoc.horizontalAccuracy > 1000){
+        NSLog(@"Not enough accuracy: %f",newLoc.horizontalAccuracy);
     }
 }
 

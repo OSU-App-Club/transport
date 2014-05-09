@@ -30,7 +30,10 @@
 - (void) setArrivals:(NSArray *)arrivals{
     @synchronized(self){
         _arrivals = arrivals;
-        [self.collectionView reloadData];
+        
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self.collectionView reloadData];
+        }];
     }
 }
 
@@ -78,7 +81,7 @@
     
     self.title = @"Transport";
     
-    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:15 target:self selector:@selector(periodicRefresh) userInfo:nil repeats:YES];
+    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:45 target:self selector:@selector(periodicRefresh) userInfo:nil repeats:YES];
 }
 
 - (void) viewWillDisappear:(BOOL)animated{
@@ -89,15 +92,20 @@
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if ([keyPath isEqualToString:@"currentLocation"]) {
-        // Extract location from object
-        AppDelegate *del = (AppDelegate*) object;
-        [self updateWithLocation:del.currentLocation];
+        
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            // Extract location from object
+            AppDelegate *del = (AppDelegate*) object;
+            [self updateWithLocation:del.currentLocation];
+        }];
     }
 }
 
 - (void) periodicRefresh{
     if (self.nearbyStops.count>0 && self.selectedIndex == NSUIntegerMax && !self.isLoading) {
-        [self.collectionView reloadData];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self.collectionView reloadData];
+        }];
     }
 }
 
@@ -112,7 +120,7 @@
         
         // Load nearby stops...and then arrivals for those stops
         NSURLSession *session = [NSURLSession sharedSession];
-        NSString* stopURLString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/stops?lat=%f&lng=%f&radius=800&limit=10", location.coordinate.latitude,location.coordinate.longitude] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
+        NSString* stopURLString = [[NSString stringWithFormat:@"%@/stops?lat=%f&lng=%f&radius=800&limit=10",SERVER_URL, location.coordinate.latitude,location.coordinate.longitude] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
         
         [[session dataTaskWithURL:[NSURL URLWithString:stopURLString]
                 completionHandler:^(NSData *data,
@@ -155,7 +163,7 @@
     }
     
     NSString *idString = [stops.allKeys componentsJoinedByString:@","];
-    NSString* urlString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/arrivals?stops=%@", idString] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
+    NSString* urlString = [[NSString stringWithFormat:@"%@/arrivals?stops=%@",SERVER_URL, idString] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
     
     // Make call for arrivals on this route
     NSURLSession *session = [NSURLSession sharedSession];
@@ -220,7 +228,6 @@
         
         // Sort by distance,route name
         [arrivals sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"stop.distance" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"nextTime" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"routeName" ascending:YES]]];
-        
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             self.arrivals = arrivals;

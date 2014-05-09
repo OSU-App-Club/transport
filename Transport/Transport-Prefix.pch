@@ -20,3 +20,5 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import <TestFlight.h>
 #import <TestFlight+OpenFeedback.h>
+
+#define SERVER_URL @"http://www.corvallis-bus.appspot.com"

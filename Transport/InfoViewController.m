@@ -23,8 +23,15 @@
     return self;
 }
 - (IBAction)openFeedback:(id)sender {
-    TFFeedbackController *feedbackController = [[TFFeedbackController alloc] initWithNibName:[TFFeedbackController nibFileName] bundle:nil];
-    [self presentViewController:feedbackController animated:YES completion:nil];
+    MFMailComposeViewController *mailView = [[MFMailComposeViewController alloc] init];
+    [mailView setToRecipients:[NSArray arrayWithObject:@"osuappclub@gmail.com"]];
+    mailView.mailComposeDelegate = self;
+    
+    //Contact Developer
+    [mailView setSubject:[NSString stringWithFormat:@"Transport %@ %@ (%@)",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"],[UIDevice currentDevice].model ,[[NSLocale currentLocale] objectForKey:NSLocaleCountryCode]]];
+    
+    [self presentViewController:mailView animated:YES completion:NULL];
+
 }
 
 - (void)viewDidLoad
@@ -48,6 +55,10 @@
 
 - (IBAction)openProjectWebsite:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://osu-app-club.github.io/transport"]];
+}
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 /*

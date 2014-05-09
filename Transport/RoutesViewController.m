@@ -86,7 +86,7 @@
     self.routes = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedRoutes"];
     
     NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithURL:[NSURL URLWithString:@"http://www.corvallis-bus.appspot.com/routes?stops=true"]
+    [[session dataTaskWithURL:[NSURL URLWithString:[SERVER_URL stringByAppendingString:@"/routes?stops=true"]]
             completionHandler:^(NSData *data,
                                 NSURLResponse *response,
                                 NSError *error) {

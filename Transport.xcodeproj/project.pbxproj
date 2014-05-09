@@ -36,6 +36,7 @@
 		83B7EF1D190A0518006A61AE /* StopInRouteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF1C190A0518006A61AE /* StopInRouteTableViewCell.m */; };
 		83B7EF20190A16C8006A61AE /* StopTimesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF1F190A16C8006A61AE /* StopTimesTableViewController.m */; };
 		83B7EF23190B21A4006A61AE /* RouteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF22190B21A4006A61AE /* RouteDetailViewController.m */; };
+		83C07CA5191C4F9400ECFD9F /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C07CA4191C4F9400ECFD9F /* MessageUI.framework */; };
 		E687C40701814690984E77C4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C99D6902032940AE9B16083E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -98,6 +99,7 @@
 		83B7EF1F190A16C8006A61AE /* StopTimesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopTimesTableViewController.m; sourceTree = "<group>"; };
 		83B7EF21190B21A4006A61AE /* RouteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteDetailViewController.h; sourceTree = "<group>"; };
 		83B7EF22190B21A4006A61AE /* RouteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteDetailViewController.m; sourceTree = "<group>"; };
+		83C07CA4191C4F9400ECFD9F /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		C99D6902032940AE9B16083E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -106,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83C07CA5191C4F9400ECFD9F /* MessageUI.framework in Frameworks */,
 				8385967B1902F8C500E68FE4 /* CoreLocation.framework in Frameworks */,
 				838596451902E92F00E68FE4 /* CoreGraphics.framework in Frameworks */,
 				838596471902E92F00E68FE4 /* UIKit.framework in Frameworks */,
@@ -150,6 +153,7 @@
 		838596411902E92F00E68FE4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				83C07CA4191C4F9400ECFD9F /* MessageUI.framework */,
 				8385967A1902F8C500E68FE4 /* CoreLocation.framework */,
 				838596421902E92F00E68FE4 /* Foundation.framework */,
 				838596441902E92F00E68FE4 /* CoreGraphics.framework */,

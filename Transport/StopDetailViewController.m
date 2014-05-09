@@ -75,7 +75,7 @@
         }
     }else{
         NSURLSession *session = [NSURLSession sharedSession];
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/routes?names=%@",self.currentArrival.routeName]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/routes?names=%@",SERVER_URL,self.currentArrival.routeName]];
         [[session dataTaskWithURL: url
                 completionHandler:^(NSData *data,
                                     NSURLResponse *response,
