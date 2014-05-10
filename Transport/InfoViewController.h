@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MFMailComposeViewController.h>
 
-@interface InfoViewController : UIViewController
+@interface InfoViewController : UIViewController <MFMailComposeViewControllerDelegate>
 
 - (IBAction) closeInfoScreen:(id)sender;
 

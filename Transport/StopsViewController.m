@@ -10,22 +10,18 @@
 #import "AppDelegate.h"
 #import "Arrival.h"
 #import "StopCell.h"
+#import "StopDetailViewController.h"
 
 #define kCellReuseID        @"stopCell"
-#define kCollapsedHeight  80
-#define kExpanedHeight self.view.bounds.size.height - (self.navigationController.navigationBar.bounds.size.height + [UIApplication sharedApplication].statusBarFrame.size.height)
 
 @interface StopsViewController ()
 
 @property (nonatomic, strong) NSArray *arrivals;
-@property (nonatomic, strong) NSDictionary *routeColorDict;
-@property NSUInteger selectedIndex;
-@property (nonatomic, strong) UIRefreshControl* refreshControl;
-
 @property (nonatomic, strong) NSTimer *updateTimer;
 
 @property (nonatomic, strong) UIImageView *emptyImageView;
-@property (nonatomic, strong) NSArray *nearbyStops;
+
+@property (atomic) BOOL isLoading;
 
 @end
 
@@ -44,36 +40,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    self.routeColorDict = @{
-        @"1":[UIColor colorWithRed:0.0/255.0 green:173.0/255.0 blue:238.0/255.0 alpha:1.0],
-        @"2":[UIColor colorWithRed:136.0/255.0 green:39.0/255.0 blue:144.0/255.0 alpha:1.0],
-        @"3":[UIColor colorWithRed:136.0/255.0 green:101.0/255.0 blue:144.0/255.0 alpha:1.0],
-        @"4":[UIColor colorWithRed:140.0/255.0 green:197.0/255.0 blue:144.0/255.0 alpha:1.0],
-        @"5":[UIColor colorWithRed:189.0/255.0 green:85.0/255.0 blue:144.0/255.0 alpha:1.0],
-        @"6":[UIColor colorWithRed:3.0/255.0 green:77.0/255.0 blue:144.0/255.0 alpha:1.0],
-        @"7":[UIColor colorWithRed:215.0/255.0 green:24.0/255.0 blue:144.0/255.0 alpha:1.0],
-        @"8":[UIColor colorWithRed:0.0/255.0 green:133.0/255.0 blue:64.0/255.0 alpha:1.0],
-        @"BBN":[UIColor colorWithRed:76.0/255.0 green:229.0/255.0 blue:0.0/255.0 alpha:1.0],
-        @"BBSE":[UIColor colorWithRed:255.0/255.0 green:170.0/255.0 blue:0.0/255.0 alpha:1.0],
-        @"BBSW":[UIColor colorWithRed:0.0/255.0 green:91.0/255.0 blue:229.0/255.0 alpha:1.0],
-        @"C1":[UIColor colorWithRed:97.0/255.0 green:70.0/255.0 blue:48.0/255.0 alpha:1.0],
-        @"C2":[UIColor colorWithRed:0.0/255.0 green:118.0/255.0 blue:163.0/255.0 alpha:1.0],
-        @"C3":[UIColor colorWithRed:236.0/255.0 green:12.0/255.0 blue:108.0/255.0 alpha:1.0],
-        @"CVA":[UIColor colorWithRed:63.0/255.0 green:40.0/255.0 blue:133.0/255.0 alpha:1.0],
-        };
-    
-    self.selectedIndex = NSUIntegerMax;
-    
+        
     // Start monitoring for location updates
     AppDelegate *del = (AppDelegate*) [UIApplication sharedApplication].delegate;
     [del addObserver:self forKeyPath:@"currentLocation" options:NSKeyValueObservingOptionNew context:nil];
-    
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(startRefresh:) forControlEvents:UIControlEventValueChanged];
-    [self.collectionView addSubview:self.refreshControl];
-    self.collectionView.alwaysBounceVertical = YES;
     
     // Add special info button
     UIButton *button = [UIButton buttonWithType:UIButtonTypeInfoLight];
@@ -84,6 +54,15 @@
     // Removes title from back button in routes
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(startRefresh:) forControlEvents:UIControlEventValueChanged];
+    [self.collectionView addSubview:self.refreshControl];
+}
+
+- (void) dealloc{
+    AppDelegate *del = (AppDelegate*) [UIApplication sharedApplication].delegate;
+    [del removeObserver:self forKeyPath:@"currentLocation"];
 }
 
 - (void) infoButtonTapped{
@@ -91,10 +70,10 @@
 }
 
 - (void) startRefresh:(UIRefreshControl*)refreshControl{
-    [self.refreshControl beginRefreshing];
-    
-    AppDelegate *del = (AppDelegate*) [UIApplication sharedApplication].delegate;
-    [self updateWithLocation:del.currentLocation];
+    if (!self.isLoading) {
+        [self.refreshControl beginRefreshing];
+        [self updateArrivalsForStops:self.nearbyStops];
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated{
@@ -102,12 +81,7 @@
     
     self.title = @"Transport";
     
-    //Customize layout for paging
-    //MUST DO IT HERE: not setup yet in viewDidLoad
-    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*) self.collectionView.collectionViewLayout;
-    layout.minimumLineSpacing = .8;
-    
-    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(periodicRefresh) userInfo:nil repeats:YES];
+    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:45 target:self selector:@selector(periodicRefresh) userInfo:nil repeats:YES];
 }
 
 - (void) viewWillDisappear:(BOOL)animated{
@@ -118,17 +92,20 @@
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if ([keyPath isEqualToString:@"currentLocation"]) {
-        // Extract location from object
-        AppDelegate *del = (AppDelegate*) object;
-        [self updateWithLocation:del.currentLocation];
+        
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            // Extract location from object
+            AppDelegate *del = (AppDelegate*) object;
+            [self updateWithLocation:del.currentLocation];
+        }];
     }
 }
 
 - (void) periodicRefresh{
-    if (self.nearbyStops.count>0 && self.selectedIndex == NSUIntegerMax) {
-        [self.refreshControl beginRefreshing];
-        
-        [self updateArrivalsForStops:self.nearbyStops];
+    if (self.nearbyStops.count>0 && self.selectedIndex == NSUIntegerMax && !self.isLoading) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self.collectionView reloadData];
+        }];
     }
 }
 
@@ -137,12 +114,13 @@
     if (location == nil) {
         // Clear the screen
         self.arrivals = nil;
+        [self addEmptyImage:NO shouldClear:NO];
     }else{
         NSLog(@"Loading for: %f,%f",location.coordinate.latitude,location.coordinate.longitude);
         
         // Load nearby stops...and then arrivals for those stops
         NSURLSession *session = [NSURLSession sharedSession];
-        NSString* stopURLString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/stops?lat=%f&lng=%f&radius=800&limit=10", location.coordinate.latitude,location.coordinate.longitude] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
+        NSString* stopURLString = [[NSString stringWithFormat:@"%@/stops?lat=%f&lng=%f&radius=800&limit=10",SERVER_URL, location.coordinate.latitude,location.coordinate.longitude] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
         
         [[session dataTaskWithURL:[NSURL URLWithString:stopURLString]
                 completionHandler:^(NSData *data,
@@ -150,15 +128,17 @@
                                     NSError *error) {
                     
                     self.nearbyStops = [[NSJSONSerialization JSONObjectWithData:data
-                                                                  options:NSJSONReadingAllowFragments
+                                                                  options:0
                                                                     error:nil] objectForKey:@"stops"];
-                    
-                    
                     // Add empty state
                     [self addEmptyImage:YES shouldClear:self.nearbyStops.count != 0];
                     
-                    // Populate arrivals
-                    [self updateArrivalsForStops:self.nearbyStops];
+                    // Populate arrivals -- if none exist
+                    if (self.nearbyStops.count>0 && self.arrivals == nil && !self.isLoading) {
+                        [self updateArrivalsForStops:self.nearbyStops];
+                    }else if(self.nearbyStops.count ==0){
+                        self.arrivals = nil;
+                    }
                 }
           ] resume];
         
@@ -166,7 +146,14 @@
 }
 
 - (void) updateArrivalsForStops:(NSArray*) stopsArray{
+    if (stopsArray.count == 0) {
+        [self addEmptyImage:NO shouldClear:NO];
+        [self.refreshControl endRefreshing];
+        return;
+    }
+    
     NSLog(@"Updating Arrivals");
+    self.isLoading = YES;
     
     NSMutableDictionary* stops = [NSMutableDictionary dictionary];
     
@@ -176,7 +163,7 @@
     }
     
     NSString *idString = [stops.allKeys componentsJoinedByString:@","];
-    NSString* urlString = [[NSString stringWithFormat:@"http://www.corvallis-bus.appspot.com/arrivals?stops=%@", idString] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
+    NSString* urlString = [[NSString stringWithFormat:@"%@/arrivals?stops=%@",SERVER_URL, idString] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
     
     // Make call for arrivals on this route
     NSURLSession *session = [NSURLSession sharedSession];
@@ -188,7 +175,7 @@
                                                                       error:nil];
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"d MMM yy HH:mm ZZZ"];
+        [dateFormatter setDateFormat:@"dd MMM yy HH:mm ZZZ"];
         
         NSMutableArray *arrivals = [NSMutableArray array];
         
@@ -219,11 +206,7 @@
             }
             
             // Create stop
-            NSDictionary *stopDict = [stops objectForKey:@([stopNumString doubleValue])];
-            Stop *newStop = [[Stop alloc] init];
-            newStop.name = stopDict[@"Name"];
-            newStop.road = stopDict[@"Road"];
-            newStop.distance = stopDict[@"Distance"];
+            Stop *newStop = [Stop stopWithDictionary:[stops objectForKey:@([stopNumString doubleValue])]];
             
             // Create new Arrival for each route/stop
             [timePairDict enumerateKeysAndObjectsUsingBlock:^(NSString* routeName, NSArray* times, BOOL *stop) {
@@ -231,6 +214,7 @@
                 newArrival.routeName = routeName;
                 newArrival.stop = newStop;
                 newArrival.times = times;
+                newArrival.routeColor = self.routeColorDict[routeName];
                 
                 [arrivals addObject:newArrival];
             }];
@@ -245,10 +229,13 @@
         // Sort by distance,route name
         [arrivals sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"stop.distance" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"nextTime" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"routeName" ascending:YES]]];
         
-        self.arrivals = arrivals;
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            self.arrivals = arrivals;
+            [self addEmptyImage:YES shouldClear:self.arrivals.count != 0];
+            self.isLoading = NO;
+         }];
         
-        [self addEmptyImage:YES shouldClear:self.arrivals.count != 0];
-        
+        NSLog(@"Finish updating arrivals");
         [self.refreshControl endRefreshing];
     }] resume];
 
@@ -281,6 +268,11 @@
 
 #pragma mark - Collection View
 
+- (void) updateCell: (UICollectionViewCell *) cell ToState:(BOOL) isExpanded{
+    StopCell *stopCell = (StopCell*) cell;
+    stopCell.timesTableView.hidden = stopCell.mapItButton.hidden = !isExpanded;
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.arrivals.count;
 }
@@ -294,45 +286,29 @@
     UIView *tileView = (UIView*) [cell viewWithTag:203];
     UILabel *streetName = (UILabel*) [cell viewWithTag:204];
     
+    cell.mapItButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Black" size:22.0];
+    cell.mapItButton.tintColor = [UIColor colorWithRed:(0) green:(.764) blue:(.972) alpha:(.6)];
+    
     Arrival *currentArrival = (Arrival*) self.arrivals[indexPath.item];
     stopName.text = currentArrival.stop.name;
     routeName.text = currentArrival.routeName;
-    streetName.text = currentArrival.stop.road;
+    streetName.text = currentArrival.stop.stopID.stringValue;
     
-    tileView.backgroundColor = self.routeColorDict[currentArrival.routeName];
+    tileView.backgroundColor = currentArrival.routeColor;
     
-    NSString *timeString = [NSString stringWithFormat:@"%.0f",[currentArrival.nextTime timeIntervalSinceNow]*(1.0/60.0)];
-    nextArrival.text = timeString;
+    double mins = floor([currentArrival.nextTime timeIntervalSinceNow]*(1.0/60.0));
+    if (mins > 0) {
+        NSString *timeString = [NSString stringWithFormat:@"%.0f",floor([currentArrival.nextTime timeIntervalSinceNow]*(1.0/60.0))];
+        nextArrival.text = timeString;
+    }else{
+        nextArrival.text = @"< 1";
+    }
     
     cell.times = currentArrival.times;
     
     return cell;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat height = (indexPath.item==self.selectedIndex)?kExpanedHeight:kCollapsedHeight;
-    if (indexPath.item == 1 && indexPath.item == self.selectedIndex) {
-        height -= kCollapsedHeight; // Account for second row issue
-    }
-    
-    return CGSizeMake(collectionView.bounds.size.width, height);
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger currentHeight = [collectionView cellForItemAtIndexPath:indexPath].bounds.size.height;
-    BOOL expand = currentHeight == kCollapsedHeight;
-    collectionView.scrollEnabled = !expand;
-
-    [collectionView performBatchUpdates:^{
-        self.selectedIndex = expand ? indexPath.item : NSUIntegerMax;
-    } completion:^(BOOL finished) {
-        if (expand) {
-            [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionTop];
-        }
-    }];
-}
-
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -340,7 +316,19 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"mapStopSegue"]) {
+        UICollectionViewCell *cell = (UICollectionViewCell*) [[sender superview] superview];
+        NSIndexPath *path = [self.collectionView indexPathForCell:cell];
+        
+        // Get Stop
+        Arrival* selectedArrival = self.arrivals[path.row];
+        
+        StopDetailViewController* stopDetail = (StopDetailViewController*) segue.destinationViewController;
+        stopDetail.currentArrival = selectedArrival;
+        
+    }
+    
 }
-*/
+
 
 @end

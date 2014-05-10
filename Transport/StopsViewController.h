@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TransportViewController.h"
 
-@interface StopsViewController : UICollectionViewController
+@interface StopsViewController : TransportViewController
+
+@property (nonatomic, strong) UIRefreshControl* refreshControl;
+@property (atomic, strong) NSArray *nearbyStops;
+
+- (void) updateArrivalsForStops:(NSArray*) stopsArray;
 
 @end

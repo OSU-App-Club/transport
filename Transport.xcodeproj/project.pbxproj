@@ -15,7 +15,6 @@
 		8385964F1902E93000E68FE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8385964E1902E93000E68FE4 /* main.m */; };
 		838596531902E93000E68FE4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 838596521902E93000E68FE4 /* AppDelegate.m */; };
 		838596561902E93000E68FE4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 838596541902E93000E68FE4 /* Main.storyboard */; };
-		838596591902E93000E68FE4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 838596581902E93000E68FE4 /* ViewController.m */; };
 		8385965B1902E93000E68FE4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8385965A1902E93000E68FE4 /* Images.xcassets */; };
 		838596621902E93000E68FE4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838596611902E93000E68FE4 /* XCTest.framework */; };
 		838596631902E93000E68FE4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838596421902E92F00E68FE4 /* Foundation.framework */; };
@@ -31,6 +30,12 @@
 		83859690190333F000E68FE4 /* RoutesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8385968F190333F000E68FE4 /* RoutesViewController.m */; };
 		838596931903380200E68FE4 /* RouteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 838596921903380200E68FE4 /* RouteCell.m */; };
 		83859696190354B400E68FE4 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83859695190354B400E68FE4 /* InfoViewController.m */; };
+		83B7EF171909C8EB006A61AE /* TransportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF161909C8EB006A61AE /* TransportViewController.m */; };
+		83B7EF1A1909CB41006A61AE /* StopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF191909CB41006A61AE /* StopDetailViewController.m */; };
+		83B7EF1D190A0518006A61AE /* StopInRouteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF1C190A0518006A61AE /* StopInRouteTableViewCell.m */; };
+		83B7EF20190A16C8006A61AE /* StopTimesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF1F190A16C8006A61AE /* StopTimesTableViewController.m */; };
+		83B7EF23190B21A4006A61AE /* RouteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF22190B21A4006A61AE /* RouteDetailViewController.m */; };
+		83C07CA5191C4F9400ECFD9F /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C07CA4191C4F9400ECFD9F /* MessageUI.framework */; };
 		E687C40701814690984E77C4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C99D6902032940AE9B16083E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -58,8 +63,6 @@
 		838596511902E93000E68FE4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		838596521902E93000E68FE4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		838596551902E93000E68FE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		838596571902E93000E68FE4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		838596581902E93000E68FE4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		8385965A1902E93000E68FE4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		838596601902E93000E68FE4 /* TransportTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TransportTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		838596611902E93000E68FE4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -83,6 +86,17 @@
 		838596921903380200E68FE4 /* RouteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteCell.m; sourceTree = "<group>"; };
 		83859694190354B400E68FE4 /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
 		83859695190354B400E68FE4 /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
+		83B7EF151909C8EB006A61AE /* TransportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransportViewController.h; sourceTree = "<group>"; };
+		83B7EF161909C8EB006A61AE /* TransportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransportViewController.m; sourceTree = "<group>"; };
+		83B7EF181909CB41006A61AE /* StopDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopDetailViewController.h; sourceTree = "<group>"; };
+		83B7EF191909CB41006A61AE /* StopDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopDetailViewController.m; sourceTree = "<group>"; };
+		83B7EF1B190A0518006A61AE /* StopInRouteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopInRouteTableViewCell.h; sourceTree = "<group>"; };
+		83B7EF1C190A0518006A61AE /* StopInRouteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopInRouteTableViewCell.m; sourceTree = "<group>"; };
+		83B7EF1E190A16C8006A61AE /* StopTimesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopTimesTableViewController.h; sourceTree = "<group>"; };
+		83B7EF1F190A16C8006A61AE /* StopTimesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopTimesTableViewController.m; sourceTree = "<group>"; };
+		83B7EF21190B21A4006A61AE /* RouteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteDetailViewController.h; sourceTree = "<group>"; };
+		83B7EF22190B21A4006A61AE /* RouteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteDetailViewController.m; sourceTree = "<group>"; };
+		83C07CA4191C4F9400ECFD9F /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		C99D6902032940AE9B16083E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -91,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83C07CA5191C4F9400ECFD9F /* MessageUI.framework in Frameworks */,
 				8385967B1902F8C500E68FE4 /* CoreLocation.framework in Frameworks */,
 				838596451902E92F00E68FE4 /* CoreGraphics.framework in Frameworks */,
 				838596471902E92F00E68FE4 /* UIKit.framework in Frameworks */,
@@ -135,6 +150,7 @@
 		838596411902E92F00E68FE4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				83C07CA4191C4F9400ECFD9F /* MessageUI.framework */,
 				8385967A1902F8C500E68FE4 /* CoreLocation.framework */,
 				838596421902E92F00E68FE4 /* Foundation.framework */,
 				838596441902E92F00E68FE4 /* CoreGraphics.framework */,
@@ -151,12 +167,22 @@
 				838596511902E93000E68FE4 /* AppDelegate.h */,
 				838596521902E93000E68FE4 /* AppDelegate.m */,
 				838596541902E93000E68FE4 /* Main.storyboard */,
-				83859694190354B400E68FE4 /* InfoViewController.h */,
-				83859695190354B400E68FE4 /* InfoViewController.m */,
+				83B7EF151909C8EB006A61AE /* TransportViewController.h */,
+				83B7EF161909C8EB006A61AE /* TransportViewController.m */,
 				838596771902F19300E68FE4 /* StopsViewController.h */,
 				838596781902F19300E68FE4 /* StopsViewController.m */,
 				8385968E190333F000E68FE4 /* RoutesViewController.h */,
 				8385968F190333F000E68FE4 /* RoutesViewController.m */,
+				83B7EF1E190A16C8006A61AE /* StopTimesTableViewController.h */,
+				83B7EF1F190A16C8006A61AE /* StopTimesTableViewController.m */,
+				83B7EF181909CB41006A61AE /* StopDetailViewController.h */,
+				83B7EF191909CB41006A61AE /* StopDetailViewController.m */,
+				83B7EF21190B21A4006A61AE /* RouteDetailViewController.h */,
+				83B7EF22190B21A4006A61AE /* RouteDetailViewController.m */,
+				83859694190354B400E68FE4 /* InfoViewController.h */,
+				83859695190354B400E68FE4 /* InfoViewController.m */,
+				83B7EF1B190A0518006A61AE /* StopInRouteTableViewCell.h */,
+				83B7EF1C190A0518006A61AE /* StopInRouteTableViewCell.m */,
 				838596911903380200E68FE4 /* RouteCell.h */,
 				838596921903380200E68FE4 /* RouteCell.m */,
 				8385968519032DFC00E68FE4 /* StopCell.h */,
@@ -167,8 +193,6 @@
 				838596831903054400E68FE4 /* Stop.m */,
 				8385967F1903008700E68FE4 /* TimePair.h */,
 				838596801903008700E68FE4 /* TimePair.m */,
-				838596571902E93000E68FE4 /* ViewController.h */,
-				838596581902E93000E68FE4 /* ViewController.m */,
 				8385965A1902E93000E68FE4 /* Images.xcassets */,
 				838596491902E93000E68FE4 /* Supporting Files */,
 			);
@@ -255,7 +279,7 @@
 				ORGANIZATIONNAME = "OSU App Club";
 				TargetAttributes = {
 					8385963E1902E92F00E68FE4 = {
-						DevelopmentTeam = XHYE9DWSBD;
+						DevelopmentTeam = DJSRU7NSK6;
 					};
 					8385965F1902E93000E68FE4 = {
 						TestTargetID = 8385963E1902E92F00E68FE4;
@@ -342,13 +366,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				838596791902F19300E68FE4 /* StopsViewController.m in Sources */,
-				838596591902E93000E68FE4 /* ViewController.m in Sources */,
 				83859696190354B400E68FE4 /* InfoViewController.m in Sources */,
+				83B7EF1A1909CB41006A61AE /* StopDetailViewController.m in Sources */,
 				8385967E1903002D00E68FE4 /* Arrival.m in Sources */,
 				8385968719032DFC00E68FE4 /* StopCell.m in Sources */,
 				838596531902E93000E68FE4 /* AppDelegate.m in Sources */,
+				83B7EF23190B21A4006A61AE /* RouteDetailViewController.m in Sources */,
 				838596931903380200E68FE4 /* RouteCell.m in Sources */,
+				83B7EF20190A16C8006A61AE /* StopTimesTableViewController.m in Sources */,
 				83859690190333F000E68FE4 /* RoutesViewController.m in Sources */,
+				83B7EF171909C8EB006A61AE /* TransportViewController.m in Sources */,
+				83B7EF1D190A0518006A61AE /* StopInRouteTableViewCell.m in Sources */,
 				838596811903008700E68FE4 /* TimePair.m in Sources */,
 				8385964F1902E93000E68FE4 /* main.m in Sources */,
 				838596841903054400E68FE4 /* Stop.m in Sources */,
@@ -482,9 +510,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Transport/Transport-Prefix.pch";
 				INFOPLIST_FILE = "Transport/Transport-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8FF17FF2-6349-4F98-A7BE-6223E4B5C127";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -496,13 +524,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Transport/Transport-Prefix.pch";
 				INFOPLIST_FILE = "Transport/Transport-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "16EE2ECE-A8D9-43C3-BCA8-0971E0087B2C";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
