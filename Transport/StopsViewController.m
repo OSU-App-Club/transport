@@ -296,8 +296,13 @@
     
     tileView.backgroundColor = currentArrival.routeColor;
     
-    NSString *timeString = [NSString stringWithFormat:@"%.0f",floor([currentArrival.nextTime timeIntervalSinceNow]*(1.0/60.0))];
-    nextArrival.text = timeString;
+    double mins = floor([currentArrival.nextTime timeIntervalSinceNow]*(1.0/60.0));
+    if (mins > 0) {
+        NSString *timeString = [NSString stringWithFormat:@"%.0f",floor([currentArrival.nextTime timeIntervalSinceNow]*(1.0/60.0))];
+        nextArrival.text = timeString;
+    }else{
+        nextArrival.text = @"< 1";
+    }
     
     cell.times = currentArrival.times;
     

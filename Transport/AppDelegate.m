@@ -81,12 +81,8 @@
     [self.locManager startUpdatingLocation];
     
     // Send app open info
-    [[Mixpanel sharedInstance] track:@"appOpen" properties:@{@"Last Location":self.locManager.location?self.locManager.location:@"Unknown"}];
-
-    // Simulate location for app.io
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"isAppio"] boolValue]) {
-        self.currentLocation = [[CLLocation alloc] initWithLatitude:44.567 longitude:-123.278];
-    }
+    NSString *locString = [NSString stringWithFormat:@"%.3f %.3f %.1f",self.locManager.location.coordinate.latitude,self.locManager.location.coordinate.longitude,self.locManager.location.speed];
+    [[Mixpanel sharedInstance] track:@"appOpen" properties:@{@"Last Location":locString}];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -111,12 +107,17 @@
 }
 
 - (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
-    NSLog(@"Location Error: %@",error);
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Error" message:@"Your location could not be determined" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
-    [alert show];
-    
-    self.currentLocation = nil;
+    // Simulate location for app.io
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"isAppio"] boolValue]) {
+        self.currentLocation = [[CLLocation alloc] initWithLatitude:44.567 longitude:-123.278];
+    }else{
+        NSLog(@"Location Error: %@",error);
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Error" message:@"Your location could not be determined" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+        [alert show];
+        
+        self.currentLocation = nil;
+    }
 }
 
 @end

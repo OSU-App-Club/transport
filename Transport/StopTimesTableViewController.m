@@ -128,7 +128,7 @@
     
     [[Mixpanel sharedInstance] track:@"Stop Times" properties:@{
                                                                      @"StopID":self.stopID,
-                                                                     @"Day":dateFormatter.weekdaySymbols[comps.weekday]
+                                                                     @"Day":dateFormatter.weekdaySymbols[comps.weekday-1]
                                                                      }
      ];
 
