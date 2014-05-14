@@ -78,10 +78,14 @@
         }
     }
     
-    [self.locManager startUpdatingLocation];
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"isAppio"] boolValue]) {
+        self.currentLocation = [[CLLocation alloc] initWithLatitude:44.567 longitude:-123.278];
+    }else{
+        [self.locManager startUpdatingLocation];
+    }
     
     // Send app open info
-    NSString *locString = [NSString stringWithFormat:@"%.3f %.3f %.1f",self.locManager.location.coordinate.latitude,self.locManager.location.coordinate.longitude,self.locManager.location.speed];
+    NSString *locString = [NSString stringWithFormat:@"%.3f %.3f",self.locManager.location.coordinate.latitude,self.locManager.location.coordinate.longitude];
     [[Mixpanel sharedInstance] track:@"appOpen" properties:@{@"Last Location":locString}];
 }
 

@@ -91,13 +91,19 @@
     date = [calendar dateFromComponents:comps];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
     [dateFormatter setDateFormat:@"dd MMM yy HH:mm ZZZ"];
     
     NSString* urlString = [[NSString stringWithFormat:@"%@/arrivals?date=%@&stops=%@",SERVER_URL,[dateFormatter stringFromDate:date], self.stopID] stringByAddingPercentEscapesUsingEncoding : NSUTF8StringEncoding];
     
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
     // Make call for arrivals on this route
     NSURLSession *session = [NSURLSession sharedSession];
     [[session dataTaskWithURL:[NSURL URLWithString:urlString] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+        
         // Parse Arrival times
         
         NSDictionary *arrivalJSON = [NSJSONSerialization JSONObjectWithData:data
