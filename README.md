@@ -18,6 +18,7 @@ This app is *nearly* self contained in this repository. This project makes use o
 
 ### Cocoapods
 Open a terminal window and enter these commands in the same directory as this repository.
+
 1. `sudo gem install cocoapods`
 2. `pod install`
 3. `open Transport.xcworkspace` (Use the .xcworkspace for the remainder of development)
