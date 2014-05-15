@@ -128,8 +128,12 @@
     
     cell.stops = route[@"Path"];
     
-    cell.mapButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Black" size:22.0];
-    cell.mapButton.tintColor = [UIColor colorWithRed:(0) green:(.764) blue:(.972) alpha:(.6)];
+    [cell.mapButton setTitleColor:self.routeColorDict[route[@"Name"]] forState:UIControlStateNormal];
+    [cell.mapButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+
+    [cell.mapButton setImage:[GMSMarker markerImageWithColor:self.routeColorDict[route[@"Name"]]] forState:UIControlStateNormal];
+    [cell.mapButton setImage:[GMSMarker markerImageWithColor:[UIColor lightGrayColor]] forState:UIControlStateHighlighted];
+
 
     return cell;
 }

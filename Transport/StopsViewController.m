@@ -270,7 +270,7 @@
 
 - (void) updateCell: (UICollectionViewCell *) cell ToState:(BOOL) isExpanded{
     StopCell *stopCell = (StopCell*) cell;
-    stopCell.timesTableView.hidden = stopCell.mapItButton.hidden = !isExpanded;
+    stopCell.timesTableView.hidden = stopCell.mapButton.hidden = !isExpanded;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -286,15 +286,18 @@
     UIView *tileView = (UIView*) [cell viewWithTag:203];
     UILabel *streetName = (UILabel*) [cell viewWithTag:204];
     
-    cell.mapItButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Black" size:22.0];
-    cell.mapItButton.tintColor = [UIColor colorWithRed:(0) green:(.764) blue:(.972) alpha:(.6)];
-    
     Arrival *currentArrival = (Arrival*) self.arrivals[indexPath.item];
     stopName.text = currentArrival.stop.name;
     routeName.text = currentArrival.routeName;
     streetName.text = currentArrival.stop.stopID.stringValue;
     
     tileView.backgroundColor = currentArrival.routeColor;
+    
+    [cell.mapButton setTitleColor:self.routeColorDict[currentArrival.routeName] forState:UIControlStateNormal];
+    [cell.mapButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+    
+    [cell.mapButton setImage:[GMSMarker markerImageWithColor:self.routeColorDict[currentArrival.routeName]] forState:UIControlStateNormal];
+    [cell.mapButton setImage:[GMSMarker markerImageWithColor:[UIColor lightGrayColor]] forState:UIControlStateHighlighted];
     
     double mins = floor([currentArrival.nextTime timeIntervalSinceNow]*(1.0/60.0));
     if (mins > 0) {

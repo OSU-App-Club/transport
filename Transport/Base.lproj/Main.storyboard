@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="LAs-cq-g8B">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="LAs-cq-g8B">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -111,13 +111,13 @@
                                                 <outlet property="delegate" destination="jd0-Hj-PZy" id="9yw-jB-hqV"/>
                                             </connections>
                                         </tableView>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OPO-Xb-ryZ">
-                                            <rect key="frame" x="20" y="462" width="280" height="38"/>
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OPO-Xb-ryZ">
+                                            <rect key="frame" x="241" y="462" width="59" height="39"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="38" id="v0c-n3-UUI"/>
                                             </constraints>
-                                            <state key="normal" title="Show Map">
+                                            <state key="normal" title="  Map">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
@@ -152,7 +152,7 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" title="Routes" id="Nbw-eO-SNl">
-                        <barButtonItem key="rightBarButtonItem" title="Map" id="FPK-MJ-ZMe">
+                        <barButtonItem key="rightBarButtonItem" image="MapButton" id="FPK-MJ-ZMe">
                             <connections>
                                 <segue destination="OMf-Qt-WKR" kind="modal" identifier="allRoutes" id="NWo-fF-MqI"/>
                             </connections>
@@ -334,13 +334,13 @@
                                                 <outlet property="delegate" destination="RVB-WN-a9p" id="8R5-db-aCV"/>
                                             </connections>
                                         </tableView>
-                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ubZ-Lu-B02">
-                                            <rect key="frame" x="0.0" y="466" width="320" height="40"/>
+                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ubZ-Lu-B02">
+                                            <rect key="frame" x="0.0" y="466" width="59" height="39"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="40" id="MWz-SR-2uZ"/>
                                             </constraints>
-                                            <state key="normal" title="Show Map">
+                                            <state key="normal" title="  Map">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
@@ -366,7 +366,7 @@
                                 </constraints>
                                 <size key="customSize" width="320" height="506"/>
                                 <connections>
-                                    <outlet property="mapItButton" destination="ubZ-Lu-B02" id="clx-aW-77D"/>
+                                    <outlet property="mapButton" destination="ubZ-Lu-B02" id="gRB-gz-HwM"/>
                                     <outlet property="timesTableView" destination="JGf-Vn-zs3" id="avE-vP-pVe"/>
                                 </connections>
                             </collectionViewCell>
@@ -622,6 +622,7 @@
     </scenes>
     <resources>
         <image name="IconImage" width="60" height="60"/>
+        <image name="MapButton" width="40" height="40"/>
         <image name="RouteIcon" width="33" height="33"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -39,6 +39,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self updateMap];
+    }];
+    
+    [[Mixpanel sharedInstance] track:@"Stop Detail" properties:@{
+                                                                @"StopID":self.currentArrival.stop.stopID,
+                                                                @"Route":self.currentArrival.routeName,
+                                                                @"Next Arrival":[NSDateFormatter localizedStringFromDate:self.currentArrival.nextTime dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterShortStyle]
+                                                                }
+     ];
+}
+
+- (void) updateMap{
     self.mapView.mapType = kGMSTypeNormal;
     self.mapView.myLocationEnabled = YES;
     self.mapView.settings.myLocationButton = YES;
@@ -83,20 +96,13 @@
                     
                     // Parse JSON result and store in dictionary (self.routes)
                     NSArray *routes = [[NSJSONSerialization JSONObjectWithData:data
-                                                              options:NSJSONReadingAllowFragments
-                                                                error:nil] objectForKey:@"routes"];
+                                                                       options:NSJSONReadingAllowFragments
+                                                                         error:nil] objectForKey:@"routes"];
                     if (routes.count != 0) {
                         self.route = routes.firstObject;
                     }
                 }] resume];
     }
-    
-    [[Mixpanel sharedInstance] track:@"Stop Detail" properties:@{
-                                                                @"StopID":self.currentArrival.stop.stopID,
-                                                                @"Route":self.currentArrival.routeName,
-                                                                @"Next Arrival":[NSDateFormatter localizedStringFromDate:self.currentArrival.nextTime dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterShortStyle]
-                                                                }
-     ];
 }
 
 
