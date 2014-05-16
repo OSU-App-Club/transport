@@ -13,8 +13,8 @@ The key feature of this app is the inclusion of real-time bus information in an 
 
 [Download on App Store](https://itunes.apple.com/us/app/transport-corvallis-transit/id872435989?ls=1&mt=8)
 
-## Install
-This app is *nearly* self contained in this repository. This project makes use of [CocoaPods](www.cocoapods.org) for some third-party repositories.
+## Build
+This app is *nearly* self contained in this repository. This project makes use of [CocoaPods](www.cocoapods.org) for some third-party repositories. 
 
 ### Cocoapods
 Open a terminal window and enter these commands in the same directory as this repository.
