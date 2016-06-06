@@ -8,11 +8,11 @@
 
 #import "StopTimesTableViewController.h"
 #import "TimePair.h"
+#import "UIColor+Utils.h"
 
 @interface StopTimesTableViewController ()
 
 @property (nonatomic, strong) NSArray* stopTimes;
-@property (nonatomic, strong) NSDictionary *routeColorDict;
 
 @end
 
@@ -30,28 +30,11 @@
 {
     [super viewDidLoad];
     
-    self.routeColorDict = @{
-                            @"1":[UIColor colorWithRed:0.0/255.0 green:173.0/255.0 blue:238.0/255.0 alpha:1.0],
-                            @"2":[UIColor colorWithRed:136.0/255.0 green:39.0/255.0 blue:144.0/255.0 alpha:1.0],
-                            @"3":[UIColor colorWithRed:136.0/255.0 green:101.0/255.0 blue:144.0/255.0 alpha:1.0],
-                            @"4":[UIColor colorWithRed:140.0/255.0 green:197.0/255.0 blue:144.0/255.0 alpha:1.0],
-                            @"5":[UIColor colorWithRed:189.0/255.0 green:85.0/255.0 blue:144.0/255.0 alpha:1.0],
-                            @"6":[UIColor colorWithRed:3.0/255.0 green:77.0/255.0 blue:144.0/255.0 alpha:1.0],
-                            @"7":[UIColor colorWithRed:215.0/255.0 green:24.0/255.0 blue:144.0/255.0 alpha:1.0],
-                            @"8":[UIColor colorWithRed:0.0/255.0 green:133.0/255.0 blue:64.0/255.0 alpha:1.0],
-                            @"BBN":[UIColor colorWithRed:76.0/255.0 green:229.0/255.0 blue:0.0/255.0 alpha:1.0],
-                            @"BBSE":[UIColor colorWithRed:255.0/255.0 green:170.0/255.0 blue:0.0/255.0 alpha:1.0],
-                            @"BBSW":[UIColor colorWithRed:0.0/255.0 green:91.0/255.0 blue:229.0/255.0 alpha:1.0],
-                            @"C1":[UIColor colorWithRed:97.0/255.0 green:70.0/255.0 blue:48.0/255.0 alpha:1.0],
-                            @"C2":[UIColor colorWithRed:0.0/255.0 green:118.0/255.0 blue:163.0/255.0 alpha:1.0],
-                            @"C3":[UIColor colorWithRed:236.0/255.0 green:12.0/255.0 blue:108.0/255.0 alpha:1.0],
-                            @"CVA":[UIColor colorWithRed:63.0/255.0 green:40.0/255.0 blue:133.0/255.0 alpha:1.0],
-                            };
     
     // Make button for today
     NSDate *date = [NSDate date];
     NSCalendar *calendar = [NSCalendar autoupdatingCurrentCalendar];
-    NSUInteger preservedComponents = (NSWeekdayCalendarUnit);
+    NSUInteger preservedComponents = (NSCalendarUnitWeekday);
     NSDateComponents *comps = [calendar components:preservedComponents fromDate:date];
     
     [self updateArrivalsWithCurrentDay:YES other:comps.weekday];
@@ -81,7 +64,7 @@
     // Convert to generic midnight time
     NSDate *date = [NSDate date];
     NSCalendar *calendar = [NSCalendar autoupdatingCurrentCalendar];
-    NSUInteger preservedComponents = (NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit);
+    NSUInteger preservedComponents = (NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday);
     NSDateComponents *comps = [calendar components:preservedComponents fromDate:date];
     
     if (!useToday) {
@@ -184,7 +167,7 @@
     
     cell.textLabel.text = [NSDateFormatter localizedStringFromDate:[dateFormatter dateFromString:arrivalDict[@"Scheduled"]] dateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterShortStyle];
     cell.detailTextLabel.text = arrivalDict[@"Route"];
-    cell.detailTextLabel.textColor = self.routeColorDict[arrivalDict[@"Route"]];
+    cell.detailTextLabel.textColor = [UIColor colorForRoute:arrivalDict[@"Route"]];
     
     return cell;
 }

@@ -26,7 +26,11 @@
         
         self.locManager.desiredAccuracy = kCLLocationAccuracyBest;
         self.locManager.distanceFilter = 100;
-        [self.locManager startUpdatingLocation];
+        
+        if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined){
+            [self.locManager requestWhenInUseAuthorization];
+        }
+        
     }
     
     [self setupColors:application];
@@ -121,6 +125,13 @@
         [alert show];
         
         self.currentLocation = nil;
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
+    if(status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorizedAlways){
+        [self.locManager startUpdatingLocation];
     }
 }
 

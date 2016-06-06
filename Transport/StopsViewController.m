@@ -214,7 +214,7 @@
                 newArrival.routeName = routeName;
                 newArrival.stop = newStop;
                 newArrival.times = times;
-                newArrival.routeColor = self.routeColorDict[routeName];
+                newArrival.routeColor = [UIColor colorForRoute:routeName];
                 
                 [arrivals addObject:newArrival];
             }];
@@ -246,16 +246,28 @@
         if (!shouldClear) {
             // Check if image view already exists
             if (!self.emptyImageView) {
-                CGRect imageFrame = CGRectMake(70.0, 150.0, 180.0, 180.0);
-                self.emptyImageView = [[UIImageView alloc] initWithFrame:imageFrame];
+                self.emptyImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+                self.emptyImageView.translatesAutoresizingMaskIntoConstraints = NO;
                 [self.view addSubview:self.emptyImageView];
+                [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.emptyImageView
+                                                                      attribute:NSLayoutAttributeCenterX
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:self.view
+                                                                      attribute:NSLayoutAttributeCenterX
+                                                                     multiplier:1.f constant:0.f]];
+                [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.emptyImageView
+                                                                      attribute:NSLayoutAttributeCenterY
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:self.view
+                                                                      attribute:NSLayoutAttributeCenterY
+                                                                     multiplier:1.f constant:0.f]];
             }
             
             // Add empty state
             self.emptyImageView.image = [UIImage imageNamed:nearbyStopsExist?@"NoArrivals":@"UnsupportedArea"];
+            self.emptyImageView.hidden = false;
         }else{
-            [self.emptyImageView removeFromSuperview];
-            self.emptyImageView = nil;
+            self.emptyImageView.hidden = true;
         }
     }];
 }
@@ -293,10 +305,10 @@
     
     tileView.backgroundColor = currentArrival.routeColor;
     
-    [cell.mapButton setTitleColor:self.routeColorDict[currentArrival.routeName] forState:UIControlStateNormal];
+    [cell.mapButton setTitleColor:[UIColor colorForRoute:currentArrival.routeName] forState:UIControlStateNormal];
     [cell.mapButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     
-    [cell.mapButton setImage:[GMSMarker markerImageWithColor:self.routeColorDict[currentArrival.routeName]] forState:UIControlStateNormal];
+    [cell.mapButton setImage:[GMSMarker markerImageWithColor:[UIColor colorForRoute:currentArrival.routeName]] forState:UIControlStateNormal];
     [cell.mapButton setImage:[GMSMarker markerImageWithColor:[UIColor lightGrayColor]] forState:UIControlStateHighlighted];
     
     double mins = floor([currentArrival.nextTime timeIntervalSinceNow]*(1.0/60.0));

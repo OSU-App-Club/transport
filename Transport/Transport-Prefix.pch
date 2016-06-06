@@ -20,4 +20,4 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import <Mixpanel/Mixpanel.h>
 
-#define SERVER_URL @"http://www.corvallis-bus.appspot.com"
+#define SERVER_URL @"https://corvallis-bus.appspot.com"

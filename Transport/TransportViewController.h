@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIColor+Utils.h"
 
 @interface TransportViewController : UICollectionViewController
 
-@property (nonatomic, strong) NSDictionary *routeColorDict;
 @property NSUInteger selectedIndex;
 
 - (void) updateCell:(UICollectionViewCell *) cell ToState:(BOOL) isExpanded;
+
 
 @end

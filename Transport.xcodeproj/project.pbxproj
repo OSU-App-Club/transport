@@ -36,7 +36,8 @@
 		83B7EF20190A16C8006A61AE /* StopTimesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF1F190A16C8006A61AE /* StopTimesTableViewController.m */; };
 		83B7EF23190B21A4006A61AE /* RouteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B7EF22190B21A4006A61AE /* RouteDetailViewController.m */; };
 		83C07CA5191C4F9400ECFD9F /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C07CA4191C4F9400ECFD9F /* MessageUI.framework */; };
-		E687C40701814690984E77C4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C99D6902032940AE9B16083E /* libPods.a */; };
+		83FC4D561D04EA30002DB64D /* UIColor+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FC4D551D04EA30002DB64D /* UIColor+Utils.m */; };
+		B005FC75B8C19CEC3F240813 /* libPods-Transport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26A7EDE8CCD50944A90961EC /* libPods-Transport.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +51,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5611B08DC4594E4EBBABAAFD /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		1C00794790E462FB1C97B0F9 /* Pods-Transport.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Transport.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Transport/Pods-Transport.debug.xcconfig"; sourceTree = "<group>"; };
+		26A7EDE8CCD50944A90961EC /* libPods-Transport.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Transport.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		79A95BDC3153342A2D927D64 /* Pods-Transport.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Transport.release.xcconfig"; path = "Pods/Target Support Files/Pods-Transport/Pods-Transport.release.xcconfig"; sourceTree = "<group>"; };
 		837F4869190473930070897A /* default.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = default.gpx; sourceTree = "<group>"; };
 		8385963F1902E92F00E68FE4 /* Transport.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Transport.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		838596421902E92F00E68FE4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -97,7 +100,8 @@
 		83B7EF21190B21A4006A61AE /* RouteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteDetailViewController.h; sourceTree = "<group>"; };
 		83B7EF22190B21A4006A61AE /* RouteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteDetailViewController.m; sourceTree = "<group>"; };
 		83C07CA4191C4F9400ECFD9F /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		C99D6902032940AE9B16083E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		83FC4D541D04EA30002DB64D /* UIColor+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Utils.h"; sourceTree = "<group>"; };
+		83FC4D551D04EA30002DB64D /* UIColor+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Utils.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,7 +114,7 @@
 				838596451902E92F00E68FE4 /* CoreGraphics.framework in Frameworks */,
 				838596471902E92F00E68FE4 /* UIKit.framework in Frameworks */,
 				838596431902E92F00E68FE4 /* Foundation.framework in Frameworks */,
-				E687C40701814690984E77C4 /* libPods.a in Frameworks */,
+				B005FC75B8C19CEC3F240813 /* libPods-Transport.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,6 +131,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		108CB462997C44390C4BB704 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1C00794790E462FB1C97B0F9 /* Pods-Transport.debug.xcconfig */,
+				79A95BDC3153342A2D927D64 /* Pods-Transport.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		838596361902E92F00E68FE4 = {
 			isa = PBXGroup;
 			children = (
@@ -134,7 +147,7 @@
 				838596671902E93000E68FE4 /* TransportTests */,
 				838596411902E92F00E68FE4 /* Frameworks */,
 				838596401902E92F00E68FE4 /* Products */,
-				5611B08DC4594E4EBBABAAFD /* Pods.xcconfig */,
+				108CB462997C44390C4BB704 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -156,7 +169,7 @@
 				838596441902E92F00E68FE4 /* CoreGraphics.framework */,
 				838596461902E92F00E68FE4 /* UIKit.framework */,
 				838596611902E93000E68FE4 /* XCTest.framework */,
-				C99D6902032940AE9B16083E /* libPods.a */,
+				26A7EDE8CCD50944A90961EC /* libPods-Transport.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -193,6 +206,8 @@
 				838596831903054400E68FE4 /* Stop.m */,
 				8385967F1903008700E68FE4 /* TimePair.h */,
 				838596801903008700E68FE4 /* TimePair.m */,
+				83FC4D541D04EA30002DB64D /* UIColor+Utils.h */,
+				83FC4D551D04EA30002DB64D /* UIColor+Utils.m */,
 				8385965A1902E93000E68FE4 /* Images.xcassets */,
 				838596491902E93000E68FE4 /* Supporting Files */,
 			);
@@ -236,11 +251,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 838596711902E93000E68FE4 /* Build configuration list for PBXNativeTarget "Transport" */;
 			buildPhases = (
-				47F8CBEA13A440A8BD3D6068 /* Check Pods Manifest.lock */,
+				C8782E09DBEE977ADC2FAC06 /* [CP] Check Pods Manifest.lock */,
 				8385963B1902E92F00E68FE4 /* Sources */,
 				8385963C1902E92F00E68FE4 /* Frameworks */,
 				8385963D1902E92F00E68FE4 /* Resources */,
-				CFF589716AF84975AAF5E80F /* Copy Pods Resources */,
+				404BFBA4493485C06103D6AC /* [CP] Embed Pods Frameworks */,
+				964B02186490B3D36B907F35 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -328,34 +344,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		47F8CBEA13A440A8BD3D6068 /* Check Pods Manifest.lock */ = {
+		404BFBA4493485C06103D6AC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Transport/Pods-Transport-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		964B02186490B3D36B907F35 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Transport/Pods-Transport-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C8782E09DBEE977ADC2FAC06 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		CFF589716AF84975AAF5E80F /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -372,6 +403,7 @@
 				8385968719032DFC00E68FE4 /* StopCell.m in Sources */,
 				838596531902E93000E68FE4 /* AppDelegate.m in Sources */,
 				83B7EF23190B21A4006A61AE /* RouteDetailViewController.m in Sources */,
+				83FC4D561D04EA30002DB64D /* UIColor+Utils.m in Sources */,
 				838596931903380200E68FE4 /* RouteCell.m in Sources */,
 				83B7EF20190A16C8006A61AE /* StopTimesTableViewController.m in Sources */,
 				83859690190333F000E68FE4 /* RoutesViewController.m in Sources */,
@@ -501,36 +533,34 @@
 		};
 		838596721902E93000E68FE4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5611B08DC4594E4EBBABAAFD /* Pods.xcconfig */;
+			baseConfigurationReference = 1C00794790E462FB1C97B0F9 /* Pods-Transport.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Transport/Transport-Prefix.pch";
 				INFOPLIST_FILE = "Transport/Transport-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8FF17FF2-6349-4F98-A7BE-6223E4B5C127";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
 		838596731902E93000E68FE4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5611B08DC4594E4EBBABAAFD /* Pods.xcconfig */;
+			baseConfigurationReference = 79A95BDC3153342A2D927D64 /* Pods-Transport.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: C D. VANDERSCHUERE (DJSRU7NSK6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: C D. VANDERSCHUERE (DJSRU7NSK6)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Transport/Transport-Prefix.pch";
 				INFOPLIST_FILE = "Transport/Transport-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "16EE2ECE-A8D9-43C3-BCA8-0971E0087B2C";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
